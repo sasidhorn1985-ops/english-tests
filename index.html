@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Tests - คลังข้อสอบ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap');
+  * { box-sizing: border-box; margin:0; padding:0; font-family: 'Sarabun', sans-serif; }
+  body { background:#f8fafc; color:#1e293b; line-height:1.6; }
+  .header { background: linear-gradient(135deg,#0f766e 0%,#14b8a6 100%); color:white; padding:50px 20px; text-align:center; }
+  .header h1 { font-size:32px; margin-bottom:6px; }
+  .header p { opacity:0.9; font-size:14px; }
+  .container { max-width:1000px; margin:0 auto; padding:32px 20px; }
+  .category { margin-bottom:42px; }
+  .cat-title { font-size:20px; font-weight:700; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #e2e8f0; display:flex; align-items:center; gap:10px; }
+  .cat-title .count { font-size:12px; font-weight:600; background:#e2e8f0; color:#475569; padding:2px 10px; border-radius:999px; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap:18px; }
+  .card { background:white; border:1px solid #e2e8f0; border-radius:16px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,0.04); transition:0.2s; display:flex; flex-direction:column; }
+  .card:hover { transform:translateY(-3px); box-shadow:0 12px 24px rgba(0,0,0,0.08); border-color:#cbd5e1; }
+  .card h3 { font-size:16px; margin-bottom:6px; }
+  .card p { font-size:13px; color:#64748b; margin-bottom:14px; flex:1; }
+  .btn { display:inline-block; background:#0f766e; color:white; padding:9px 18px; border-radius:10px; text-decoration:none; font-size:14px; font-weight:600; text-align:center; }
+  .btn:hover { background:#115e59; }
+  .badge { display:inline-block; font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; margin-bottom:10px; width:fit-content; }
+  .b-tobe { background:#dcfce7; color:#166534; }
+  .b-tense { background:#fef3c7; color:#92400e; }
+  .b-vocab { background:#dbeafe; color:#1e40af; }
+  .empty { background:#fff; border:1px dashed #cbd5e1; border-radius:16px; padding:24px; text-align:center; color:#94a3b8; font-size:13px; }
+  .footer { text-align:center; padding:30px; color:#94a3b8; font-size:12px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 English Tests</h1>
+  <p>sasidhorn1985-ops / english-tests - แบ่งตามหมวดหมู่</p>
+</div>
+
+<div class="container">
+
+  <!-- หมวด 1: Verb to be -->
+  <div class="category">
+    <div class="cat-title">🟢 Verb to be Test <span class="count">1 test</span></div>
+    <div class="grid">
+      <div class="card">
+        <span class="badge b-tobe">VERB TO BE</span>
+        <h3>Is / Am / Are vs. ไม่เติม (-)</h3>
+        <p>ตัวแก้แล้ว - ไม่มีคำใบ้ สุ่ม 20 จาก 100 ข้อ - แยกเฉลย</p>
+        <a class="btn" href="Is-Am-Are-Vs.html">เริ่มทำ →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- หมวด 2: Tense tests -->
+  <div class="category">
+    <div class="cat-title">🟡 Tense Tests <span class="count">เร็วๆ นี้</span></div>
+    <div class="grid">
+      <div class="empty">
+        ยังไม่มีข้อสอบในหมวดนี้<br>
+        เพิ่มไฟล์ใหม่แล้วลากการ์ดมาวางที่นี่ได้เลย
+        <!-- ตัวอย่างการ์ด Tense เมื่อมีไฟล์แล้ว
+        <div class="card">
+          <span class="badge b-tense">TENSE</span>
+          <h3>Past Simple Test</h3>
+          <p>อดีตธรรมดา 20 ข้อ</p>
+          <a class="btn" href="Past-Simple-Test.html">เริ่มทำ →</a>
+        </div>
+        -->
+      </div>
+    </div>
+  </div>
+
+  <!-- หมวด 3: Vocabulary -->
+  <div class="category">
+    <div class="cat-title">🔵 Vocabulary Tests <span class="count">3 tests</span></div>
+    <div class="grid">
+      
+      <div class="card">
+        <span class="badge b-vocab">VOCABULARY</span>
+        <h3>Vocab Set01 - Matching Groups</h3>
+        <p>จับคู่คำศัพท์กลุ่ม - โหมดเข้ม</p>
+        <a class="btn" href="Set01-Matching-Test-Groups_1.html">เริ่มทำ →</a>
+      </div>
+
+      <div class="card">
+        <span class="badge b-vocab">VOCABULARY</span>
+        <h3>Vocab Set01-02 - Strict Matching</h3>
+        <p>ชุดที่ 02 - จับคู่เข้มข้น</p>
+        <a class="btn" href="Set01-02-Strict-Matching.html">เริ่มทำ →</a>
+      </div>
+
+      <div class="card">
+        <span class="badge b-vocab">VOCABULARY</span>
+        <h3>Vocab Set01-03 - Strict Matching</h3>
+        <p>ชุดที่ 03 - จับคู่เข้มข้น</p>
+        <a class="btn" href="Set01-03-Strict-Matching.html">เริ่มทำ →</a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  แบ่งหมวดแล้ว: Verb to be / Tense / Vocabulary • แก้ลิงก์ Is-Am-Are-Vs.html เรียบร้อย (ตัวพิมพ์ใหญ่-เล็กตรงกัน)
+</div>
+
+</body>
+</html>
