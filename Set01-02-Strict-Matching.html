@@ -64,7 +64,14 @@ Error generating stack: `+u.message+`
 
 
 
-<!-- GOOGLE SHEET SCORE SYSTEM V5 - ALWAYS SHOW + CORRECT SCORE -->
+
+
+
+
+
+
+
+<!-- GOOGLE SHEET SCORE SYSTEM V6 - UNIVERSAL (ALL TEST TYPES) -->
 <div id="score-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:2147483647;align-items:center;justify-content:center;padding:20px;font-family:'Sarabun',system-ui,sans-serif">
   <div style="background:white;border-radius:20px;max-width:460px;width:100%;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:popIn .35s ease">
     <div style="text-align:center;margin-bottom:18px"><div style="font-size:42px">🎉</div><h3 style="font-size:20px;font-weight:800;margin:8px 0 4px;color:#1e1b4b">ทำเสร็จแล้ว! ส่งคะแนนเลยไหม?</h3><p style="font-size:13.5px;color:#78716c;line-height:1.5">กรอกชื่อเพื่อให้ครูบันทึกคะแนนลง Google Sheet อัตโนมัติ<br><span style="font-size:12px;color:#a8a29e">ถ้าไม่กรอกก็กดข้ามได้</span></p></div>
@@ -89,57 +96,136 @@ Error generating stack: `+u.message+`
 
   function getScore(){
     try {
-      // 1. Big number text-[44px]
-      const big = document.querySelector('span.text-\[44px\]');
-      if(big){
-        const v = parseInt((big.textContent||'').trim());
+      // === TYPE A: Is-Am-Are style - text-[44px] ===
+      const big44 = document.querySelector('span.text-\[44px\]');
+      if(big44 && big44.offsetParent !== null){
+        const v = parseInt((big44.textContent||'').trim());
         if(!isNaN(v)){
           let t = 20;
-          // try to get total from parent
-          const parent = big.parentElement;
+          const parent = big44.parentElement;
           if(parent){
             const m = parent.textContent.match(/\/\s*(\d+)/);
             if(m) t = parseInt(m[1]);
           }
-          console.log('✅ Score from big span', v, '/', t);
+          if(big44.nextElementSibling){
+            const m2 = (big44.nextElementSibling.textContent||'').match(/(\d+)/);
+            if(m2) t = parseInt(m2[1]);
+          }
+          console.log('✅ Score TYPE A (44px):', v, '/', t);
           return {s:v, t:t};
         }
       }
-      // 2. Green box - ถูก
-      const allBoxes = document.querySelectorAll('p.text-\[22px\]');
-      if(allBoxes.length >= 2){
-        // First box is correct, second is incorrect
-        const c = parseInt((allBoxes[0].textContent||'').trim());
-        const inc = parseInt((allBoxes[1].textContent||'').trim());
-        if(!isNaN(c) && !isNaN(inc)){
-          console.log('✅ Score from boxes', c, '/', c+inc);
-          return {s:c, t:c+inc};
+
+      // === TYPE B: 100-Pool style - text-[28px] with "s/e.length" ===
+      const big28 = document.querySelector('span.text-\[28px\]');
+      if(big28 && big28.offsetParent !== null){
+        const txt = (big28.textContent||'').trim();
+        // Could be "18/20" or just number with sibling
+        console.log('Found 28px text:', txt, 'parent:', big28.parentElement ? big28.parentElement.textContent : '');
+        // Check if parent contains "/"
+        const parentTxt = big28.parentElement ? big28.parentElement.textContent : txt;
+        const m = parentTxt.match(/(\d+)\s*\/\s*(\d+)/);
+        if(m){
+          console.log('✅ Score TYPE B (28px parent):', m[1], '/', m[2]);
+          return {s:parseInt(m[1]), t:parseInt(m[2])};
         }
-        if(!isNaN(c)){
-          console.log('✅ Score from first box', c);
-          return {s:c, t:20};
+        // If big28 itself is like "18" and sibling has "/20"
+        // Look at next sibling or parent's children
+        const container = big28.parentElement;
+        if(container){
+          const full = container.textContent;
+          const m2 = full.match(/(\d+)\s*\/\s*(\d+)/);
+          if(m2){
+            console.log('✅ Score TYPE B (container):', m2[1], '/', m2[2]);
+            return {s:parseInt(m2[1]), t:parseInt(m2[2])};
+          }
         }
       }
-      // 3. Regex from innerText after summary
-      const txt = document.body.innerText || '';
-      const idx = txt.indexOf('สรุปผลการทดสอบ');
-      if(idx > -1){
-        const slice = txt.substring(idx, idx+800);
-        const m = slice.match(/(\d+)\s*\/\s*(\d+)/);
+
+      // === TYPE B2: Look for w-24 h-24 circle that contains score ===
+      const circles = document.querySelectorAll('div.w-24.h-24, div.w-24');
+      for(let c of circles){
+        if(c.offsetParent === null) continue;
+        const txt = c.textContent || '';
+        const m = txt.match(/(\d+)\s*\/\s*(\d+)/);
         if(m){
-          console.log('✅ Score from slice', m[1], '/', m[2]);
+          console.log('✅ Score TYPE B2 (circle):', m[1], '/', m[2], 'from', txt.substring(0,50));
           return {s:parseInt(m[1]), t:parseInt(m[2])};
         }
       }
+
+      // === TYPE C: Green box "ถูก" ===
+      const boxes = document.querySelectorAll('p.text-\[22px\]');
+      for(let i=0; i<boxes.length; i++){
+        const el = boxes[i];
+        if(el.offsetParent === null) continue;
+        // Check if this box is in emerald container (correct)
+        const parent = el.closest('div.bg-emerald-50, div.bg-emerald-100');
+        if(parent){
+          const v = parseInt((el.textContent||'').trim());
+          if(!isNaN(v)){
+            // Find total from red box or calculate
+            const redBoxes = document.querySelectorAll('div.bg-rose-50 p.text-\[22px\]');
+            let t = 20;
+            if(redBoxes.length>0){
+              const inc = parseInt((redBoxes[0].textContent||'').trim());
+              if(!isNaN(inc)) t = v + inc;
+            }
+            console.log('✅ Score TYPE C (green box):', v, '/', t);
+            return {s:v, t:t};
+          }
+        }
+      }
+
+      // === TYPE D: Fallback - parse from innerText near summary ===
+      const bodyTxt = document.body.innerText || '';
+      // Look for summary sections
+      const summaryMarkers = ['สรุปผลการทดสอบ', 'สรุปผลการทำแบบทดสอบ', 'รีวิวคำตอบที่ผิด'];
+      for(let marker of summaryMarkers){
+        const idx = bodyTxt.indexOf(marker);
+        if(idx > -1){
+          const slice = bodyTxt.substring(idx, idx+1500);
+          // Find first X / Y pattern after marker
+          const m = slice.match(/(\d+)\s*\/\s*(\d+)/);
+          if(m){
+            const s = parseInt(m[1]);
+            const t = parseInt(m[2]);
+            // Validate: s should be <= t and t should be reasonable (20)
+            if(s <= t && t >= 10 && t <= 100){
+              console.log('✅ Score TYPE D (slice after '+marker+'): ', s, '/', t);
+              return {s:s, t:t};
+            }
+          }
+        }
+      }
+
+      // Last resort: find any X / 20 pattern in whole page that is near top
+      const allMatch = bodyTxt.match(/(\d+)\s*\/\s*20/);
+      if(allMatch){
+        console.log('⚠️ Score fallback from any X/20:', allMatch[1], '/20');
+        return {s:parseInt(allMatch[1]), t:20};
+      }
+
     } catch(e){ console.log('getScore error', e); }
-    console.log('⚠️ getScore failed, returning 0/20 fallback');
+    console.log('⚠️ getScore failed, returning 0/20');
     return {s:0, t:20};
   }
 
   function isSummaryPage(){
     try {
       const txt = document.body.innerText || '';
-      return txt.includes('สรุปผลการทดสอบ');
+      // Check for any summary marker
+      if(txt.includes('สรุปผลการทดสอบ')) return true;
+      if(txt.includes('สรุปผลการทำแบบทดสอบ')) return true;
+      if(txt.includes('รีวิวคำตอบที่ผิด')) return true;
+      // Also check for presence of score elements that only appear on summary
+      if(document.querySelector('span.text-\[44px\]') && document.querySelector('span.text-\[44px\]').offsetParent !== null) return true;
+      if(document.querySelector('span.text-\[28px\]') && document.querySelector('span.text-\[28px\]').offsetParent !== null){
+        // Need to ensure it's summary circle, not something else - check if parent has % sign
+        const parent = document.querySelector('span.text-\[28px\]').parentElement;
+        if(parent && parent.textContent.includes('%')) return true;
+      }
+      return false;
     } catch(e){ return false; }
   }
 
@@ -152,17 +238,17 @@ Error generating stack: `+u.message+`
     if(prev) prev.innerHTML = `📊 <b>${TEST_NAME}</b><br>ได้ <b style="font-size:18px;color:#4f46e5">${s} / ${t}</b> (${pct}%)`;
     const modal = document.getElementById('score-modal');
     if(modal) modal.style.display = 'flex';
-    console.log('🎉 SHOW MODAL', s, '/', t);
+    console.log('🎉 SHOW MODAL', s, '/', t, 'for', TEST_NAME);
   }
 
   function check(){
     if(shown) return;
     if(!isSummaryPage()) return;
-    // Summary detected - wait for numbers to render
+    console.log('🔍 Summary page detected for', TEST_NAME);
     setTimeout(()=>{
       const r = getScore();
       showModal(r.s, r.t);
-    }, 600);
+    }, 700);
   }
 
   function bind(){
@@ -198,25 +284,22 @@ Error generating stack: `+u.message+`
     }
   }
 
-  // Poll every 800ms
-  setInterval(()=>{ check(); bind(); }, 800);
-  // Watch DOM changes
+  setInterval(()=>{ check(); bind(); }, 900);
   const obs = new MutationObserver(()=>{ check(); bind(); });
   obs.observe(document.documentElement, {childList:true, subtree:true});
-  // When user clicks ดูสรุปผล, check soon after
+
   document.addEventListener('click', (e)=>{
     const txt = (e.target && e.target.textContent) || '';
-    if(txt.includes('ดูสรุปผล')){
-      console.log('👆 ดูสรุปผล clicked');
+    if(txt.includes('ดูผลลัพธ์') || txt.includes('ดูสรุปผล')){
+      console.log('👆 Summary button clicked');
       setTimeout(check, 800);
       setTimeout(check, 1500);
       setTimeout(check, 2500);
     }
   }, true);
 
-  window.addEventListener('load', ()=>{ setTimeout(check, 1000); });
-
-  console.log('✅ V5 Score system ready - will ALWAYS show on summary page');
+  window.addEventListener('load', ()=>{ setTimeout(check, 1200); });
+  console.log('✅ V6 Universal score system ready for', TEST_NAME);
 })();
 </script>
 
