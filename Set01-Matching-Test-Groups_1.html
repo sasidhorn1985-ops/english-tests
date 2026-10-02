@@ -69,7 +69,14 @@ Error generating stack: `+u.message+`
 
 
 
-<!-- GOOGLE SHEET SCORE SYSTEM V3 - SUPER ROBUST FIXED -->
+
+
+
+
+
+
+
+<!-- GOOGLE SHEET SCORE SYSTEM V4 - FIXED SCORE PARSING -->
 <div id="score-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:2147483647;align-items:center;justify-content:center;padding:20px;font-family:'Sarabun',system-ui,sans-serif">
   <div style="background:white;border-radius:20px;max-width:460px;width:100%;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:popIn .35s ease">
     <div style="text-align:center;margin-bottom:18px"><div style="font-size:42px">🎉</div><h3 style="font-size:20px;font-weight:800;margin:8px 0 4px;color:#1e1b4b">ทำเสร็จแล้ว! ส่งคะแนนเลยไหม?</h3><p style="font-size:13.5px;color:#78716c;line-height:1.5">กรอกชื่อเพื่อให้ครูบันทึกคะแนนลง Google Sheet อัตโนมัติ<br><span style="font-size:12px;color:#a8a29e">ถ้าไม่กรอกก็กดข้ามได้</span></p></div>
@@ -91,72 +98,179 @@ Error generating stack: `+u.message+`
   const TEST_NAME = "Set01-Matching-Test-Groups_1";
   let shown = false;
   let score = 0, total = 20;
+
   function getScore(){
     try {
-      const big = document.querySelector('span.text-\[44px\], span.text-\[40px\], .text-\[44px\]');
-      if(big){ const v = parseInt(big.textContent.trim()); if(!isNaN(v)) { score = v; return {s:v,t:20}; } }
+      // Method 1: Big score - text-[44px] is the main score
+      const big = document.querySelector('span.text-\[44px\]');
+      if(big && big.offsetParent !== null){
+        const v = parseInt(big.textContent.trim());
+        if(!isNaN(v)){
+          // total is in sibling span like "/ 20"
+          let total = 20;
+          const parent = big.parentElement;
+          if(parent){
+            const mt = parent.textContent.match(/\/\s*(\d+)/);
+            if(mt) total = parseInt(mt[1]);
+          }
+          // Also try next sibling
+          if(big.nextElementSibling){
+            const mt2 = big.nextElementSibling.textContent.match(/(\d+)/);
+            if(mt2) total = parseInt(mt2[1]);
+          }
+          score = v;
+          console.log('✅ Score from big span:', v, '/', total);
+          return {s:v, t:total};
+        }
+      }
+      // Method 2: Green box - first text-[22px] with emerald color is correct count
+      const greenBoxes = document.querySelectorAll('div.bg-emerald-50 p.text-\[22px\], p.text-\[22px\].text-emerald-700');
+      if(greenBoxes.length > 0){
+        for(let el of greenBoxes){
+          if(el.offsetParent !== null){
+            const v = parseInt(el.textContent.trim());
+            if(!isNaN(v)){
+              // find red box for incorrect
+              const redBoxes = document.querySelectorAll('div.bg-rose-50 p.text-\[22px\]');
+              let total = 20;
+              if(redBoxes.length > 0){
+                const inc = parseInt(redBoxes[0].textContent.trim());
+                if(!isNaN(inc)) total = v + inc;
+              }
+              console.log('✅ Score from green box:', v, '/', total);
+              score = v;
+              return {s:v, t:total};
+            }
+          }
+        }
+      }
+      // Method 3: Parse from summary header text
       const all = document.body.innerText;
       const idx = all.indexOf('สรุปผลการทดสอบ');
-      if(idx>-1){ const slice = all.substring(idx, idx+600); const m = slice.match(/(\d+)\s*\/\s*20/); if(m) { score = parseInt(m[1]); return {s:parseInt(m[1]),t:20}; } }
-      const m2 = all.match(/(\d+)\s*\/\s*20/);
-      if(m2) { score = parseInt(m2[1]); return {s:parseInt(m2[1]),t:20}; }
-    } catch(e){ console.log('getScore err',e); }
+      if(idx > -1){
+        const slice = all.substring(idx, idx+1000);
+        // Look for pattern like "18 / 20" or "0 / 20" near header
+        const m = slice.match(/(\d+)\s*\/\s*(\d+)/);
+        if(m){
+          console.log('✅ Score from innerText slice:', m[1], '/', m[2]);
+          score = parseInt(m[1]);
+          return {s:parseInt(m[1]), t:parseInt(m[2])};
+        }
+      }
+      // Method 4: Look for "ถูก" box value
+      const allText = document.body.innerText;
+      const correctMatch = allText.match(/ถูก\s*\n?\s*(\d+)/) || allText.match(/(\d+)\s*\n?ถูก/);
+      if(correctMatch){
+        console.log('✅ Score from ถูก label');
+      }
+    } catch(e){ console.log('getScore err', e); }
     return null;
   }
+
+  function isSummaryPage(){
+    try {
+      const txt = document.body.innerText || '';
+      // Must have full phrase, not just "ดูสรุปผล"
+      if(!txt.includes('สรุปผลการทดสอบ')) return false;
+      // Must have big score element visible
+      const big = document.querySelector('span.text-\[44px\]');
+      if(!big || big.offsetParent === null) return false;
+      // Must have "เฉลยละเอียด" which only appears on summary
+      if(!txt.includes('เฉลยละเอียด')) return false;
+      return true;
+    } catch(e){ return false; }
+  }
+
   function showModal(s,t){
     if(shown) return;
-    shown=true; score=s; total=t;
-    const pct=Math.round(s/t*100);
-    const prev=document.getElementById('score-preview');
-    if(prev) prev.innerHTML=`📊 <b>${TEST_NAME}</b><br>ได้ <b style="font-size:18px;color:#4f46e5">${s} / ${t}</b> (${pct}%)`;
-    const modal=document.getElementById('score-modal');
-    if(modal) modal.style.display='flex';
-    console.log('✅ SHOW MODAL',s,t);
+    shown = true;
+    score = s; total = t;
+    const pct = Math.round(s/t*100);
+    const prev = document.getElementById('score-preview');
+    if(prev) prev.innerHTML = `📊 <b>${TEST_NAME}</b><br>ได้ <b style="font-size:18px;color:#4f46e5">${s} / ${t}</b> (${pct}%)`;
+    const modal = document.getElementById('score-modal');
+    if(modal) modal.style.display = 'flex';
+    console.log('✅ SHOW MODAL', s, t, TEST_NAME);
   }
+
   function check(){
     if(shown) return;
-    const txt=document.body.innerText||'';
-    if(txt.includes('สรุปผลการทดสอบ')||txt.includes('สรุปผล')){
-      const r=getScore();
-      if(r) showModal(r.s,r.t);
-      else setTimeout(()=>{ const r2=getScore(); if(r2) showModal(r2.s,r2.t); else showModal(0,20); },800);
-    }
+    if(!isSummaryPage()) return;
+    console.log('🔍 Summary page detected, getting score...');
+    // Wait a bit for React to finish rendering numbers
+    setTimeout(()=>{
+      const r = getScore();
+      if(r){
+        showModal(r.s, r.t);
+      } else {
+        console.log('⚠️ Score not found, retrying in 800ms');
+        setTimeout(()=>{
+          const r2 = getScore();
+          if(r2) showModal(r2.s, r2.t);
+          else {
+            // Last resort: try to find any numbers
+            const all = document.body.innerText;
+            const m = all.match(/สรุปผลการทดสอบ[\s\S]{0,300}(\d+)\s*\/\s*(\d+)/);
+            if(m) showModal(parseInt(m[1]), parseInt(m[2]));
+            else {
+              console.log('❌ Could not find score, showing 0/20 as fallback - please report');
+              // Don't show 0/20 automatically - wait for user to debug
+              // showModal(0,20);
+            }
+          }
+        }, 800);
+      }
+    }, 400);
   }
+
   function bind(){
-    const btn=document.getElementById('submit-score-btn');
-    const status=document.getElementById('submit-status');
-    if(btn&&!btn._bound){
-      btn._bound=true;
-      btn.onclick=async()=>{
-        const name=document.getElementById('student-name').value.trim();
-        const cls=document.getElementById('student-class').value.trim();
+    const btn = document.getElementById('submit-score-btn');
+    const status = document.getElementById('submit-status');
+    if(btn && !btn._bound){
+      btn._bound = true;
+      btn.onclick = async () => {
+        const name = document.getElementById('student-name').value.trim();
+        const cls = document.getElementById('student-class').value.trim();
         if(!name){ alert('กรอกชื่อก่อนนะครับ 😊'); document.getElementById('student-name').focus(); return; }
-        btn.textContent='⏳ กำลังส่ง...'; btn.disabled=true; btn.style.opacity='.7';
+        btn.textContent = '⏳ กำลังส่ง...'; btn.disabled = true; btn.style.opacity = '.7';
         try{
-          const payload={name:name,classRoom:cls,testName:TEST_NAME,score:score,total:total,percent:Math.round(score/total*100),details:TEST_NAME+' - '+score+'/'+total,timestamp:new Date().toISOString()};
-          console.log('Sending',payload);
-          await fetch(GOOGLE_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-          status.style.display='block'; status.style.background='#dcfce7'; status.style.color='#166534'; status.style.border='1px solid #86efac';
-          status.innerHTML='✅ <b>ส่งคะแนนสำเร็จ!</b><br>ครูได้รับแล้วใน Google Sheet';
-          btn.textContent='✅ ส่งแล้ว'; btn.style.background='#16a34a';
-          setTimeout(()=>{ document.getElementById('score-modal').style.display='none'; },2500);
+          const payload = {name:name, classRoom:cls, testName:TEST_NAME, score:score, total:total, percent:Math.round(score/total*100), details: TEST_NAME + ' - ' + score + '/' + total, timestamp:new Date().toISOString()};
+          console.log('Sending', payload);
+          await fetch(GOOGLE_URL, {method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+          status.style.display = 'block'; status.style.background = '#dcfce7'; status.style.color = '#166534'; status.style.border = '1px solid #86efac';
+          status.innerHTML = '✅ <b>ส่งคะแนนสำเร็จ!</b><br>ครูได้รับแล้วใน Google Sheet';
+          btn.textContent = '✅ ส่งแล้ว'; btn.style.background = '#16a34a';
+          setTimeout(()=>{ document.getElementById('score-modal').style.display = 'none'; }, 2500);
         }catch(e){
           console.error(e);
-          status.style.display='block'; status.style.background='#fee2e2'; status.style.color='#991b1b'; status.style.border='1px solid #fecaca';
-          status.textContent='❌ ส่งไม่สำเร็จ: '+e.message+' ลองใหม่นะครับ';
-          btn.textContent='🔄 ลองใหม่'; btn.disabled=false; btn.style.opacity='1';
+          status.style.display = 'block'; status.style.background = '#fee2e2'; status.style.color = '#991b1b'; status.style.border = '1px solid #fecaca';
+          status.textContent = '❌ ส่งไม่สำเร็จ: ' + e.message + ' ลองใหม่นะครับ';
+          btn.textContent = '🔄 ลองใหม่'; btn.disabled = false; btn.style.opacity = '1';
         }
       };
     }
-    const skip=document.getElementById('skip-score-btn');
-    if(skip&&!skip._bound){ skip._bound=true; skip.onclick=()=>{ document.getElementById('score-modal').style.display='none'; shown=false; setTimeout(()=>{shown=false;},1000); }; }
+    const skip = document.getElementById('skip-score-btn');
+    if(skip && !skip._bound){
+      skip._bound = true;
+      skip.onclick = ()=>{ document.getElementById('score-modal').style.display = 'none'; };
+    }
   }
-  setInterval(()=>{ check(); bind(); },700);
-  const obs=new MutationObserver(()=>{ check(); bind(); });
-  obs.observe(document.documentElement,{childList:true,subtree:true,characterData:true});
-  window.addEventListener('load',()=>setTimeout(check,800));
-  document.addEventListener('click',()=>setTimeout(check,500));
-  console.log('✅ Score system V3 ready - waiting for summary page...');
+
+  // Check every 800ms but only when on summary page
+  setInterval(()=>{ check(); bind(); }, 800);
+  const obs = new MutationObserver(()=>{ check(); bind(); });
+  obs.observe(document.documentElement, {childList:true, subtree:true, characterData:true});
+  window.addEventListener('load', ()=> setTimeout(check, 1000));
+  // Also check when user clicks "ดูสรุปผล"
+  document.addEventListener('click', (e)=>{
+    const t = e.target;
+    if(t && t.textContent && t.textContent.includes('ดูสรุปผล')){
+      console.log('👆 ดูสรุปผล clicked, will check in 1.2s');
+      setTimeout(check, 1200);
+    }
+  }, true);
+
+  console.log('✅ Score system V4 ready - waiting for summary page...');
 })();
 </script>
 
