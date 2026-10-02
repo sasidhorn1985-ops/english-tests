@@ -47,130 +47,97 @@ Error generating stack: `+u.message+`
   <script>(function(){function m(a){var h=a.getAttribute("href");if(!h)return;try{var u=new URL(h,document.baseURI);if((u.protocol==="http:"||u.protocol==="https:")&&u.host!==location.host){a.target="_blank";a.rel="noopener noreferrer";}}catch(e){}}function s(){document.querySelectorAll("a[href]").forEach(m);}if(document.readyState!=="loading"){s();}else{document.addEventListener("DOMContentLoaded",s);}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(a){m(a);}},true);})();</script>
   
 
-<!-- GOOGLE SHEET SCORE SUBMISSION V2 - ระบบส่งคะแนนแบบใหม่ ทนกว่าเดิม -->
-<div id="score-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999999;align-items:center;justify-content:center;padding:20px;font-family:'Sarabun','Noto Sans Thai',system-ui,sans-serif">
-  <div style="background:white;border-radius:20px;max-width:440px;width:100%;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:popIn .3s ease">
-    <div style="text-align:center;margin-bottom:16px"><div style="font-size:40px">🎉</div><h3 style="font-size:19px;font-weight:800;margin:8px 0 4px">ทำเสร็จแล้ว! ส่งคะแนนเลยไหม?</h3><p style="font-size:13px;color:#78716c">กรอกชื่อเพื่อให้ครูบันทึกคะแนนลง Google Sheet อัตโนมัติ</p></div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <input id="student-name" placeholder="ชื่อ-นามสกุล (บังคับ)" style="padding:12px 14px;border:1.5px solid #e7e5e4;border-radius:12px;font-size:14px;width:100%;box-sizing:border-box;outline:none">
-      <input id="student-class" placeholder="ชั้น / ห้อง (เช่น ม.2/1)" style="padding:12px 14px;border:1.5px solid #e7e5e4;border-radius:12px;font-size:14px;width:100%;box-sizing:border-box;outline:none">
-      <div id="score-preview" style="background:#f5f5f4;padding:12px 14px;border-radius:12px;font-size:14px;color:#1c1917;font-weight:600;text-align:center;border:1px dashed #d6d3d1"></div>
-      <button id="submit-score-btn" style="background:#4f46e5;color:white;padding:13px;border:none;border-radius:12px;font-weight:700;cursor:pointer;width:100%;font-size:15px;box-shadow:0 4px 14px rgba(79,70,229,.3)">📤 ส่งคะแนนให้ครู</button>
-      <button id="skip-score-btn" style="background:#f5f5f4;color:#57534e;padding:11px;border:none;border-radius:12px;cursor:pointer;width:100%;font-size:14px">ข้าม ไม่ส่งตอนนี้</button>
-      <p id="submit-status" style="font-size:13px;text-align:center;display:none;margin:4px 0 0;padding:8px;border-radius:8px"></p>
+
+
+
+<!-- GOOGLE SHEET SCORE SYSTEM V3 - SUPER ROBUST FIXED -->
+<div id="score-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:2147483647;align-items:center;justify-content:center;padding:20px;font-family:'Sarabun',system-ui,sans-serif">
+  <div style="background:white;border-radius:20px;max-width:460px;width:100%;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:popIn .35s ease">
+    <div style="text-align:center;margin-bottom:18px"><div style="font-size:42px">🎉</div><h3 style="font-size:20px;font-weight:800;margin:8px 0 4px;color:#1e1b4b">ทำเสร็จแล้ว! ส่งคะแนนเลยไหม?</h3><p style="font-size:13.5px;color:#78716c;line-height:1.5">กรอกชื่อเพื่อให้ครูบันทึกคะแนนลง Google Sheet อัตโนมัติ<br><span style="font-size:12px;color:#a8a29e">ถ้าไม่กรอกก็กดข้ามได้</span></p></div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <input id="student-name" placeholder="ชื่อ-นามสกุล *จำเป็น" style="padding:13px 14px;border:1.5px solid #e7e5e4;border-radius:12px;font-size:14.5px;width:100%;box-sizing:border-box;outline:none">
+      <input id="student-class" placeholder="ชั้น / ห้อง เช่น ม.2/1" style="padding:13px 14px;border:1.5px solid #e7e5e4;border-radius:12px;font-size:14.5px;width:100%;box-sizing:border-box;outline:none">
+      <div id="score-preview" style="background:linear-gradient(135deg,#e0e7ff,#f0f9ff);padding:14px;border-radius:12px;font-size:14.5px;color:#1e1b4b;font-weight:700;text-align:center;border:1.5px solid #c7d2fe">📊 กำลังโหลดคะแนน...</div>
+      <button id="submit-score-btn" style="background:#4f46e5;color:white;padding:14px;border:none;border-radius:12px;font-weight:800;cursor:pointer;width:100%;font-size:15.5px;letter-spacing:.3px;box-shadow:0 4px 14px rgba(79,70,229,.35)">📤 ส่งคะแนนให้ครู</button>
+      <button id="skip-score-btn" style="background:#f5f5f4;color:#57534e;padding:12px;border:none;border-radius:12px;cursor:pointer;width:100%;font-size:14px;font-weight:600">ข้าม ไม่ส่งตอนนี้</button>
+      <p id="submit-status" style="font-size:13px;text-align:center;display:none;margin:2px 0 0;padding:10px;border-radius:10px;line-height:1.4"></p>
+      <p style="font-size:11px;color:#a8a29e;text-align:center;margin:4px 0 0">คะแนนจะถูกบันทึกใน Google Sheet ของครูอัตโนมัติ</p>
     </div>
   </div>
 </div>
-<style>@keyframes popIn{from{opacity:0;transform:scale(.9) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}} #score-modal input:focus{border-color:#4f46e5;box-shadow:0 0 0 3px rgba(79,70,229,.15)}</style>
+<style>@keyframes popIn{from{opacity:0;transform:scale(.88) translateY(14px)}to{opacity:1;transform:scale(1) translateY(0)}} #score-modal input:focus{border-color:#4f46e5;box-shadow:0 0 0 3.5px rgba(79,70,229,.15)}</style>
 <script>
 (function(){
-  const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzc4ofn7BMgVzfjRwMe2Mifuk0kp8vVQwlAkV4FKoIcG2qnNxPKuvBM2lTDD6I-Mpf0/exec";
+  const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbzc4ofn7BMgVzfjRwMe2Mifuk0kp8vVQwlAkV4FKoIcG2qnNxPKuvBM2lTDD6I-Mpf0/exec";
   const TEST_NAME = "Set01-02-Strict-Matching";
-  let modalShown = false;
-  let currentScore = 0;
-  let currentTotal = 20;
-
-  function getScoreFromPage(){
-    try{
-      const bodyText = document.body.innerText;
-      // หาเลข 7 / 20 แบบในรูป
-      const patterns = [
-        /(\d+)\s*\/\s*20/g,
-        /คะแนน[\s\S]*?(\d+)\s*\/\s*(\d+)/,
-        /(\d+)\s*ถูก/g
-      ];
-      // วิธีที่ชัวร์สุด: หา span ตัวใหญ่ที่เป็นคะแนน
-      const bigScoreEl = document.querySelector('span.text-\[44px\]');
-      if(bigScoreEl) {
-        const s = parseInt(bigScoreEl.textContent);
-        if(!isNaN(s)) { currentScore = s; currentTotal = 20; return {score:s,total:20}; }
-      }
-      // fallback: หาจาก text ที่มี / 20
-      const m = bodyText.match(/(\d+)\s*\/\s*20/);
-      if(m) {
-        // เอาตัวแรกที่เจอหลังคำว่า สรุปผล
-        const summaryIndex = bodyText.indexOf('สรุปผลการทดสอบ');
-        if(summaryIndex > -1){
-          const after = bodyText.substring(summaryIndex, summaryIndex+200);
-          const mm = after.match(/(\d+)\s*\/\s*20/);
-          if(mm) return {score:parseInt(mm[1]), total:20};
-        }
-        return {score:parseInt(m[1]), total:20};
-      }
-    }catch(e){}
+  let shown = false;
+  let score = 0, total = 20;
+  function getScore(){
+    try {
+      const big = document.querySelector('span.text-\[44px\], span.text-\[40px\], .text-\[44px\]');
+      if(big){ const v = parseInt(big.textContent.trim()); if(!isNaN(v)) { score = v; return {s:v,t:20}; } }
+      const all = document.body.innerText;
+      const idx = all.indexOf('สรุปผลการทดสอบ');
+      if(idx>-1){ const slice = all.substring(idx, idx+600); const m = slice.match(/(\d+)\s*\/\s*20/); if(m) { score = parseInt(m[1]); return {s:parseInt(m[1]),t:20}; } }
+      const m2 = all.match(/(\d+)\s*\/\s*20/);
+      if(m2) { score = parseInt(m2[1]); return {s:parseInt(m2[1]),t:20}; }
+    } catch(e){ console.log('getScore err',e); }
     return null;
   }
-
-  function showScoreModal(score,total){
-    if(modalShown) return;
-    modalShown = true;
-    currentScore = score; currentTotal = total;
-    const percent = Math.round(score/total*100);
-    const preview = document.getElementById('score-preview');
-    if(preview) preview.innerText = `📊 ${TEST_NAME} — ได้ ${score} / ${total} (${percent}%)`;
-    const modal = document.getElementById('score-modal');
-    if(modal) modal.style.display = 'flex';
-    
-    // ปุ่มส่ง
-    const btn = document.getElementById('submit-score-btn');
-    const status = document.getElementById('submit-status');
-    if(btn){
-      btn.onclick = async () => {
-        const name = document.getElementById('student-name').value.trim();
-        const classRoom = document.getElementById('student-class').value.trim();
+  function showModal(s,t){
+    if(shown) return;
+    shown=true; score=s; total=t;
+    const pct=Math.round(s/t*100);
+    const prev=document.getElementById('score-preview');
+    if(prev) prev.innerHTML=`📊 <b>${TEST_NAME}</b><br>ได้ <b style="font-size:18px;color:#4f46e5">${s} / ${t}</b> (${pct}%)`;
+    const modal=document.getElementById('score-modal');
+    if(modal) modal.style.display='flex';
+    console.log('✅ SHOW MODAL',s,t);
+  }
+  function check(){
+    if(shown) return;
+    const txt=document.body.innerText||'';
+    if(txt.includes('สรุปผลการทดสอบ')||txt.includes('สรุปผล')){
+      const r=getScore();
+      if(r) showModal(r.s,r.t);
+      else setTimeout(()=>{ const r2=getScore(); if(r2) showModal(r2.s,r2.t); else showModal(0,20); },800);
+    }
+  }
+  function bind(){
+    const btn=document.getElementById('submit-score-btn');
+    const status=document.getElementById('submit-status');
+    if(btn&&!btn._bound){
+      btn._bound=true;
+      btn.onclick=async()=>{
+        const name=document.getElementById('student-name').value.trim();
+        const cls=document.getElementById('student-class').value.trim();
         if(!name){ alert('กรอกชื่อก่อนนะครับ 😊'); document.getElementById('student-name').focus(); return; }
-        btn.innerText = '⏳ กำลังส่ง...'; btn.disabled = true;
-        btn.style.opacity = '0.7';
+        btn.textContent='⏳ กำลังส่ง...'; btn.disabled=true; btn.style.opacity='.7';
         try{
-          await fetch(GOOGLE_SHEET_URL, {
-            method: 'POST', mode: 'no-cors',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({
-              name: name, classRoom: classRoom, testName: TEST_NAME,
-              score: score, total: total, percent: percent,
-              details: `${TEST_NAME} - ${score}/${total} (${percent}%)`,
-              timestamp: new Date().toISOString(),
-              userAgent: navigator.userAgent
-            })
-          });
-          status.style.display='block'; status.style.background='#dcfce7'; status.style.color='#166534';
-          status.innerText = '✅ ส่งคะแนนสำเร็จ! ครูได้รับแล้วใน Google Sheet';
-          btn.innerText = '✅ ส่งแล้ว'; btn.style.background='#16a34a';
-          setTimeout(()=>{ document.getElementById('score-modal').style.display='none'; modalShown = false; }, 2500);
+          const payload={name:name,classRoom:cls,testName:TEST_NAME,score:score,total:total,percent:Math.round(score/total*100),details:TEST_NAME+' - '+score+'/'+total,timestamp:new Date().toISOString()};
+          console.log('Sending',payload);
+          await fetch(GOOGLE_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+          status.style.display='block'; status.style.background='#dcfce7'; status.style.color='#166534'; status.style.border='1px solid #86efac';
+          status.innerHTML='✅ <b>ส่งคะแนนสำเร็จ!</b><br>ครูได้รับแล้วใน Google Sheet';
+          btn.textContent='✅ ส่งแล้ว'; btn.style.background='#16a34a';
+          setTimeout(()=>{ document.getElementById('score-modal').style.display='none'; },2500);
         }catch(e){
-          status.style.display='block'; status.style.background='#fee2e2'; status.style.color='#991b1b';
-          status.innerText = '❌ ส่งไม่สำเร็จ ลองใหม่นะครับ — ' + e.message;
-          btn.innerText = '🔄 ลองใหม่'; btn.disabled = false; btn.style.opacity='1';
+          console.error(e);
+          status.style.display='block'; status.style.background='#fee2e2'; status.style.color='#991b1b'; status.style.border='1px solid #fecaca';
+          status.textContent='❌ ส่งไม่สำเร็จ: '+e.message+' ลองใหม่นะครับ';
+          btn.textContent='🔄 ลองใหม่'; btn.disabled=false; btn.style.opacity='1';
         }
       };
     }
-    const skip = document.getElementById('skip-score-btn');
-    if(skip) skip.onclick = () => { document.getElementById('score-modal').style.display='none'; modalShown = false; };
+    const skip=document.getElementById('skip-score-btn');
+    if(skip&&!skip._bound){ skip._bound=true; skip.onclick=()=>{ document.getElementById('score-modal').style.display='none'; shown=false; setTimeout(()=>{shown=false;},1000); }; }
   }
-
-  // วิธีตรวจจับแบบใหม่: ดูว่ามีคำว่า "สรุปผลการทดสอบ" โผล่มาหรือยัง
-  function checkIfFinished(){
-    if(modalShown) return;
-    const bodyText = document.body.innerText;
-    if(bodyText.includes('สรุปผลการทดสอบ') && bodyText.includes('/ 20')){
-      const result = getScoreFromPage();
-      if(result && result.score >=0){
-        console.log('Score detected:', result);
-        showScoreModal(result.score, result.total);
-      }
-    }
-  }
-
-  // ตรวจทุก 1 วิ + ใช้ MutationObserver ดูการเปลี่ยนแปลงของ DOM
-  setInterval(checkIfFinished, 1000);
-  
-  const observer = new MutationObserver(checkIfFinished);
-  observer.observe(document.body, {childList:true, subtree:true});
-
-  // เผื่อกรณีโหลดหน้านี้มาแล้วเป็นหน้าสรุปเลย (รีเฟรช)
-  window.addEventListener('load', () => setTimeout(checkIfFinished, 1500));
-
-  console.log('✅ Score system ready for', TEST_NAME);
+  setInterval(()=>{ check(); bind(); },700);
+  const obs=new MutationObserver(()=>{ check(); bind(); });
+  obs.observe(document.documentElement,{childList:true,subtree:true,characterData:true});
+  window.addEventListener('load',()=>setTimeout(check,800));
+  document.addEventListener('click',()=>setTimeout(check,500));
+  console.log('✅ Score system V3 ready - waiting for summary page...');
 })();
 </script>
 
