@@ -4,143 +4,174 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>English Tests - คลังข้อสอบ</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap');
-  * { box-sizing: border-box; margin:0; padding:0; font-family: 'Sarabun', sans-serif; }
-  body { background:#f8fafc; color:#1e293b; line-height:1.6; }
-  .header { background: linear-gradient(135deg,#0f766e 0%,#14b8a6 100%); color:white; padding:50px 20px; text-align:center; }
-  .header h1 { font-size:32px; margin-bottom:6px; }
-  .header p { opacity:0.9; font-size:14px; }
-  .container { max-width:1000px; margin:0 auto; padding:32px 20px; }
-  .category { margin-bottom:42px; }
-  .cat-title { font-size:20px; font-weight:700; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #e2e8f0; display:flex; align-items:center; gap:10px; }
-  .cat-title .count { font-size:12px; font-weight:600; background:#e2e8f0; color:#475569; padding:2px 10px; border-radius:999px; }
-  .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap:18px; }
-  .card { background:white; border:1px solid #e2e8f0; border-radius:16px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,0.04); transition:0.2s; display:flex; flex-direction:column; }
-  .card:hover { transform:translateY(-3px); box-shadow:0 12px 24px rgba(0,0,0,0.08); border-color:#cbd5e1; }
-  .card h3 { font-size:16px; margin-bottom:6px; }
-  .card p { font-size:13px; color:#64748b; margin-bottom:14px; flex:1; }
-  .btn { display:inline-block; background:#0f766e; color:white; padding:9px 18px; border-radius:10px; text-decoration:none; font-size:14px; font-weight:600; text-align:center; }
-  .btn:hover { background:#115e59; }
-  .badge { display:inline-block; font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; margin-bottom:10px; width:fit-content; }
-  .b-tobe { background:#dcfce7; color:#166534; }
-  .b-tense { background:#fef3c7; color:#92400e; }
-  .b-vocab { background:#dbeafe; color:#1e40af; }
-  .b-new { background:#e0e7ff; color:#4338ca; }
-  .footer { text-align:center; padding:30px; color:#94a3b8; font-size:12px; }
-  .notice { background:#ecfdf5; border:1px solid #6ee7b7; color:#065f46; padding:14px 18px; border-radius:12px; margin-bottom:28px; font-size:14px; }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Sarabun',system-ui,sans-serif}
+  body{background:#fcfcfc;color:#1f2937;line-height:1.6}
+  .top{max-width:980px;margin:0 auto;padding:42px 20px 18px;}
+  .top h1{font-size:26px;font-weight:800;display:flex;align-items:center;gap:10px;letter-spacing:-.2px}
+  .top p{color:#6b7280;font-size:13.5px;margin-top:6px}
+  .container{max-width:980px;margin:0 auto;padding:0 20px 60px}
+  .divider{height:1px;background:#f0ece5;margin:8px 0 24px}
+  /* Level header */
+  .level-head{display:flex;align-items:center;gap:10px;margin:28px 0 16px;position:relative}
+  .level-head .pill{font-size:10.5px;font-weight:800;letter-spacing:.6px;padding:4px 10px;border-radius:999px;flex-shrink:0}
+  .level-head .pill-basic{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+  .level-head .pill-inter{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+  .level-head .pill-adv{background:#ffe4e6;color:#9f1239;border:1px solid #fecdd3}
+  .level-head .th{font-size:15px;font-weight:700;color:#292524}
+  .level-head .line{flex:1;height:1px;background:#e7e5e4;margin-left:10px}
+  .level-head .count{font-size:11px;color:#a8a29e;font-weight:600;white-space:nowrap}
+  /* Grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+  .card{background:white;border:1px solid #e7e5e4;border-radius:16px;padding:18px 18px 16px;box-shadow:0 1px 2px rgba(0,0,0,.03);transition:.18s;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.07);border-color:#d6d3d1}
+  .card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .badge{font-size:10px;font-weight:800;letter-spacing:.4px;padding:4px 9px;border-radius:999px}
+  .badge-tense-basic{background:#fef9c3;color:#854d0e;border:1px solid #fde68a}
+  .badge-tense-inter{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+  .badge-tense-adv{background:#ffe4e6;color:#9f1239;border:1px solid #fecdd3}
+  .badge-verb{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+  .badge-vocab{background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe}
+  .badge-level{font-size:10px;font-weight:800;padding:4px 9px;border-radius:999px;border:1px solid}
+  .lvl-basic{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}
+  .lvl-inter{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
+  .lvl-adv{background:#fff1f2;color:#9f1239;border-color:#fecdd3}
+  .card h3{font-size:14.5px;font-weight:700;line-height:1.35;margin-bottom:8px;color:#1c1917}
+  .card .desc{font-size:12.5px;color:#78716c;line-height:1.5;margin-bottom:14px;flex:1;min-height:36px}
+  .btn{width:100%;padding:10px 16px;border-radius:10px;border:none;font-size:13.5px;font-weight:700;cursor:pointer;color:white;transition:.15s;text-decoration:none;text-align:center;display:block}
+  .btn-basic{background:#15803d}.btn-basic:hover{background:#166534}
+  .btn-inter{background:#d97706}.btn-inter:hover{background:#b45309}
+  .btn-adv{background:#b91c1c}.btn-adv:hover{background:#991b1b}
+  .btn-verb{background:#0f766e}.btn-verb:hover{background:#115e59}
+  .btn-vocab{background:#2563eb}.btn-vocab:hover{background:#1d4ed8}
+  .notice{background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;padding:12px 16px;border-radius:12px;margin:18px 0 8px;font-size:13px;display:flex;gap:8px;align-items:flex-start}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}.top h1{font-size:22px}}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>📚 English Tests</h1>
-  <p>sasidhorn1985-ops / english-tests - แบ่งตามหมวดหมู่ (ส่งคะแนนเข้า Google Sheet อัตโนมัติ)</p>
+<div class="top">
+  <h1>📚 English Tests - คลังข้อสอบ</h1>
+  <p>รวมแบบฝึกหัดภาษาอังกฤษ • แบ่งตามระดับ • สุ่ม 20 ข้อจากคลัง 100 ข้อ</p>
+  <div class="notice">✅ ตอนนี้ทุกข้อสอบส่งคะแนนเข้า Google Sheet อัตโนมัติแล้ว — ทำเสร็จ 20 ข้อ จะเด้งให้กรอกชื่อ-ห้อง ส่งคะแนนให้ครู</div>
 </div>
 
 <div class="container">
 
-  <div class="notice">
-    ✅ ตอนนี้ข้อสอบทั้งหมดเชื่อม Google Sheet แล้ว — เด็กทำเสร็จ 20 ข้อ จะเด้งป๊อปอัพให้กรอกชื่อ-ห้อง ส่งคะแนนให้ครูอัตโนมัติ
+  <!-- Verb to be -->
+  <div class="level-head" style="margin-top:8px">
+    <span class="pill pill-basic">VERB TO BE</span>
+    <span class="th">พื้นฐานสุด - is/am/are</span>
+    <div class="line"></div>
+    <span class="count">1 test</span>
   </div>
-
-  <!-- หมวด 1: Verb to be -->
-  <div class="category">
-    <div class="cat-title">🟢 Verb to be Test <span class="count">1 test</span></div>
-    <div class="grid">
-      <div class="card">
-        <span class="badge b-tobe">VERB TO BE • ส่งคะแนนได้</span>
-        <h3>Is / Am / Are vs. ไม่เติม (-)</h3>
-        <p>ตัวแก้แล้ว - ไม่มีคำใบ้ สุ่ม 20 จาก 100 ข้อ - แยกเฉลย - มีระบบส่งคะแนน</p>
-        <a class="btn" href="Is-Am-Are-Vs.html">เริ่มทำ →</a>
-      </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-top"><span class="badge badge-verb">VERB TO BE • BASIC</span><span class="badge-level lvl-basic">BASIC</span></div>
+      <h3>Is / Am / Are vs. ไม่เติม (-)</h3>
+      <div class="desc">พื้นฐานสุด • สุ่ม 20 จาก 100 ข้อ • ไม่มีคำใบ้ • ส่งคะแนนได้</div>
+      <a class="btn btn-verb" href="Is-Am-Are-Vs.html">เริ่มทำ →</a>
     </div>
   </div>
 
-  <!-- หมวด 2: Tense tests -->
-  <div class="category">
-    <div class="cat-title">🟡 Tense Tests <span class="count">6 tests</span></div>
-    <div class="grid">
-      
-      <div class="card">
-        <span class="badge b-tense">TENSE • Basic</span>
-        <h3>Present Simple vs Continuous - Basic</h3>
-        <p>พื้นฐาน 100 ข้อ สุ่ม 20 ข้อ - Present Simple vs Continuous</p>
-        <a class="btn" href="100-Pool-Random-Test_Present_Simple-Vs-Continuous_Basic.html">เริ่มทำ →</a>
-      </div>
-
-      <div class="card">
-        <span class="badge b-tense">TENSE • Intermediate</span>
-        <h3>Present Simple vs Continuous - Intermediate Cam</h3>
-        <p>ระดับกลาง 100 ข้อ สุ่ม 20 ข้อ - ตัวที่วงแดงลบป้ายใบ้ออกแล้ว</p>
-        <a class="btn" href="100-Pool-Random-Test_Present_Simple-Vs-Continuous_Intermediate_Cam.html">เริ่มทำ →</a>
-      </div>
-
-      <div class="card">
-        <span class="badge b-tense">TENSE • Advanced</span>
-        <h3>Present Simple vs Continuous - Advanced</h3>
-        <p>ระดับสูง 100 ข้อ สุ่ม 20 ข้อ</p>
-        <a class="btn" href="100-Pool-Random-Test_Present_Simple-Vs-Continuous_Advanced.html">เริ่มทำ →</a>
-      </div>
-
-      <div class="card">
-        <span class="badge b-tense">TENSE • Advanced 02</span>
-        <h3>Present Simple vs Continuous - Advanced 02</h3>
-        <p>ระดับสูง ชุด 2 - 100 ข้อ สุ่ม 20 ข้อ</p>
-        <a class="btn" href="100-Pool-Random-Test_Present_Simple-Vs-Continuous_Advanced02.html">เริ่มทำ →</a>
-      </div>
-
-      <div class="card">
-        <span class="badge b-tense">TENSE • Past</span>
-        <h3>Past Simple vs Past Continuous - Basic</h3>
-        <p>อดีตธรรมดา vs อดีตต่อเนื่อง 100 ข้อ สุ่ม 20 ข้อ</p>
-        <a class="btn" href="100-Pool-Random-Test_Past_Simple-Vs-Past_Continuous_Basic.html">เริ่มทำ →</a>
-      </div>
-
-      <div class="card">
-        <span class="badge b-tense">TENSE • Perfect</span>
-        <h3>Present Perfect vs Past Simple - Basic</h3>
-        <p>ปัจจุบันกาลสมบูรณ์ vs อดีตธรรมดา 100 ข้อ สุ่ม 20 ข้อ</p>
-        <a class="btn" href="100-Pool-Random-Test_Present_Perfect-Vs-Past_Simple_Basic.html">เริ่มทำ →</a>
-      </div>
-
+  <!-- BASIC - พื้นฐาน -->
+  <div class="level-head">
+    <span class="pill pill-basic">BASIC</span>
+    <span class="th">พื้นฐาน - จบแล้ว / กำลังทำ</span>
+    <div class="line"></div>
+    <span class="count">3 tests</span>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-top"><span class="badge badge-tense-basic">TENSE • BASIC</span><span class="badge-level lvl-basic">BASIC</span></div>
+      <h3>Past Simple vs Past Continuous - Basic</h3>
+      <div class="desc">อดีตแบบจบแล้ว vs กำลังทำ • คลัง 100 ข้อ สุ่ม 20 ข้อ • ไม่มีคำใบ้</div>
+      <a class="btn btn-basic" href="100-Pool-Random-Test_Past_Simple-Vs-Past_Continuous_Basic.html">เริ่มทำ →</a>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="badge badge-tense-basic">TENSE • BASIC</span><span class="badge-level lvl-basic">BASIC</span></div>
+      <h3>Present Perfect vs Past Simple - Basic</h3>
+      <div class="desc">ปัจจุบันสมบูรณ์ vs อดีตธรรมดา • พื้นฐาน 100 ข้อ</div>
+      <a class="btn btn-basic" href="100-Pool-Random-Test_Present_Perfect-Vs-Past_Simple_Basic.html">เริ่มทำ →</a>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="badge badge-tense-basic">TENSE • BASIC</span><span class="badge-level lvl-basic">BASIC</span></div>
+      <h3>Present Simple vs Continuous - Basic</h3>
+      <div class="desc">ปัจจุบันธรรมดา vs กำลังทำ • พื้นฐาน</div>
+      <a class="btn btn-basic" href="100-Pool-Random-Test_Present_Simple-Vs-Continuous_Basic.html">เริ่มทำ →</a>
     </div>
   </div>
 
-  <!-- หมวด 3: Vocabulary -->
-  <div class="category">
-    <div class="cat-title">🔵 Vocabulary Tests <span class="count">3 tests</span></div>
-    <div class="grid">
-      
-      <div class="card">
-        <span class="badge b-vocab">VOCABULARY</span>
-        <h3>Vocab Set01 - Matching Groups</h3>
-        <p>จับคู่คำศัพท์กลุ่ม - โหมดเข้ม</p>
-        <a class="btn" href="Set01-Matching-Test-Groups_1.html">เริ่มทำ →</a>
-      </div>
+  <!-- INTERMEDIATE -->
+  <div class="level-head">
+    <span class="pill pill-inter">INTERMEDIATE</span>
+    <span class="th">กลาง - เข้มข้นขึ้น</span>
+    <div class="line"></div>
+    <span class="count">1 test</span>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-top"><span class="badge badge-tense-inter">TENSE • INTER</span><span class="badge-level lvl-inter">INTER</span></div>
+      <h3>Present Simple vs Continuous - Intermediate</h3>
+      <div class="desc">ระดับกลาง • Cam Edition • จับคู่เข้มข้น</div>
+      <a class="btn btn-inter" href="100-Pool-Random-Test_Present_Simple-Vs-Continuous_Intermediate_Cam.html">เริ่มทำ →</a>
+    </div>
+  </div>
 
-      <div class="card">
-        <span class="badge b-vocab">VOCABULARY</span>
-        <h3>Vocab Set01-02 - Strict Matching</h3>
-        <p>ชุดที่ 02 - จับคู่เข้มข้น</p>
-        <a class="btn" href="Set01-02-Strict-Matching.html">เริ่มทำ →</a>
-      </div>
+  <!-- ADVANCED -->
+  <div class="level-head">
+    <span class="pill pill-adv">ADVANCED</span>
+    <span class="th">แอดวานซ์ - ยาก</span>
+    <div class="line"></div>
+    <span class="count">2 tests</span>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-top"><span class="badge badge-tense-adv">TENSE • ADV</span><span class="badge-level lvl-adv">ADVANCED</span></div>
+      <h3>Present Simple vs Continuous - Advanced</h3>
+      <div class="desc">ระดับยาก • วิเคราะห์บริบทประโยค</div>
+      <a class="btn btn-adv" href="100-Pool-Random-Test_Present_Simple-Vs-Continuous_Advanced.html">เริ่มทำ →</a>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="badge badge-tense-adv">TENSE • ADV</span><span class="badge-level lvl-adv">ADVANCED</span></div>
+      <h3>Present Simple vs Continuous - Advanced 02</h3>
+      <div class="desc">ระดับยาก ชุดที่ 2 • ข้อสอบเข้มข้น</div>
+      <a class="btn btn-adv" href="100-Pool-Random-Test_Present_Simple-Vs-Continuous_Advanced02.html">เริ่มทำ →</a>
+    </div>
+  </div>
 
-      <div class="card">
-        <span class="badge b-vocab">VOCABULARY</span>
-        <h3>Vocab Set01-03 - Strict Matching</h3>
-        <p>ชุดที่ 03 - จับคู่เข้มข้น</p>
-        <a class="btn" href="Set01-03-Strict-Matching.html">เริ่มทำ →</a>
-      </div>
-
+  <!-- VOCABULARY -->
+  <div class="level-head">
+    <span class="pill" style="background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe">VOCABULARY</span>
+    <span class="th">คำศัพท์ - จับคู่</span>
+    <div class="line"></div>
+    <span class="count">3 tests</span>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-top"><span class="badge badge-vocab">VOCAB • GROUP</span><span class="badge-level" style="background:#eff6ff;color:#1e40af;border-color:#bfdbfe">VOCAB</span></div>
+      <h3>Vocab Set01 - Matching Groups</h3>
+      <div class="desc">จับคู่คำศัพท์เป็นกลุ่ม • โหมดเข้ม</div>
+      <a class="btn btn-vocab" href="Set01-Matching-Test-Groups_1.html">เริ่มทำ →</a>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="badge badge-vocab">VOCAB • 02</span><span class="badge-level" style="background:#eff6ff;color:#1e40af;border-color:#bfdbfe">VOCAB</span></div>
+      <h3>Vocab Set01-02 - Strict Matching</h3>
+      <div class="desc">ชุดที่ 02 - จับคู่เข้มข้น</div>
+      <a class="btn btn-vocab" href="Set01-02-Strict-Matching.html">เริ่มทำ →</a>
+    </div>
+    <div class="card">
+      <div class="card-top"><span class="badge badge-vocab">VOCAB • 03</span><span class="badge-level" style="background:#eff6ff;color:#1e40af;border-color:#bfdbfe">VOCAB</span></div>
+      <h3>Vocab Set01-03 - Strict Matching</h3>
+      <div class="desc">ชุดที่ 03 - จับคู่เข้มข้น</div>
+      <a class="btn btn-vocab" href="Set01-03-Strict-Matching.html">เริ่มทำ →</a>
     </div>
   </div>
 
 </div>
 
-<div class="footer">
-  อัพเดทล่าสุด: เชื่อม Google Sheet แล้วทุกไฟล์ • ชื่อไฟล์ตรงกับลิงก์แล้ว ไม่ 404 • แก้ลิงก์ Is-Am-Are-Vs.html เรียบร้อย (ตัวพิมพ์ใหญ่-เล็กตรงกัน)
-</div>
+<div style="text-align:center;padding:24px;color:#a8a29e;font-size:11.5px">อัพเดทล่าสุด: แบ่ง Level ตามที่ครูขอ • BASIC 3 / INTER 1 / ADV 2 • ทุกไฟล์ส่งคะแนนได้ • มีปุ่ม 🏠 หน้าแรกทุกหน้า</div>
 
 </body>
 </html>
