@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Present Simple vs Present Continuous - Advanced Units 1-2 - 100 ข้อ (Purple Fixed)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Prompt','Inter',system-ui,sans-serif; background:#f8f7ff;}
+</style>
+</head>
+<body class="min-h-screen bg-[#f8f7ff] text-zinc-800">
+<div id="root"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbzc4ofn7BMgVzfjRwMe2Mifuk0kp8vVQwlAkV4FKoIcG2qnNxPKuvBM2lTDD6I-Mpf0/exec";
+const TEST_NAME = "Present Simple Vs Present Continuous - Advanced Units 1-2";
+
+const QPOOL = [{"id": 1, "sentence": "Jean stays with us quite often, but she ____ (be) with us at the moment.", "options": ["is", "is being", "are"], "correctAnswer": "is", "explanationTh": "Jean's with us at the moment. แต่ถ้าจะเน้นชั่วคราวกับ state verb เช่น love ใช้ Continuous ได้: The children are loving having her here", "explanationEn": "Jean's with us at the moment - temporary, but with state verbs like love we can use continuous for temporary emphasis", "rule": "Advanced 1A - temporary state"}, {"id": 2, "sentence": "Jean stays with us quite often. The children ____ (love) having her here. And right now the children ____ (love) having her here.", "options": ["love / are loving", "are loving / love", "loves / are loving"], "correctAnswer": "love / are loving", "explanationTh": "love ปกติเป็น stative ใช้ love แต่ถ้าเน้นว่าชั่วคราวช่วงนี้ ใช้ are loving ได้", "explanationEn": "love is stative, but are loving for temporary emphasis around present", "rule": "Advanced 1A - like/love temporary"}, {"id": 3, "sentence": "I hear you're having your house repainted. How ____ it ____ (look)?", "options": ["is / looking", "does / look", "does / looks"], "correctAnswer": "is / looking", "explanationTh": "How is it looking? เน้นว่าตอนนี้กำลังเป็นอย่างไร ใช้ Continuous ได้ (How does it look? ก็ถูกแต่ Advanced เน้น temporary)", "explanationEn": "How is it looking? - emphasis on temporary present, continuous with state verb look", "rule": "Advanced 1A - look temporary"}, {"id": 4, "sentence": "I bought this new dress today. How ____ it ____ (look)?", "options": ["does / look", "is / looking", "does / looks"], "correctAnswer": "does / look", "explanationTh": "How does it look? ถามความเห็นทั่วไป ใช้ Present Simple ธรรมดา", "explanationEn": "How does it look? general opinion, simple", "rule": "Advanced 1A - look general"}, {"id": 5, "sentence": "What are you doing with that ruler? I ____ (measure) the area of the kitchen.", "options": ["am measuring", "measure", "measures"], "correctAnswer": "am measuring", "explanationTh": "measure ในความหมายกระทำ (action = กำลังวัด) ใช้ Continuous ได้", "explanationEn": "measure as action = I am measuring", "rule": "Advanced 1B - measure action"}, {"id": 6, "sentence": "The garden ____ (measure) 12 by 20 metres.", "options": ["measures", "is measuring", "measure"], "correctAnswer": "measures", "explanationTh": "The garden measures... ขนาดของสวน เป็น state (state = be) ใช้ Present Simple", "explanationEn": "measures = state meaning size, not action", "rule": "Advanced 1B - measure state"}, {"id": 7, "sentence": "I ____ (doubt) whether I'll get another chance to retake the exam.", "options": ["doubt", "am doubting", "doubts"], "correctAnswer": "doubt", "explanationTh": "doubt เป็น state verb ที่ rarely ใช้ Continuous ใช้ Present Simple", "explanationEn": "doubt is rarely used with continuous", "rule": "Advanced 1A - doubt rare continuous"}, {"id": 8, "sentence": "The new science museum currently ____ (attract) 10,000 visitors a month.", "options": ["attracts", "is attracting", "attract"], "correctAnswer": "attracts", "explanationTh": "The museum currently attracts... attract ในความหมาย state? แต่ใช้ Simple ได้เพราะเป็นความจริงช่วงนี้? Advanced: attract สามารถใช้ Simple ได้", "explanationEn": "attracts = state meaning, simple", "rule": "Advanced 1B - attract state"}, {"id": 9, "sentence": "Flowers ____ (attract) bees with their brightly coloured petals.", "options": ["attract", "are attracting", "attracts"], "correctAnswer": "attract", "explanationTh": "Flowers attract bees เป็นความจริงทั่วไป ใช้ Present Simple", "explanationEn": "general truth", "rule": "Advanced - general truth"}, {"id": 10, "sentence": "Mike won't work at the top of the 20-storey building because he ____ (have) a fear of heights.", "options": ["has", "is having", "have"], "correctAnswer": "has", "explanationTh": "have a fear = มีความกลัว เป็น state ใช้ has", "explanationEn": "has a fear = state", "rule": "Advanced 1B - have state"}, {"id": 11, "sentence": "The new treatment for influenza ____ (not / appear) to work.", "options": ["doesn't appear", "isn't appearing", "don't appear"], "correctAnswer": "doesn't appear", "explanationTh": "appear = seem (state) ใช้ doesn't appear", "explanationEn": "appear: state = seem, simple", "rule": "Advanced 1B - appear state"}, {"id": 12, "sentence": "Madonna ____ (currently / appear) in a musical on Broadway!", "options": ["is currently appearing", "currently appears", "appear"], "correctAnswer": "is currently appearing", "explanationTh": "appear = take part (action) ใช้ Continuous ได้: is currently appearing", "explanationEn": "appear: action = take part, continuous", "rule": "Advanced 1B - appear action"}, {"id": 13, "sentence": "She often ____ (appear) in musicals.", "options": ["appears", "is appearing", "appear"], "correctAnswer": "appears", "explanationTh": "She often appears in musicals. เป็นนิสัย ใช้ Present Simple", "explanationEn": "often appears = habit", "rule": "Advanced 1B - appear habit"}, {"id": 14, "sentence": "____ you ____ it's a good idea?", "options": ["Do / think", "Are / thinking", "Does / think"], "correctAnswer": "Do / think", "explanationTh": "Do you think it's a good idea? think = opinion (state) ใช้ Simple", "explanationEn": "think: state = about an opinion, simple", "rule": "Advanced 1B - think state"}, {"id": 15, "sentence": "I'm ____ (think) of going in August.", "options": ["thinking", "think", "thinks"], "correctAnswer": "thinking", "explanationTh": "I'm thinking of going... think = consider (action) ใช้ Continuous", "explanationEn": "think: action = consider, continuous", "rule": "Advanced 1B - think action"}, {"id": 16, "sentence": "Your trouble is you ____ (think) too much.", "options": ["think", "are thinking", "thinks"], "correctAnswer": "think", "explanationTh": "You think too much. think ในความหมายคิดมากทั่วไป ใช้ Simple", "explanationEn": "think too much = general habit", "rule": "Advanced 1B - think general"}, {"id": 17, "sentence": "How much ____ this book ____ (cost)?", "options": ["does / cost", "is / costing", "do / cost"], "correctAnswer": "does / cost", "explanationTh": "cost ในความหมายราคา เป็น state ใช้ does it cost", "explanationEn": "cost: state = price, simple", "rule": "Advanced 1B - cost state"}, {"id": 18, "sentence": "I ____ (weigh) the potatoes now. How much do you want?", "options": ["am weighing", "weigh", "weighs"], "correctAnswer": "am weighing", "explanationTh": "I am weighing the potatoes = กำลังชั่ง (action) ใช้ Continuous", "explanationEn": "weigh: action = measuring weight, continuous", "rule": "Advanced 1B - weigh action"}, {"id": 19, "sentence": "This bag ____ (weigh) 20 kilos.", "options": ["weighs", "is weighing", "weigh"], "correctAnswer": "weighs", "explanationTh": "This bag weighs 20 kilos = หนัก 20 กิโล เป็น state ใช้ Simple", "explanationEn": "weighs = state = has weight", "rule": "Advanced 1B - weigh state"}, {"id": 20, "sentence": "I ____ (have) a shower every morning, but today I ____ (have) a bath.", "options": ["have / am having", "am having / have", "have / have"], "correctAnswer": "have / am having", "explanationTh": "have a shower เป็นกิจกรรม ใช้ Simple สำหรับนิสัย และ Continuous สำหรับตอนนี้", "explanationEn": "have as action can be simple or continuous", "rule": "Advanced 1B - have action"}, {"id": 21, "sentence": "I ____ (feel) that we should do something about it.", "options": ["feel", "am feeling", "feels"], "correctAnswer": "feel", "explanationTh": "I feel that we should... feel = opinion (state) ใช้ Simple", "explanationEn": "feel as opinion = state", "rule": "Advanced 1B - feel state"}, {"id": 22, "sentence": "How ____ you ____ (feel) this morning? Are you okay?", "options": ["are / feeling", "do / feel", "does / feel"], "correctAnswer": "are / feeling", "explanationTh": "How are you feeling this morning? feel = อาการทางกาย ชั่วคราว ใช้ Continuous ได้", "explanationEn": "feel as physical sensation can be continuous", "rule": "Advanced 1B - feel action"}, {"id": 23, "sentence": "This jacket ____ (not / fit) me anymore. I've gained weight.", "options": ["doesn't fit", "isn't fitting", "don't fit"], "correctAnswer": "doesn't fit", "explanationTh": "fit ในความหมายขนาดพอดี เป็น state ใช้ doesn't fit", "explanationEn": "fit = state = size, simple", "rule": "Advanced 1B - fit state"}, {"id": 24, "sentence": "I ____ (fit) a new lock to the door. Can you help me?", "options": ["am fitting", "fit", "fits"], "correctAnswer": "am fitting", "explanationTh": "I am fitting a new lock = กำลังติดตั้ง (action) ใช้ Continuous", "explanationEn": "fit as action = install, continuous", "rule": "Advanced 1B - fit action"}, {"id": 25, "sentence": "We ____ (expect) to arrive at 8 pm.", "options": ["expect", "are expecting", "expects"], "correctAnswer": "expect", "explanationTh": "expect = คาดว่า เป็น mental state ใช้ Simple ปกติ แต่ก็ใช้ Continuous ได้เมื่อเน้นความไม่แน่ใจ", "explanationEn": "expect as mental state usually simple", "rule": "Advanced 1B - expect state"}, {"id": 26, "sentence": "I ____ (regret) that the company will have to be sold. (= I have made the decision and I am sorry about it)", "options": ["regret", "am regretting", "regrets"], "correctAnswer": "regret", "explanationTh": "I regret that... = ตัดสินใจแล้วและเสียใจ ใช้ Simple", "explanationEn": "regret with simple = decision made and sorry", "rule": "Advanced 1C - regret simple"}, {"id": 27, "sentence": "I ____ (regret) my decision to give her the job. (= I am increasingly aware that it was the wrong decision)", "options": ["am regretting", "regret", "regrets"], "correctAnswer": "am regretting", "explanationTh": "I'm regretting... = เพิ่งเริ่มรู้สึกว่าเป็นการตัดสินใจผิด ใช้ Continuous เพื่อเน้นเพิ่งเริ่มตระหนัก", "explanationEn": "am regretting = increasingly aware, continuous for recent awareness", "rule": "Advanced 1C - regret continuous"}, {"id": 28, "sentence": "I ____ (find) it difficult to concentrate on my work with this music on.", "options": ["find / am finding", "am finding / find", "find / find"], "correctAnswer": "find / am finding", "explanationTh": "I find / I'm finding it difficult... ใช้ได้ทั้ง Simple และ Continuous เพื่อเน้นเพิ่งเริ่มรู้สึก", "explanationEn": "find can be simple or continuous to emphasize recent start", "rule": "Advanced 1C - find"}, {"id": 29, "sentence": "He ____ (consider) taking early retirement.", "options": ["is considering", "considers", "consider"], "correctAnswer": "is considering", "explanationTh": "consider ในความหมาย think carefully about ใช้เฉพาะ Present Continuous เท่านั้น", "explanationEn": "consider is only used with present continuous", "rule": "Advanced 1C - consider only continuous"}, {"id": 30, "sentence": "I ____ (believe) you now. (not I'm believing you now.)", "options": ["believe", "am believing", "believes"], "correctAnswer": "believe", "explanationTh": "believe, agree, know, prefer rarely ใช้ Continuous ใช้ I believe you now.", "explanationEn": "believe rarely used with continuous", "rule": "Advanced 1C - believe rare continuous"}, {"id": 31, "sentence": "I ____ (realise) that I was wrong about you.", "options": ["realise", "am realising", "realises"], "correctAnswer": "realise", "explanationTh": "realise = เพิ่งตระหนัก ใช้ Simple หรือ Continuous ก็ได้เพื่อเน้นเพิ่งเริ่มคิด", "explanationEn": "realise can be continuous to emphasize recently started to think", "rule": "Advanced 1C - realise"}, {"id": 32, "sentence": "I ____ (understand) biology a lot better now that we've got a new teacher.", "options": ["understand", "am understanding", "understands"], "correctAnswer": "understand", "explanationTh": "I understand biology a lot better now... understand เป็น mental state ใช้ Simple ปกติ", "explanationEn": "understand is mental state, simple", "rule": "Advanced 1C - understand simple"}, {"id": 33, "sentence": "I ____ (admit) I can't see as well as I used to.", "options": ["admit", "am admitting", "admits"], "correctAnswer": "admit", "explanationTh": "I admit... performative verb ใช้ Present Simple เพราะทำโดยการพูด", "explanationEn": "performative: admit, simple", "rule": "Advanced 1D - performative admit"}, {"id": 34, "sentence": "We ____ (apologise) for not replying earlier.", "options": ["apologise", "are apologising", "apologises"], "correctAnswer": "apologise", "explanationTh": "We apologise... performative ใช้ Present Simple", "explanationEn": "performative apologise", "rule": "Advanced 1D - apologise"}, {"id": 35, "sentence": "I ____ (promise) I won't be late.", "options": ["promise", "am promising", "promises"], "correctAnswer": "promise", "explanationTh": "I promise... performative ใช้ Simple", "explanationEn": "promise is performative", "rule": "Advanced 1D - promise"}, {"id": 36, "sentence": "I ____ (not / deny) taking the books, but Andy said it would be okay.", "options": ["don't deny / am not denying", "am not denying / don't deny", "doesn't deny"], "correctAnswer": "don't deny / am not denying", "explanationTh": "I don't deny / I'm not denying... ใช้ได้ทั้ง Simple และ Continuous ในประโยคปฏิเสธความหมายคล้ายกัน", "explanationEn": "deny as performative negative can be simple or continuous similar meaning", "rule": "Advanced 1D - deny negative both"}, {"id": 37, "sentence": "We ____ (guarantee) that your money will be refunded if you are not satisfied.", "options": ["guarantee", "are guaranteeing", "guarantees"], "correctAnswer": "guarantee", "explanationTh": "We guarantee... performative ใช้ Simple", "explanationEn": "guarantee performative", "rule": "Advanced 1D - guarantee"}, {"id": 38, "sentence": "I ____ (suggest) that you see a doctor.", "options": ["suggest", "am suggesting", "suggests"], "correctAnswer": "suggest", "explanationTh": "I suggest... performative ใช้ Simple (แต่ใน negative ใช้ได้ทั้งสอง)", "explanationEn": "suggest performative", "rule": "Advanced 1D - suggest"}, {"id": 39, "sentence": "We ____ (would advise) you to arrive two hours before the flight leaves.", "options": ["would advise", "advise", "are advising"], "correctAnswer": "would advise", "explanationTh": "We would advise... ใช้ modal กับ performative เพื่อให้สุภาพและ tentative มากขึ้น", "explanationEn": "modal with performative for polite tentative", "rule": "Advanced 1D - modal + performative"}, {"id": 40, "sentence": "I ____ (must beg) you to keep this a secret.", "options": ["must beg", "am begging", "beg"], "correctAnswer": "must beg", "explanationTh": "I must beg you... modal + performative", "explanationEn": "must beg you with modal", "rule": "Advanced 1D - modal beg"}, {"id": 41, "sentence": "She ____ (go) up to this man and ____ (look) straight into his eyes. He's not wearing his glasses, and he ____ (not / recognise) her...", "options": ["goes / looks / doesn't recognise", "is going / is looking / isn't recognising", "go / look / don't recognise"], "correctAnswer": "goes / looks / doesn't recognise", "explanationTh": "เล่าเรื่องตลก ใช้ Present Simple เพื่อให้เหตุการณ์ดูสดและน่าตื่นเต้น He doesn't recognise her", "explanationEn": "story joke: present simple to make events more direct and exciting", "rule": "Advanced 2A - story present simple"}, {"id": 42, "sentence": "This man ____ (play) golf when a kangaroo ____ (bound) up to him, ____ (grab) his club and ____ (hit) his ball about half a mile...", "options": ["is playing / bounds / grabs / hits", "plays / bounds / grabs / hits", "is playing / is bounding / is grabbing / is hitting"], "correctAnswer": "is playing / bounds / grabs / hits", "explanationTh": "This man's playing golf (background longer event = continuous) when a kangaroo bounds up (main events in sequence = simple)", "explanationEn": "background continuous, main events simple in sequence", "rule": "Advanced 2A - background continuous"}, {"id": 43, "sentence": "I ____ (sit) in the park, reading a newspaper, when all of a sudden this dog ____ (jump) at me.", "options": ["was sitting / jumps", "sat / jumped", "am sitting / jumps"], "correctAnswer": "was sitting / jumps", "explanationTh": "I was sitting in the park... when all of a sudden this dog jumps at me. ใช้ Past Continuous แล้วตามด้วย Present Simple เพื่อ highlight เหตุการณ์", "explanationEn": "Past continuous + present simple with suddenly to highlight event", "rule": "Advanced 2A - suddenly + present simple"}, {"id": 44, "sentence": "King ____ (serve) to the left-hand court and Adams ____ (make) a wonderful return. She's ____ (play) magnificent tennis in this match.", "options": ["serves / makes / playing", "is serving / is making / is playing", "serves / makes / is playing"], "correctAnswer": "serves / makes / is playing", "explanationTh": "Live commentary: report เกิดพร้อม action ใช้ Present Simple สำหรับเหตุการณ์สั้น และ Continuous สำหรับ background: She's playing magnificent tennis", "explanationEn": "live commentary: simple for main action, continuous for background", "rule": "Advanced 2B - live commentary"}, {"id": 45, "sentence": "It ____ (say) here that the government is giving the health service a lot more money.", "options": ["says", "is saying", "say"], "correctAnswer": "says", "explanationTh": "It says here... ใช้ Present Simple เพื่อนำข่าวที่ได้อ่านมา", "explanationEn": "It says here to introduce news read", "rule": "Advanced 2C - It says here"}, {"id": 46, "sentence": "I ____ (gather) you're worried about Ken.", "options": ["gather", "am gathering", "gathers"], "correctAnswer": "gather", "explanationTh": "I gather you're worried... ใช้ Present Simple เพื่อนำข่าวที่ได้ยินมา", "explanationEn": "I gather to introduce news heard", "rule": "Advanced 2C - I gather"}, {"id": 47, "sentence": "Jane ____ (tell) me you're thinking of emigrating.", "options": ["tells", "is telling", "tell"], "correctAnswer": "tells", "explanationTh": "Jane tells me you're thinking of emigrating. ใช้ Present Simple เพื่อนำข่าวที่ได้ยินมา", "explanationEn": "Jane tells me you're thinking...", "rule": "Advanced 2C - Someone tells me"}, {"id": 48, "sentence": "Professor Otto is at the conference and I ____ (hear) she's an excellent speaker.", "options": ["hear", "am hearing", "hears"], "correctAnswer": "hear", "explanationTh": "I hear she's an excellent speaker. ใช้ Present Simple เพื่อนำข่าวที่ได้ยินมา", "explanationEn": "I hear she's an excellent speaker", "rule": "Advanced 2C - I hear"}, {"id": 49, "sentence": "I ____ (see) Vegecorp are going to sack 1000 workers.", "options": ["see", "am seeing", "sees"], "correctAnswer": "see", "explanationTh": "I see Vegecorp are going to... ใช้ Present Simple เพื่อนำข่าวที่เห็นจากหนังสือพิมพ์", "explanationEn": "I see to introduce news seen", "rule": "Advanced 2C - I see"}, {"id": 50, "sentence": "QUAKE ____ (hit) CENTRAL IRAN - This is a newspaper headline.", "options": ["HITS", "IS HITTING", "HIT"], "correctAnswer": "HITS", "explanationTh": "พาดหัวข่าวหนังสือพิมพ์ ใช้ Present Simple แม้เหตุการณ์เพิ่งเกิด: QUAKE HITS CENTRAL IRAN", "explanationEn": "headline present simple for recent event", "rule": "Advanced 2D - headline"}, {"id": 51, "sentence": "FOREIGN MINISTER ____ (resign) - Headline.", "options": ["RESIGNS", "IS RESIGNING", "RESIGNED"], "correctAnswer": "RESIGNS", "explanationTh": "FOREIGN MINISTER RESIGNS พาดหัวข่าว ใช้ Present Simple", "explanationEn": "headline simple", "rule": "Advanced 2D - headline"}, {"id": 52, "sentence": "Thompson ____ (give) a list of the largest European companies in Chapter Six.", "options": ["gives", "is giving", "give"], "correctAnswer": "gives", "explanationTh": "Thompson gives a list... อ้างถึงเนื้อหาในหนังสือ ใช้ Present Simple", "explanationEn": "present simple to refer to contents of books", "rule": "Advanced 2D - book contents"}, {"id": 53, "sentence": "At the beginning of the book, three men ____ (find) $4 million in a crashed plane.", "options": ["find", "are finding", "finds"], "correctAnswer": "find", "explanationTh": "At the beginning of the book, three men find $4 million... ใช้ Present Simple เล่าเนื้อหา", "explanationEn": "present simple for book plot", "rule": "Advanced 2D - book plot"}, {"id": 54, "sentence": "In the film, Joan Smithson ____ (take) the role of a private detective.", "options": ["takes", "is taking", "take"], "correctAnswer": "takes", "explanationTh": "In the film, Joan Smithson takes the role... ใช้ Present Simple", "explanationEn": "film plot present simple", "rule": "Advanced 2D - film"}, {"id": 55, "sentence": "You ____ (constantly / change) your mind. I think I'll stay here after all.", "options": ["are constantly changing", "constantly change", "constantly changes"], "correctAnswer": "are constantly changing", "explanationTh": "You are constantly changing your mind. ใช้ Always/constantly + Continuous เพื่อเน้นว่าทำบ่อยจนเป็นลักษณะนิสัย มักแสดงความไม่พอใจ", "explanationEn": "constantly changing = done so often characteristic, disapproval", "rule": "Advanced 2E - constantly changing"}, {"id": 56, "sentence": "Tony is a really kind person. He ____ (always / offer) to help with my work.", "options": ["is always offering", "always offers", "always offer"], "correctAnswer": "is always offering", "explanationTh": "He's always offering to help... ทำบ่อยจนเป็นลักษณะคนใจดี ใช้ Continuous เพื่อเน้นลักษณะ", "explanationEn": "always offering = characteristic, not necessarily disapproval", "rule": "Advanced 2E - always offering characteristic"}, {"id": 57, "sentence": "I can't read this. You ____ (always / complain) about my handwriting.", "options": ["are always complaining", "always complain", "always complains"], "correctAnswer": "are always complaining", "explanationTh": "You're always complaining about my handwriting. บ่นบ่อย แสดงความรำคาญ", "explanationEn": "always complaining = disapproval", "rule": "Advanced 2E - always complaining"}, {"id": 58, "sentence": "At 8 o'clock I ____ (usually / drive) to work, so phone me on my mobile.", "options": ["am usually driving", "usually drive", "usually drives"], "correctAnswer": "am usually driving", "explanationTh": "At 8 o'clock I'm usually driving to work... ใช้ Present Continuous เพื่อบรรยายสิ่งที่ทำเป็นประจำในเวลาหนึ่ง", "explanationEn": "present continuous to describe regularly at certain time", "rule": "Advanced 2E - usually driving at certain time"}, {"id": 59, "sentence": "7 o'clock is a bit early. We ____ (generally / eat) then.", "options": ["are generally eating", "generally eat", "generally eats"], "correctAnswer": "are generally eating", "explanationTh": "We're generally eating then. ใช้ Continuous สำหรับสิ่งที่ทำเป็นประจำในเวลานั้น", "explanationEn": "We're generally eating then = regular at that time continuous", "rule": "Advanced 2E - generally eating"}, {"id": 60, "sentence": "Was Kath ____ (always / ask) you for money, too?", "options": ["always asking", "always asking / always ask", "always asks"], "correctAnswer": "always asking", "explanationTh": "Was Kath always asking you for money, too? Past Continuous กับ always ใช้เหมือน Present Continuous เพื่อแสดง disapproval", "explanationEn": "past continuous with always similar use", "rule": "Advanced 2E - past continuous always"}, {"id": 61, "sentence": "You said that there were only 50 books in the boxes. I ____ (just / wonder) whether you counted them all? (more polite than I just wonder...?)", "options": ["am just wondering / was just wondering", "just wonder", "just wonders"], "correctAnswer": "am just wondering / was just wondering", "explanationTh": "I'm just wondering / I was just wondering... ใช้ Continuous กับ wonder เพื่อให้สุภาพและเป็นมิตรมากขึ้น", "explanationEn": "I'm just wondering / I was just wondering more polite than I just wonder", "rule": "Advanced 2F - wonder polite"}, {"id": 62, "sentence": "I ____ (wonder) if you could help me. My car's broken down outside your house.", "options": ["wonder / am wondering", "wonder / wonders", "wonders / am wondering"], "correctAnswer": "wonder / am wondering", "explanationTh": "I wonder whether you could help me. หรือ I'm wondering... ใช้ Continuous เพื่อสุภาพ", "explanationEn": "I wonder whether you could help me - continuous more polite", "rule": "Advanced 2F - wonder polite"}, {"id": 63, "sentence": "Beckham ____ (pass) to Giggs who ____ (shoot) just over the bar. Manchester United ____ (attack) much more in this half...", "options": ["passes / shoots / are attacking", "is passing / is shooting / attack", "pass / shoot / attack"], "correctAnswer": "passes / shoots / are attacking", "explanationTh": "Beckham passes to Giggs who shoots just over the bar. Manchester United are attacking much more... Live commentary: simple สำหรับเหตุการณ์สั้น ต่อเนื่องสำหรับ background", "explanationEn": "passes / shoots = simple, are attacking = background continuous", "rule": "Advanced 2A/2B - pass shoot attack"}, {"id": 64, "sentence": "A man ____ (come) home late one night after the office Christmas party. His wife ____ (wait) for him, and she ____ (say) to him...", "options": ["comes / is waiting / says", "is coming / waits / says", "comes / waits / says"], "correctAnswer": "comes / is waiting / says", "explanationTh": "A man comes home... His wife is waiting... and she says... Main events simple, background waiting continuous", "explanationEn": "comes / is waiting / says - story", "rule": "Advanced 2A - story"}, {"id": 65, "sentence": "I went to a concert yesterday in the Town Hall. In the middle of it, while the orchestra ____ (play), this man suddenly ____ (stand) on his seat and ____ (start) to conduct them.", "options": ["was playing / stands / starts", "played / stood / started", "is playing / stands / starts"], "correctAnswer": "was playing / stands / starts", "explanationTh": "while the orchestra was playing (background past continuous) this man suddenly stands... (present simple to highlight event after past tenses)", "explanationEn": "past continuous background + present simple highlight with suddenly", "rule": "Advanced 2A - suddenly highlight"}, {"id": 66, "sentence": "Government ____ (give) health service billions - I ____ (see) the government's giving the health service a lot more money.", "options": ["gives / see", "is giving / am seeing", "gives / am seeing"], "correctAnswer": "gives / see", "explanationTh": "Government gives health service billions (headline present simple) - I see the government's giving... (I see to introduce news)", "explanationEn": "gives headline + I see to introduce news", "rule": "Advanced 2C/2D - headline + I see"}, {"id": 67, "sentence": "Vegecorp ____ (sack) 1000 workers - I ____ (hear) Vegecorp are going to sack 1000 workers.", "options": ["to sack / hear - is going to", "sacks / hear", "is sacking / am hearing"], "correctAnswer": "to sack / hear - is going to", "explanationTh": "Vegecorp to sack 1000 workers (headline infinitive for future) - I hear Vegecorp are going to...", "explanationEn": "headline to + verb for future, I hear + going to", "rule": "Advanced 2C/2D - headline to"}, {"id": 68, "sentence": "I can't read this. You ____ (always / complain) about my handwriting. (from Ex 2.3)", "options": ["are always complaining", "always complain", "always complains"], "correctAnswer": "are always complaining", "explanationTh": "You're always complaining about my handwriting. always + continuous = disapproval", "explanationEn": "You're always complaining = disapproval", "rule": "Advanced 2E - always complaining"}, {"id": 69, "sentence": "Can I borrow £10? You ____ (forever / ask) me for money!", "options": ["are forever asking", "forever ask", "forever asks"], "correctAnswer": "are forever asking", "explanationTh": "You're forever asking me for money! forever + continuous แสดงความรำคาญ", "explanationEn": "forever asking = disapproval", "rule": "Advanced 2E - forever asking"}, {"id": 70, "sentence": "That was a dangerous thing to do. You ____ (constantly / criticise) my driving!", "options": ["are constantly criticising", "constantly criticise", "constantly criticises"], "correctAnswer": "are constantly criticising", "explanationTh": "You're constantly criticising my driving. constantly + continuous", "explanationEn": "constantly criticising = characteristic disapproval", "rule": "Advanced 2E - constantly criticising"}, {"id": 71, "sentence": "I think I'll stay here after all. You ____ (continually / change) your mind.", "options": ["are continually changing", "continually change", "continually changes"], "correctAnswer": "are continually changing", "explanationTh": "You are continually changing your mind. continually + continuous", "explanationEn": "continually changing mind", "rule": "Advanced 2E - continually changing"}, {"id": 72, "sentence": "I ____ (wonder) whether you could help me. You see, my car's broken down outside your house.", "options": ["wonder", "am wondering", "wonders"], "correctAnswer": "wonder", "explanationTh": "I wonder whether you could help me. ใช้ Simple ก็ได้ แต่ Continuous สุภาพกว่า ทั้งคู่ถูก แต่ Simple เป็นพื้นฐาน", "explanationEn": "I wonder whether you could help me - simple OK, continuous more polite", "rule": "Advanced 2F - wonder"}, {"id": 73, "sentence": "'Do you think Philip would be good at the job?' 'Hmm, I ____ (doubt) it.'", "options": ["doubt", "am doubting", "doubts"], "correctAnswer": "doubt", "explanationTh": "I doubt it. doubt เป็น state rarely ใช้ Continuous", "explanationEn": "doubt rare continuous", "rule": "Advanced 1A - doubt"}, {"id": 74, "sentence": "'Shall I phone at 6.00?' 'No, we usually ____ (eat) dinner at that time.'", "options": ["eat", "are eating", "eats"], "correctAnswer": "eat", "explanationTh": "We usually eat dinner at that time. usually + Present Simple", "explanationEn": "usually eat = habit", "rule": "Advanced - usually"}, {"id": 75, "sentence": "I ____ (not / eat) lamb, thanks. I'm a vegetarian.", "options": ["don't eat", "am not eating", "doesn't eat"], "correctAnswer": "don't eat", "explanationTh": "I don't eat lamb. เป็นเรื่องทั่วไป ไม่กินเนื้อแกะ ใช้ Present Simple", "explanationEn": "don't eat lamb = general fact", "rule": "Advanced - don't eat"}, {"id": 76, "sentence": "Gielman ____ (present) Henry V in the latest production at the Royal Theatre.", "options": ["presents", "is presenting", "present"], "correctAnswer": "presents", "explanationTh": "Gielman presents Henry V... อ้างถึงเนื้อหาในหนังสือ/ละคร ใช้ Present Simple", "explanationEn": "presents Henry V = book/film content simple", "rule": "Advanced 2D - presents"}, {"id": 77, "sentence": "They constantly ____ (play) loud music until the early hours of the morning.", "options": ["play", "are playing", "plays"], "correctAnswer": "play", "explanationTh": "They constantly play loud music... constantly + Simple ก็ได้ถ้าเป็นนิสัยทั่วไป แต่ถ้าเน้น disapproval ใช้ are constantly playing", "explanationEn": "constantly play general habit, are constantly playing disapproval", "rule": "Advanced 2E - constantly play"}, {"id": 78, "sentence": "I normally ____ (take) the children to school at half eight. Perhaps we could meet at nine.", "options": ["take", "am taking", "takes"], "correctAnswer": "take", "explanationTh": "I normally take the children to school... ปกติทำ ใช้ Present Simple", "explanationEn": "normally take = habit", "rule": "Advanced - normally"}, {"id": 79, "sentence": "In his 1954 book, Wall ____ (present) a controversial view of Britain's role in the war in Europe.", "options": ["presents", "is presenting", "present"], "correctAnswer": "presents", "explanationTh": "In his 1954 book, Wall presents... อ้างถึงเนื้อหาในหนังสือ ใช้ Present Simple", "explanationEn": "presents in his book = contents simple", "rule": "Advanced 2D - book presents"}, {"id": 80, "sentence": "My car's in the garage today. They ____ (fit) new brakes.", "options": ["are fitting", "fit", "fits"], "correctAnswer": "are fitting", "explanationTh": "They are fitting new brakes. fit = install (action) ใช้ Continuous", "explanationEn": "fitting new brakes = action", "rule": "Advanced 1B - fit action"}, {"id": 81, "sentence": "I bought this jumper for Sue, but it ____ (not / fit) her so I'll have to take it back.", "options": ["doesn't fit", "isn't fitting", "don't fit"], "correctAnswer": "doesn't fit", "explanationTh": "It doesn't fit her = ขนาดไม่พอดี เป็น state ใช้ Simple", "explanationEn": "doesn't fit = state size", "rule": "Advanced 1B - fit state"}, {"id": 82, "sentence": "What's your shirt made from? It ____ (feel) like silk.", "options": ["feels", "is feeling", "feel"], "correctAnswer": "feels", "explanationTh": "It feels like silk. feel = มีความรู้สึกสัมผัส เป็น state ใช้ Simple", "explanationEn": "feels like silk = state", "rule": "Advanced 1B - feel state"}, {"id": 83, "sentence": "I ____ (not / come) to work today. I ____ (not / feel) very well.", "options": ["am not coming / don't feel", "don't come / am not feeling", "am not coming / am not feeling"], "correctAnswer": "am not coming / don't feel", "explanationTh": "I'm not coming to work today. (ชั่วคราววันนี้) I don't feel very well. (feel = อาการป่วย state)", "explanationEn": "not coming today temporary, don't feel very well state", "rule": "Advanced Mixed"}, {"id": 84, "sentence": "The roof of the house ____ (consist) only of plastic sheets nailed down in a few places.", "options": ["consists", "is consisting", "consist"], "correctAnswer": "consists", "explanationTh": "The roof consists only of... consist of เป็น state verb rarely ใช้ Continuous", "explanationEn": "consists of = state rarely continuous", "rule": "Advanced 1A - consist of"}, {"id": 85, "sentence": "Their school uniform ____ (consist) of black trousers and a dark green jumper.", "options": ["consists", "is consisting", "consist"], "correctAnswer": "consists", "explanationTh": "Their school uniform consists of... ใช้ Simple", "explanationEn": "consists of = state", "rule": "Advanced 1A - consist of"}, {"id": 86, "sentence": "Simon has been practising the song for days. It ____ (sound) quite good, but he doesn't think he's ready yet to perform it in public.", "options": ["sounds", "is sounding", "sound"], "correctAnswer": "sounds", "explanationTh": "It sounds quite good. sound = มีเสียง เป็น state ใช้ Simple", "explanationEn": "sounds quite good = state", "rule": "Advanced 1A - sound"}, {"id": 87, "sentence": "What's that noise? It ____ (sound) like a bird stuck in the chimney.", "options": ["sounds", "is sounding", "sound"], "correctAnswer": "sounds", "explanationTh": "It sounds like a bird stuck... sound = seem ใช้ Simple", "explanationEn": "sounds like a bird = state", "rule": "Advanced 1A - sound like"}, {"id": 88, "sentence": "I had a postcard from Joanne on holiday in Spain. It sounds like she ____ (have) a really good time.", "options": ["is having", "has", "have"], "correctAnswer": "is having", "explanationTh": "She is having a really good time. have a good time = กิจกรรม ใช้ Continuous ได้", "explanationEn": "having a good time = activity continuous", "rule": "Advanced 1B - have a good time"}, {"id": 89, "sentence": "My sister ____ (have) long blonde hair. You're bound to recognise her.", "options": ["has", "is having", "have"], "correctAnswer": "has", "explanationTh": "My sister has long blonde hair. has = มี เป็น state ใช้ Simple", "explanationEn": "has long blonde hair = state possession", "rule": "Advanced 1B - have state possession"}, {"id": 90, "sentence": "I've just started to learn how to drive. Now I ____ (know) how difficult it is, I'll never criticise your driving again.", "options": ["know", "am knowing", "knows"], "correctAnswer": "know", "explanationTh": "Now I know how difficult it is. know เป็น mental state rarely ใช้ Continuous", "explanationEn": "know is mental state rarely continuous", "rule": "Advanced 1C - know rare continuous"}, {"id": 91, "sentence": "She says that she wasn't in the kitchen when the bottle smashed, but I ____ (refuse) to believe her.", "options": ["refuse", "am refusing", "refuses"], "correctAnswer": "refuse", "explanationTh": "I refuse to believe her. refuse เป็น performative ใช้ Simple", "explanationEn": "refuse is performative simple", "rule": "Advanced 1D - refuse"}, {"id": 92, "sentence": "I ____ (certainly / agree) with you that people shouldn't drink and drive.", "options": ["certainly agree", "am certainly agreeing", "certainly agrees"], "correctAnswer": "certainly agree", "explanationTh": "I certainly agree with you... agree เป็น mental state rarely ใช้ Continuous", "explanationEn": "agree rarely continuous", "rule": "Advanced 1C - agree"}, {"id": 93, "sentence": "I know the company has made a loss this year, but I ____ (not / apologise) / I ____ (not / apologise) for that.", "options": ["don't apologise / am not apologising", "am not apologising / don't apologise", "don't apologise / don't apologise"], "correctAnswer": "don't apologise / am not apologising", "explanationTh": "I don't apologise / I'm not apologising for that. performative negative ใช้ได้ทั้ง Simple และ Continuous ความหมายคล้ายกัน", "explanationEn": "apologise negative both simple and continuous similar meaning", "rule": "Advanced 1D - apologise negative both"}, {"id": 94, "sentence": "It's very difficult for us to get jobs here, so we ____ (consider) emigrating to Canada.", "options": ["are considering", "consider", "considers"], "correctAnswer": "are considering", "explanationTh": "We're considering emigrating to Canada. consider = think carefully about ใช้เฉพาะ Continuous", "explanationEn": "considering = only continuous", "rule": "Advanced 1C - consider only continuous"}, {"id": 95, "sentence": "I went to see a Formula One race last week, but I ____ (admit) / I ____ (admit) that I don't know much about cars.", "options": ["admit / am admitting", "admit / admit", "am admitting / am admitting"], "correctAnswer": "admit / am admitting", "explanationTh": "I admit / I'm admitting that I don't know much... admit เป็น performative ใช้ Simple ปกติ แต่ในบางกรณีใช้ Continuous ก็ได้", "explanationEn": "admit performative can be simple or continuous? Usually simple", "rule": "Advanced 1D - admit"}, {"id": 96, "sentence": "SCIENTISTS ____ (find) BRIGHTEST STAR - Headline.", "options": ["FIND", "ARE FINDING", "FOUND"], "correctAnswer": "FIND", "explanationTh": "SCIENTISTS FIND BRIGHTEST STAR พาดหัวข่าว ใช้ Present Simple", "explanationEn": "headline FIND", "rule": "Advanced 2D - headline FIND"}, {"id": 97, "sentence": "FIRE ____ (break) OUT IN HOTEL ROOM - Headline.", "options": ["BREAKS", "IS BREAKING", "BROKE"], "correctAnswer": "BREAKS", "explanationTh": "FIRE BREAKS OUT IN HOTEL ROOM พาดหัวข่าว ใช้ Present Simple", "explanationEn": "headline BREAKS", "rule": "Advanced 2D - headline BREAKS"}, {"id": 98, "sentence": "I ____ (understand) biology a lot better now that we've got a new teacher. (Ex 1.2)", "options": ["understand", "am understanding", "understands"], "correctAnswer": "understand", "explanationTh": "I understand biology a lot better now... understand เป็น mental state ใช้ Simple ปกติ (แต่บางครั้งใช้ Continuous เพื่อเน้นเพิ่งเริ่มเข้าใจก็ได้)", "explanationEn": "understand simple normally", "rule": "Advanced 1C - understand"}, {"id": 99, "sentence": "We'll do our best to get the computer repaired by next week, but we ____ (not / guarantee) it.", "options": ["don't guarantee / aren't guaranteeing", "don't guarantee", "aren't guaranteeing"], "correctAnswer": "don't guarantee / aren't guaranteeing", "explanationTh": "We don't guarantee / We're not guaranteeing it. guarantee เป็น performative negative ใช้ได้ทั้ง Simple และ Continuous", "explanationEn": "guarantee negative both simple and continuous", "rule": "Advanced 1D - guarantee negative both"}, {"id": 100, "sentence": "In the film, three men ____ (find) $4 million in a crashed plane and then...", "options": ["find", "are finding", "finds"], "correctAnswer": "find", "explanationTh": "In the film, three men find $4 million... เล่าเนื้อหาหนัง ใช้ Present Simple", "explanationEn": "film plot present simple", "rule": "Advanced 2D - film find"}];
+
+function shuffleArray(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function App(){
+  const [exam, setExam] = useState([]);
+  const [idx, setIdx] = useState(0);
+  const [score, setScore] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [showExp, setShowExp] = useState(false);
+  const [answered, setAnswered] = useState([]);
+  const [showSummary, setShowSummary] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [name, setName] = useState("");
+  const [classRoom, setClassRoom] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const generateExam = () => {
+    const shuffledPool = shuffleArray(QPOOL);
+    const twenty = shuffledPool.slice(0,20).map(q=>{
+      const shuffledOpts = shuffleArray(q.options);
+      return {...q, options: shuffledOpts};
+    });
+    setExam(twenty);
+    setIdx(0);
+    setScore(0);
+    setSelected(null);
+    setShowExp(false);
+    setAnswered([]);
+    setShowSummary(false);
+    setShowModal(false);
+    setSent(false);
+  };
+
+  useEffect(()=>{ generateExam(); }, []);
+
+  const currentQ = exam[idx];
+
+  const handleSelect = (opt) => {
+    if(showExp) return;
+    setSelected(opt);
+    const isCorrect = opt === currentQ.correctAnswer;
+    if(isCorrect) setScore(s=>s+1);
+    setAnswered(a=>[...a, {q: currentQ, chosen: opt, correct: isCorrect}]);
+    setShowExp(true);
+  };
+
+  const handleNext = () => {
+    if(idx < exam.length-1){
+      setIdx(i=>i+1);
+      setSelected(null);
+      setShowExp(false);
+      window.scrollTo({top:0, behavior:'smooth'});
+    }else{
+      setShowSummary(true);
+      setTimeout(()=> setShowModal(true), 400);
+    }
+  };
+
+  const handlePrev = () => {
+    if(idx>0){
+      setIdx(i=>i-1);
+      const prevAns = answered[idx-1];
+      setSelected(prevAns ? prevAns.chosen : null);
+      setShowExp(!!prevAns);
+    }
+  };
+
+  const jumpTo = (i) => {
+    setIdx(i);
+    const ans = answered[i];
+    if(ans){
+      setSelected(ans.chosen);
+      setShowExp(true);
+    }else{
+      setSelected(null);
+      setShowExp(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if(!name.trim()){ alert("กรอกชื่อก่อนนะครับ 😊"); return; }
+    setSending(true);
+    const total = exam.length;
+    const percent = total>0 ? Math.round(score/total*100) : 0;
+    const payload = {
+      name: name.trim(),
+      classRoom: classRoom.trim(),
+      testName: TEST_NAME,
+      score: score,
+      total: total,
+      percent: percent,
+      details: `${TEST_NAME} - ${score}/${total} (${percent}%)`,
+      timestamp: new Date().toISOString()
+    };
+    try{
+      await fetch(GOOGLE_URL, {method:"POST", mode:"no-cors", headers:{"Content-Type":"application/json"}, body: JSON.stringify(payload)});
+      setSent(true);
+      setTimeout(()=> setShowModal(false), 2000);
+    }catch(e){
+      alert("ส่งไม่สำเร็จ: "+e.message);
+    }finally{
+      setSending(false);
+    }
+  };
+
+  if(exam.length===0) return <div className="p-10 text-center">กำลังโหลด...</div>;
+
+  if(showSummary){
+    const total = exam.length;
+    const percent = total>0 ? Math.round(score/total*100) : 0;
+    return (
+      <div className="min-h-screen bg-[#f8f7ff]">
+        <div className="bg-white border-b border-zinc-100">
+          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <button onClick={generateExam} className="inline-flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2 rounded-full text-[13px] font-bold shadow-sm hover:bg-zinc-50">🏠 หน้าแรก</button>
+              <div>
+                <h1 className="text-[18px] sm:text-[20px] font-bold leading-tight">Present Simple vs Present Continuous - Advanced</h1>
+                <p className="text-[12px] text-zinc-500">พื้นฐาน 100 ข้อ • สุ่ม 20 ข้อ • คลัง 100 ข้อ</p>
+              </div>
+            </div>
+            <button onClick={generateExam} className="hidden sm:inline-flex bg-indigo-600 text-white px-5 py-2.5 rounded-full text-[13px] font-bold hover:bg-indigo-700">🔀 สุ่มใหม่ 20 ข้อ</button>
+          </div>
+        </div>
+
+        <div className="max-w-[720px] mx-auto px-4 py-8">
+          <div className="bg-white rounded-[24px] border border-zinc-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden p-6 sm:p-8 text-center">
+            <h2 className="text-[22px] sm:text-[26px] font-bold tracking-tight">สรุปผลการทดสอบ</h2>
+            <p className="text-[13px] text-zinc-500 mt-1">Present Simple vs Present Continuous - Advanced</p>
+            <div className="mt-6 flex justify-center items-end gap-3">
+              <span className="text-[44px] font-black leading-none text-indigo-600">{score}</span>
+              <span className="text-[22px] font-bold text-zinc-400 mb-2">/ {total}</span>
+            </div>
+            <p className="mt-2 text-[14px]">ได้ <b>{score} / {total}</b> ({percent}%)</p>
+            <div className="mt-6 grid grid-cols-2 gap-3 text-left">
+              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
+                <p className="text-[12px] text-emerald-600 font-semibold">ถูก</p>
+                <p className="text-[26px] font-black text-emerald-700">{score}</p>
+              </div>
+              <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 text-center">
+                <p className="text-[12px] text-rose-600 font-semibold">ผิด</p>
+                <p className="text-[26px] font-black text-rose-700">{total-score}</p>
+              </div>
+            </div>
+            <div className="mt-6 flex gap-3 justify-center flex-wrap">
+              <button onClick={generateExam} className="bg-zinc-900 text-white px-6 py-3 rounded-full text-[14px] font-bold hover:bg-zinc-800">🔄 ทำใหม่ (สุ่มใหม่ 20 ข้อ)</button>
+              <button onClick={()=>setShowModal(true)} className="bg-indigo-600 text-white px-6 py-3 rounded-full text-[14px] font-bold hover:bg-indigo-700">📊 ส่งคะแนน</button>
+            </div>
+            <div className="mt-8 text-left">
+              <h3 className="font-bold text-[14px] mb-3">ดูเฉลยทั้งหมด</h3>
+              <div className="grid gap-2 max-h-[400px] overflow-auto pr-1">
+                {answered.map((a,i)=>(
+                  <div key={i} className={`p-3 rounded-xl border text-[13px] ${a.correct?'bg-emerald-50 border-emerald-200':'bg-rose-50 border-rose-200'}`}>
+                    <p className="font-semibold">{i+1}. {a.q.sentence}</p>
+                    <p>ตอบ: {a.chosen} {a.correct?'✅':'❌'} | เฉลย: {a.q.correctAnswer}</p>
+                    <p className="text-[11px] text-zinc-500 mt-1">{a.q.explanationTh}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+            <div className="bg-white rounded-[20px] w-full max-w-[420px] p-6 shadow-2xl">
+              <h3 className="text-[18px] font-bold">📊 ส่งคะแนน</h3>
+              <div className="mt-3 bg-indigo-50 border border-indigo-200 rounded-xl p-3 text-center text-[13px]">
+                📊 <b>{TEST_NAME}</b><br/>
+                ได้ <b style={{fontSize:'18px', color:'#4f46e5'}}>{score} / {total}</b> ({percent}%)
+              </div>
+              <div className="mt-4 grid gap-3">
+                <input value={name} onChange={e=>setName(e.target.value)} placeholder="ชื่อ-นามสกุล *" className="w-full border border-zinc-300 rounded-xl px-4 py-3 text-[14px] focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+                <input value={classRoom} onChange={e=>setClassRoom(e.target.value)} placeholder="ชั้น / ห้อง (เช่น ม.2/1)" className="w-full border border-zinc-300 rounded-xl px-4 py-3 text-[14px] focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+                {sent ? (
+                  <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl p-3 text-[13px] text-center">✅ <b>ส่งสำเร็จ!</b><br/>คะแนน: {score}/{total}</div>
+                ) : (
+                  <button onClick={handleSubmit} disabled={sending} className="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold text-[14px] hover:bg-indigo-700 disabled:opacity-60">
+                    {sending ? "⏳ กำลังส่ง..." : "✅ ส่งคะแนน"}
+                  </button>
+                )}
+                <button onClick={()=>setShowModal(false)} className="w-full bg-zinc-100 text-zinc-700 py-2.5 rounded-xl font-semibold text-[13px] hover:bg-zinc-200">ปิด</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#f8f7ff]">
+      {/* TOP BAR - ธีมเดิมแบบในรูป */}
+      <div className="bg-white border-b border-zinc-100 sticky top-0 z-20">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <button onClick={generateExam} className="shrink-0 inline-flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2 rounded-full text-[13px] font-bold shadow-sm hover:bg-zinc-50">🏠 หน้าแรก</button>
+            <div className="min-w-0">
+              <h1 className="text-[15px] sm:text-[20px] font-bold leading-tight tracking-tight truncate">Present Simple vs Present Continuous - Advanced <span className="text-zinc-500 font-medium">— พื้นฐาน 100 ข้อ</span></h1>
+              <p className="text-[11px] sm:text-[12px] text-zinc-500 hidden sm:block">แบบขั้นสูง Advanced คลัง 100 ข้อ สุ่มทำรอบละ 20 ข้อ ตาม Cambridge Advanced Grammar</p>
+            </div>
+          </div>
+          <button onClick={generateExam} className="shrink-0 inline-flex items-center gap-2 bg-indigo-600 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-[12px] sm:text-[13px] font-bold hover:bg-indigo-700 shadow">🔀 สุ่มใหม่ 20 ข้อ</button>
+        </div>
+      </div>
+
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[1.6fr_0.9fr] gap-6 items-start">
+        {/* LEFT QUESTION CARD */}
+        <div className="bg-white rounded-[20px] sm:rounded-[24px] border border-zinc-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden">
+          <div className="px-5 sm:px-7 pt-5 pb-4 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="bg-indigo-50 text-indigo-600 border border-indigo-100 px-3 py-1 rounded-full text-[12px] font-bold">ข้อ {idx+1} / {exam.length}</span>
+              <span className="text-[12px] text-zinc-500">คลัง 100 ข้อ</span>
+            </div>
+            <div className="flex gap-1">
+              {exam.map((_,i)=>(
+                <span key={i} className={`h-1.5 rounded-full transition-all ${i===idx ? 'w-6 bg-indigo-400' : i < idx ? 'w-1.5 bg-indigo-200' : 'w-1.5 bg-zinc-200'}`}></span>
+              ))}
+            </div>
+          </div>
+
+          <div className="px-5 sm:px-7 pb-5">
+            <div className="bg-[#f6f5ff] border border-[#e9e5ff] rounded-[16px] sm:rounded-[20px] p-5 sm:p-7">
+              <p className="text-[19px] sm:text-[22px] font-medium leading-[1.6] tracking-normal text-zinc-800">
+                {currentQ.sentence.split("____").map((part,i,arr)=>(
+                  <React.Fragment key={i}>
+                    {part}
+                    {i < arr.length-1 && (
+                      <span className="inline-flex items-center justify-center min-w-[84px] sm:min-w-[108px] mx-2 px-3 py-1 rounded-xl bg-white border border-indigo-200 text-indigo-400 font-bold text-[16px] sm:text-[18px] translate-y-[-1px] shadow-sm">____</span>
+                    )}
+                  </React.Fragment>
+                ))}
+              </p>
+            </div>
+          </div>
+
+          <div className="px-5 sm:px-7 pb-6 grid gap-3">
+            {currentQ.options.map((opt,i)=>{
+              const isCorrectOpt = opt === currentQ.correctAnswer;
+              const isSelected = selected === opt;
+              let cls = "bg-white border-zinc-200 hover:border-indigo-300 hover:bg-indigo-50/40";
+              let circleCls = "border-zinc-300 bg-white";
+              if(showExp){
+                if(isCorrectOpt) {cls="bg-indigo-50 border-indigo-400 text-indigo-900 ring-2 ring-indigo-200"; circleCls="bg-indigo-500 border-indigo-500 text-white";}
+                else if(isSelected && !isCorrectOpt) {cls="bg-rose-50 border-rose-300 text-rose-800"; circleCls="bg-rose-500 border-rose-500 text-white";}
+                else {cls="bg-zinc-50 border-zinc-200 opacity-60";}
+              }else if(isSelected){
+                cls="bg-zinc-900 border-zinc-900 text-white";
+                circleCls="bg-white border-white text-zinc-800";
+              }
+              return (
+                <button key={i} type="button" onClick={()=>handleSelect(opt)} className={`w-full text-left flex items-center justify-between gap-3 px-4 sm:px-5 py-3.5 sm:py-4 rounded-[14px] sm:rounded-[16px] border text-[15px] sm:text-[16px] font-medium transition-all ${cls}`}>
+                  <span className="flex items-center gap-3 sm:gap-4">
+                    <span className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[12px] font-bold border-2 shrink-0 ${circleCls}`}>
+                      {showExp && isCorrectOpt ? "✓" : showExp && isSelected && !isCorrectOpt ? "✗" : ""}
+                    </span>
+                    <span className="font-semibold">{opt}</span>
+                  </span>
+                  <span className="text-[12px] sm:text-[13px] font-bold opacity-60">
+                    {!showExp ? "เลือก" : isCorrectOpt ? "ถูก" : ""}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {showExp && (
+            <div className="px-5 sm:px-7 pb-6">
+              <div className={`rounded-[14px] border p-4 ${selected===currentQ.correctAnswer ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'}`}>
+                <p className={`text-[13px] font-bold ${selected===currentQ.correctAnswer ? 'text-emerald-700' : 'text-rose-700'}`}>
+                  {selected===currentQ.correctAnswer ? '✅ ถูกต้อง!' : `❌ คำตอบที่ถูกคือ: ${currentQ.correctAnswer}`}
+                </p>
+                <p className="text-[12px] text-zinc-700 mt-1.5 leading-relaxed"><b>ไทย:</b> {currentQ.explanationTh}</p>
+                <p className="text-[11px] text-zinc-500 mt-1"><b>EN:</b> {currentQ.explanationEn}</p>
+              </div>
+            </div>
+          )}
+
+          <div className="px-5 sm:px-7 pb-6 flex items-center justify-between gap-3">
+            <button onClick={handlePrev} disabled={idx===0} className="inline-flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2.5 rounded-full text-[13px] font-bold disabled:opacity-40 hover:bg-zinc-50">← ก่อนหน้า</button>
+            <button onClick={handleNext} disabled={!showExp} className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-2.5 rounded-full text-[13px] font-bold disabled:opacity-40 hover:bg-indigo-700 shadow-[0_4px_16px_rgba(79,70,229,0.3)]">
+              {idx < exam.length-1 ? "ข้อถัดไป →" : "ดูสรุปผล 📊"}
+            </button>
+          </div>
+
+          <div className="px-5 sm:px-7 pb-4 text-[11px] text-zinc-400 text-center">คะแนนตอนนี้: {score} / {exam.length} • ช้อยส์สุ่มแล้ว ไม่ใช่ข้อแรกเสมอ</div>
+        </div>
+
+        {/* RIGHT LIST - แบบในรูป */}
+        <div className="bg-white rounded-[20px] sm:rounded-[24px] border border-zinc-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)] p-5 sm:p-6">
+          <h3 className="font-bold text-[14px] mb-4">รายการข้อสอบ (20 ข้อ)</h3>
+          <div className="grid grid-cols-5 gap-2 sm:gap-3">
+            {exam.map((_,i)=>{
+              const ans = answered[i];
+              const isCurrent = i===idx;
+              let cls = "bg-zinc-50 border-zinc-200 text-zinc-400 hover:bg-zinc-100";
+              if(ans) cls = ans.correct ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-rose-50 border-rose-200 text-rose-700";
+              if(isCurrent) cls = "bg-white border-indigo-500 text-indigo-600 ring-2 ring-indigo-200";
+              return (
+                <button key={i} onClick={()=>jumpTo(i)} className={`h-[56px] rounded-[14px] border text-[13px] font-bold flex flex-col items-center justify-center gap-0.5 transition-all ${cls}`}>
+                  <span>{i+1}</span>
+                  <span className="text-[10px] leading-none">{ans ? (ans.correct ? "✓" : "✗") : "•"}</span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="mt-5 bg-zinc-50 border border-zinc-100 rounded-xl p-3 text-[11px] leading-relaxed text-zinc-500">
+            ตัวอย่างที่ผิดบ่อย: <span className="text-zinc-700">They are come</span> <span className="text-rose-600 font-bold">❌</span> ต้องเป็น <b className="text-zinc-800">They come</b> (ไม่เติม) เพราะ come เป็นกริยาแท้แล้ว
+          </div>
+        </div>
+      </div>
+
+      <div className="text-center py-6 text-[11px] text-zinc-400">สร้างตามโจทย์ที่ให้มา — แก้ให้ถูกต้อง: ประโยคที่มีกริยาแท้แล้ว (come, build, bites...) ต้องตอบ ไม่เติม ห้ามใส่ is/am/are</div>
+
+      {showModal && !showSummary && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-[20px] w-full max-w-[420px] p-6 shadow-2xl">
+            <h3 className="text-[18px] font-bold">📊 ใกล้จบแล้ว</h3>
+            <p className="text-[13px] text-zinc-500 mt-1">ทำครบ {exam.length} ข้อแล้ว กดดูสรุปผลได้เลย</p>
+            <button onClick={()=>{setShowSummary(true); setShowModal(false); setTimeout(()=>setShowModal(true),400);}} className="mt-4 w-full bg-indigo-600 text-white py-3 rounded-xl font-bold text-[14px]">ดูสรุปผล 📊</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+</script>
+</body>
+</html>

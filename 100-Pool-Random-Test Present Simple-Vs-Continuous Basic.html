@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Present Simple vs Present Continuous - Basic - 100 ข้อ (Purple Fixed)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Prompt','Inter',system-ui,sans-serif; background:#f8f7ff;}
+</style>
+</head>
+<body class="min-h-screen bg-[#f8f7ff] text-zinc-800">
+<div id="root"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbzc4ofn7BMgVzfjRwMe2Mifuk0kp8vVQwlAkV4FKoIcG2qnNxPKuvBM2lTDD6I-Mpf0/exec";
+const TEST_NAME = "Present Simple Vs Present Continuous - Basic";
+
+const QPOOL = [{"id": 1, "sentence": "I ____ (work) in a bank.", "options": ["work", "am working", "works"], "correctAnswer": "work", "explanationTh": "ฉันทำงานในธนาคาร เป็นความจริงทั่วไป ใช้ Present Simple", "explanationEn": "I work in a bank = general truth", "rule": "Present Simple - job"}, {"id": 2, "sentence": "My father ____ (work) in a factory.", "options": ["works", "is working", "work"], "correctAnswer": "works", "explanationTh": "My father works... he/she/it เติม s ใช้ Present Simple", "explanationEn": "My father works - he/she/it + s", "rule": "Present Simple - he/she/it"}, {"id": 3, "sentence": "She ____ (live) in Bangkok.", "options": ["lives", "is living", "live"], "correctAnswer": "lives", "explanationTh": "เธออาศัยในกรุงเทพ เป็นความจริงทั่วไป ใช้ Present Simple", "explanationEn": "She lives in Bangkok = fact", "rule": "Present Simple - lives"}, {"id": 4, "sentence": "We ____ (have) two dogs.", "options": ["have", "are having", "has"], "correctAnswer": "have", "explanationTh": "We have two dogs. have = มี เป็น stative ใช้ Simple", "explanationEn": "have = possession, simple", "rule": "Present Simple - have"}, {"id": 5, "sentence": "Water ____ (boil) at 100 degrees.", "options": ["boils", "is boiling", "boil"], "correctAnswer": "boils", "explanationTh": "น้ำเดือดที่ 100 องศา ความจริงทั่วไป", "explanationEn": "boils at 100 degrees = truth", "rule": "Present Simple - truth"}, {"id": 6, "sentence": "The sun ____ (rise) in the east.", "options": ["rises", "is rising", "rise"], "correctAnswer": "rises", "explanationTh": "พระอาทิตย์ขึ้นทางทิศตะวันออก ความจริงทั่วไป", "explanationEn": "sun rises in east = truth", "rule": "Present Simple - truth"}, {"id": 7, "sentence": "They ____ (go) to school every day.", "options": ["go", "are going", "goes"], "correctAnswer": "go", "explanationTh": "ไปโรงเรียนทุกวัน ใช้ Present Simple กับ every day", "explanationEn": "every day = present simple", "rule": "Present Simple - every day"}, {"id": 8, "sentence": "He ____ (get up) at 6 o'clock every morning.", "options": ["gets up", "is getting up", "get up"], "correctAnswer": "gets up", "explanationTh": "ตื่น 6 โมงทุกเช้า ใช้ Present Simple", "explanationEn": "every morning = habit", "rule": "Present Simple - every morning"}, {"id": 9, "sentence": "I usually ____ (have) breakfast at 7 o'clock.", "options": ["have", "am having", "has"], "correctAnswer": "have", "explanationTh": "ปกติกินข้าวเช้า 7 โมง ใช้ usually + Present Simple", "explanationEn": "usually have breakfast", "rule": "Present Simple - usually"}, {"id": 10, "sentence": "She always ____ (drink) coffee in the morning.", "options": ["drinks", "is drinking", "drink"], "correctAnswer": "drinks", "explanationTh": "เธอดื่มกาแฟตอนเช้าเสมอ ใช้ always + Present Simple", "explanationEn": "always drinks = habit", "rule": "Present Simple - always"}, {"id": 11, "sentence": "We often ____ (watch) TV in the evening.", "options": ["watch", "are watching", "watches"], "correctAnswer": "watch", "explanationTh": "เราดูทีวีตอนเย็นบ่อย ใช้ often + Present Simple", "explanationEn": "often watch TV", "rule": "Present Simple - often"}, {"id": 12, "sentence": "He ____ (not / like) vegetables.", "options": ["doesn't like", "isn't liking", "don't like"], "correctAnswer": "doesn't like", "explanationTh": "เขาไม่ชอบผัก like เป็น stative ใช้ doesn't like", "explanationEn": "doesn't like vegetables", "rule": "Present Simple - negative"}, {"id": 13, "sentence": "____ you ____ (speak) English?", "options": ["Do / speak", "Are / speaking", "Does / speak"], "correctAnswer": "Do / speak", "explanationTh": "Do you speak English? ถามความสามารถทั่วไป ใช้ Present Simple", "explanationEn": "Do you speak English? ability", "rule": "Present Simple - question"}, {"id": 14, "sentence": "What time ____ the shop ____ (open)?", "options": ["does / open", "is / opening", "do / open"], "correctAnswer": "does / open", "explanationTh": "ร้านเปิดกี่โมง ใช้ Present Simple ถามเวลาเปิด", "explanationEn": "What time does shop open? timetable", "rule": "Present Simple - timetable"}, {"id": 15, "sentence": "My brother ____ (not / work) on Sundays.", "options": ["doesn't work", "isn't working", "don't work"], "correctAnswer": "doesn't work", "explanationTh": "น้องชายไม่ทำงานวันอาทิตย์ ใช้ doesn't work", "explanationEn": "doesn't work on Sundays", "rule": "Present Simple - doesn't"}, {"id": 16, "sentence": "How often ____ you ____ (go) to the cinema?", "options": ["do / go", "are / going", "does / go"], "correctAnswer": "do / go", "explanationTh": "How often do you go... ถามความถี่ ใช้ Present Simple", "explanationEn": "How often do you go", "rule": "Present Simple - how often"}, {"id": 17, "sentence": "Birds ____ (fly) in the sky.", "options": ["fly", "are flying", "flies"], "correctAnswer": "fly", "explanationTh": "นกบินบนท้องฟ้า เป็นเรื่องทั่วไป", "explanationEn": "Birds fly = general", "rule": "Present Simple - general"}, {"id": 18, "sentence": "She ____ (teach) English at a school.", "options": ["teaches", "is teaching", "teach"], "correctAnswer": "teaches", "explanationTh": "เธอสอนภาษาอังกฤษที่โรงเรียน เป็นอาชีพ ใช้ Present Simple", "explanationEn": "teaches English = job", "rule": "Present Simple - teaches"}, {"id": 19, "sentence": "I ____ (not / understand) this question.", "options": ["don't understand", "am not understanding", "doesn't understand"], "correctAnswer": "don't understand", "explanationTh": "I don't understand... understand เป็น stative ไม่ใช้ Continuous", "explanationEn": "don't understand = stative", "rule": "Stative - understand"}, {"id": 20, "sentence": "He ____ (want) a new bike.", "options": ["wants", "is wanting", "want"], "correctAnswer": "wants", "explanationTh": "He wants a new bike. want เป็น stative ใช้ Simple", "explanationEn": "wants = stative", "rule": "Stative - want"}, {"id": 21, "sentence": "Look! It ____ (rain) outside.", "options": ["is raining", "rains", "rain"], "correctAnswer": "is raining", "explanationTh": "Look! ฝนกำลังตกตอนนี้ ใช้ Present Continuous", "explanationEn": "Look! It is raining now", "rule": "Present Continuous - now"}, {"id": 22, "sentence": "Listen! The baby ____ (cry).", "options": ["is crying", "cries", "cry"], "correctAnswer": "is crying", "explanationTh": "Listen! เด็กกำลังร้องไห้ตอนนี้ ใช้ Present Continuous", "explanationEn": "Listen! baby is crying now", "rule": "Present Continuous - now"}, {"id": 23, "sentence": "I ____ (watch) TV now.", "options": ["am watching", "watch", "watches"], "correctAnswer": "am watching", "explanationTh": "ฉันกำลังดูทีวีตอนนี้ ใช้ Present Continuous กับ now", "explanationEn": "watching TV now", "rule": "Present Continuous - now"}, {"id": 24, "sentence": "She ____ (cook) dinner at the moment.", "options": ["is cooking", "cooks", "cook"], "correctAnswer": "is cooking", "explanationTh": "เธอกำลังทำอาหารเย็นตอนนี้ ใช้ at the moment + Continuous", "explanationEn": "cooking at the moment", "rule": "Present Continuous - at the moment"}, {"id": 25, "sentence": "They ____ (play) football now.", "options": ["are playing", "play", "plays"], "correctAnswer": "are playing", "explanationTh": "พวกเขากำลังเล่นฟุตบอลตอนนี้", "explanationEn": "are playing now", "rule": "Present Continuous - now"}, {"id": 26, "sentence": "We ____ (have) lunch now.", "options": ["are having", "have", "has"], "correctAnswer": "are having", "explanationTh": "We are having lunch now. have lunch เป็นกิจกรรม ใช้ Continuous ได้ตอนนี้", "explanationEn": "having lunch now = activity", "rule": "Present Continuous - having lunch"}, {"id": 27, "sentence": "What ____ you ____ (do) now?", "options": ["are / doing", "do / do", "does / do"], "correctAnswer": "are / doing", "explanationTh": "What are you doing now? ถามว่ากำลังทำอะไรอยู่ตอนนี้", "explanationEn": "What are you doing now?", "rule": "Present Continuous - question now"}, {"id": 28, "sentence": "He ____ (not / sleep) now. He ____ (watch) TV.", "options": ["isn't sleeping / is watching", "doesn't sleep / watches", "isn't sleeping / watches"], "correctAnswer": "isn't sleeping / is watching", "explanationTh": "ตอนนี้เขาไม่ได้หลับ กำลังดูทีวี ใช้ Continuous ทั้งคู่", "explanationEn": "isn't sleeping now, is watching now", "rule": "Present Continuous - not sleeping now"}, {"id": 29, "sentence": "Where ____ you ____ (go)? To the shop.", "options": ["are / going", "do / go", "does / go"], "correctAnswer": "are / going", "explanationTh": "Where are you going? กำลังจะไปไหนตอนนี้ ใช้ Continuous", "explanationEn": "Where are you going now", "rule": "Present Continuous - going"}, {"id": 30, "sentence": "I ____ (read) a book at the moment.", "options": ["am reading", "read", "reads"], "correctAnswer": "am reading", "explanationTh": "ฉันกำลังอ่านหนังสือตอนนี้ ใช้ at the moment", "explanationEn": "am reading at the moment", "rule": "Present Continuous - at the moment"}, {"id": 31, "sentence": "I ____ (stay) at my friend's house this week.", "options": ["am staying", "stay", "stays"], "correctAnswer": "am staying", "explanationTh": "อาทิตย์นี้พักบ้านเพื่อน ชั่วคราว ใช้ Present Continuous", "explanationEn": "staying this week temporary", "rule": "Present Continuous - this week"}, {"id": 32, "sentence": "She ____ (work) from home today.", "options": ["is working", "works", "work"], "correctAnswer": "is working", "explanationTh": "วันนี้ทำงานจากบ้าน ชั่วคราววันนี้ ใช้ Continuous", "explanationEn": "working from home today temporary", "rule": "Present Continuous - today"}, {"id": 33, "sentence": "They ____ (build) a new road this month.", "options": ["are building", "build", "builds"], "correctAnswer": "are building", "explanationTh": "เดือนนี้กำลังสร้างถนนใหม่ ยังไม่เสร็จ ใช้ Continuous", "explanationEn": "building this month around now", "rule": "Present Continuous - this month"}, {"id": 34, "sentence": "What ____ you ____ (do) these days?", "options": ["are / doing", "do / do", "does / do"], "correctAnswer": "are / doing", "explanationTh": "ช่วงนี้คุณทำอะไรอยู่ ใช้ these days + Continuous", "explanationEn": "What are you doing these days around now", "rule": "Present Continuous - these days"}, {"id": 35, "sentence": "I ____ (learn) to drive these days.", "options": ["am learning", "learn", "learns"], "correctAnswer": "am learning", "explanationTh": "ช่วงนี้กำลังเรียนขับรถ ใช้ these days + Continuous", "explanationEn": "learning these days", "rule": "Present Continuous - these days"}, {"id": 36, "sentence": "I ____ (go) to school every day, but today I ____ (stay) at home.", "options": ["go / am staying", "am going / stay", "go / stay"], "correctAnswer": "go / am staying", "explanationTh": "ไปโรงเรียนทุกวัน ใช้ Present Simple แต่ วันนี้อยู่บ้าน ชั่วคราว ใช้ Continuous", "explanationEn": "go every day simple, am staying today temporary", "rule": "Mixed - every day vs today"}, {"id": 37, "sentence": "She ____ (work) in a bank, but this week she ____ (work) in a shop.", "options": ["works / is working", "is working / works", "works / works"], "correctAnswer": "works / is working", "explanationTh": "ทำงานธนาคารปกติ ใช้ Simple แต่อาทิตย์นี้ทำงานร้าน ชั่วคราว ใช้ Continuous", "explanationEn": "works in bank permanent, is working in shop temporary this week", "rule": "Mixed - permanent vs temporary"}, {"id": 38, "sentence": "It usually ____ (rain) in November, but it ____ (not / rain) today.", "options": ["rains / isn't raining", "is raining / doesn't rain", "rains / doesn't rain"], "correctAnswer": "rains / isn't raining", "explanationTh": "ปกติฝนตกเดือนพฤศจิกา ใช้ Simple แต่วันนี้ไม่ตก ใช้ Continuous", "explanationEn": "usually rains simple, isn't raining today continuous", "rule": "Mixed - usually vs today"}, {"id": 39, "sentence": "He ____ (speak) English well, but he ____ (not / speak) English now.", "options": ["speaks / isn't speaking", "is speaking / doesn't speak", "speaks / doesn't speak"], "correctAnswer": "speaks / isn't speaking", "explanationTh": "เขาพูดอังกฤษเก่งทั่วไป ใช้ Simple แต่ตอนนี้ไม่ได้พูดอังกฤษ ใช้ Continuous", "explanationEn": "speaks well general, isn't speaking now", "rule": "Mixed - general vs now"}, {"id": 40, "sentence": "We ____ (have) breakfast at 7 o'clock every day, but today we ____ (have) it at 8.", "options": ["have / are having", "are having / have", "have / have"], "correctAnswer": "have / are having", "explanationTh": "กินข้าวเช้า 7 โมงทุกวัน ใช้ Simple แต่วันนี้กิน 8 โมง ชั่วคราว ใช้ Continuous", "explanationEn": "have breakfast every day simple, are having today temporary", "rule": "Mixed - every day vs today"}, {"id": 41, "sentence": "My mother ____ (cook) dinner every evening.", "options": ["cooks", "is cooking", "cook"], "correctAnswer": "cooks", "explanationTh": "แม่ทำอาหารเย็นทุกเย็น ใช้ every evening + Simple", "explanationEn": "cooks every evening", "rule": "Present Simple - every evening"}, {"id": 42, "sentence": "My mother ____ (cook) dinner now.", "options": ["is cooking", "cooks", "cook"], "correctAnswer": "is cooking", "explanationTh": "แม่กำลังทำอาหารเย็นตอนนี้ ใช้ now + Continuous", "explanationEn": "is cooking now", "rule": "Present Continuous - now"}, {"id": 43, "sentence": "The children ____ (play) in the garden every afternoon.", "options": ["play", "are playing", "plays"], "correctAnswer": "play", "explanationTh": "เด็กๆ เล่นในสวนทุกบ่าย ใช้ every afternoon + Simple", "explanationEn": "play every afternoon", "rule": "Present Simple - every afternoon"}, {"id": 44, "sentence": "The children ____ (play) in the garden now.", "options": ["are playing", "play", "plays"], "correctAnswer": "are playing", "explanationTh": "เด็กๆ กำลังเล่นในสวนตอนนี้ ใช้ now + Continuous", "explanationEn": "are playing now", "rule": "Present Continuous - now"}, {"id": 45, "sentence": "He ____ (watch) TV every night.", "options": ["watches", "is watching", "watch"], "correctAnswer": "watches", "explanationTh": "เขาดูทีวีทุกคืน ใช้ every night + Simple", "explanationEn": "watches every night", "rule": "Present Simple - every night"}, {"id": 46, "sentence": "He ____ (watch) TV at the moment.", "options": ["is watching", "watches", "watch"], "correctAnswer": "is watching", "explanationTh": "เขากำลังดูทีวีตอนนี้ ใช้ at the moment + Continuous", "explanationEn": "is watching at the moment", "rule": "Present Continuous - at the moment"}, {"id": 47, "sentence": "I ____ (not / like) coffee.", "options": ["don't like", "am not liking", "doesn't like"], "correctAnswer": "don't like", "explanationTh": "I don't like coffee. like เป็น stative ใช้ Simple", "explanationEn": "don't like = stative", "rule": "Stative - like"}, {"id": 48, "sentence": "She ____ (know) my name.", "options": ["knows", "is knowing", "know"], "correctAnswer": "knows", "explanationTh": "She knows my name. know เป็น stative ไม่ใช้ Continuous", "explanationEn": "knows = stative", "rule": "Stative - know"}, {"id": 49, "sentence": "They ____ (need) help.", "options": ["need", "are needing", "needs"], "correctAnswer": "need", "explanationTh": "They need help. need เป็น stative ใช้ Simple", "explanationEn": "need = stative", "rule": "Stative - need"}, {"id": 50, "sentence": "We ____ (believe) you.", "options": ["believe", "are believing", "believes"], "correctAnswer": "believe", "explanationTh": "We believe you. believe เป็น stative ใช้ Simple", "explanationEn": "believe = stative", "rule": "Stative - believe"}, {"id": 51, "sentence": "Look! The bus ____ (come).", "options": ["is coming", "comes", "come"], "correctAnswer": "is coming", "explanationTh": "Look! รถบัสกำลังมา ใช้ Present Continuous", "explanationEn": "Look! bus is coming now", "rule": "Present Continuous - Look!"}, {"id": 52, "sentence": "The bus ____ (come) every 10 minutes.", "options": ["comes", "is coming", "come"], "correctAnswer": "comes", "explanationTh": "รถบัสมา ทุก 10 นาที ใช้ every 10 minutes + Simple", "explanationEn": "comes every 10 minutes", "rule": "Present Simple - every 10 minutes"}, {"id": 53, "sentence": "It ____ (not / rain) now.", "options": ["isn't raining", "doesn't rain", "don't rain"], "correctAnswer": "isn't raining", "explanationTh": "ตอนนี้ฝนไม่ตก ใช้ isn't raining", "explanationEn": "isn't raining now", "rule": "Present Continuous - isn't now"}, {"id": 54, "sentence": "It ____ (not / rain) very often in summer.", "options": ["doesn't rain", "isn't raining", "don't rain"], "correctAnswer": "doesn't rain", "explanationTh": "ฤดูร้อนฝนไม่ตกบ่อย ใช้ doesn't rain", "explanationEn": "doesn't rain often in summer general", "rule": "Present Simple - doesn't often"}, {"id": 55, "sentence": "____ you ____ (watch) TV now?", "options": ["Are / watching", "Do / watch", "Does / watch"], "correctAnswer": "Are / watching", "explanationTh": "Are you watching TV now? ถามว่ากำลังดูทีวีอยู่ไหมตอนนี้", "explanationEn": "Are you watching TV now?", "rule": "Present Continuous - Are you watching now?"}, {"id": 56, "sentence": "____ you ____ (watch) TV every day?", "options": ["Do / watch", "Are / watching", "Does / watch"], "correctAnswer": "Do / watch", "explanationTh": "Do you watch TV every day? ถามนิสัย ใช้ Present Simple", "explanationEn": "Do you watch TV every day? habit", "rule": "Present Simple - Do you watch every day?"}, {"id": 57, "sentence": "I ____ (not / work) today. I'm on holiday.", "options": ["am not working", "don't work", "doesn't work"], "correctAnswer": "am not working", "explanationTh": "วันนี้ไม่ได้ทำงาน อยู่ช่วงวันหยุด ชั่วคราว ใช้ Continuous", "explanationEn": "am not working today temporary holiday", "rule": "Present Continuous - not working today"}, {"id": 58, "sentence": "I ____ (not / work) on Sundays.", "options": ["don't work", "am not working", "doesn't work"], "correctAnswer": "don't work", "explanationTh": "ฉันไม่ทำงานวันอาทิตย์ เป็นนิสัย ใช้ Simple", "explanationEn": "don't work on Sundays habit", "rule": "Present Simple - don't work Sundays"}, {"id": 59, "sentence": "She ____ (wear) a uniform at work.", "options": ["wears", "is wearing", "wear"], "correctAnswer": "wears", "explanationTh": "เธอใส่ชุดยูนิฟอร์มที่ทำงาน เป็นเรื่องทั่วไป ใช้ Simple", "explanationEn": "wears uniform at work general", "rule": "Present Simple - wears"}, {"id": 60, "sentence": "She ____ (wear) a red dress today.", "options": ["is wearing", "wears", "wear"], "correctAnswer": "is wearing", "explanationTh": "วันนี้เธอใส่ชุดแดง ชั่วคราววันนี้ ใช้ Continuous", "explanationEn": "is wearing red dress today temporary", "rule": "Present Continuous - is wearing today"}, {"id": 61, "sentence": "I ____ (have) a brother and a sister.", "options": ["have", "am having", "has"], "correctAnswer": "have", "explanationTh": "I have a brother... have = มี เป็น state ใช้ Simple", "explanationEn": "have brother = possession state", "rule": "Present Simple - have possession"}, {"id": 62, "sentence": "We ____ (have) lunch at 12 o'clock every day.", "options": ["have", "are having", "has"], "correctAnswer": "have", "explanationTh": "We have lunch at 12 every day. have lunch ทุกวัน ใช้ Simple", "explanationEn": "have lunch every day habit", "rule": "Present Simple - have lunch habit"}, {"id": 63, "sentence": "We ____ (have) lunch now. Can you call later?", "options": ["are having", "have", "has"], "correctAnswer": "are having", "explanationTh": "We are having lunch now. กำลังกินข้าวเที่ยงตอนนี้ ใช้ Continuous", "explanationEn": "having lunch now activity", "rule": "Present Continuous - having lunch now"}, {"id": 64, "sentence": "He ____ (have) a shower every morning.", "options": ["has", "is having", "have"], "correctAnswer": "has", "explanationTh": "He has a shower every morning. อาบน้ำทุกเช้า ใช้ Simple", "explanationEn": "has shower every morning habit", "rule": "Present Simple - has shower habit"}, {"id": 65, "sentence": "He ____ (have) a shower now.", "options": ["is having", "has", "have"], "correctAnswer": "is having", "explanationTh": "He is having a shower now. กำลังอาบน้ำตอนนี้ ใช้ Continuous", "explanationEn": "is having shower now activity", "rule": "Present Continuous - having shower now"}, {"id": 66, "sentence": "The shop ____ (open) at 9 o'clock.", "options": ["opens", "is opening", "open"], "correctAnswer": "opens", "explanationTh": "ร้านเปิด 9 โมง เป็นตารางเวลา ใช้ Simple", "explanationEn": "opens at 9 timetable", "rule": "Present Simple - opens"}, {"id": 67, "sentence": "The train ____ (leave) at 6 o'clock tomorrow.", "options": ["leaves", "is leaving", "leave"], "correctAnswer": "leaves", "explanationTh": "รถไฟออก 6 โมงพรุ่งนี้ เป็นตารางเวลา ใช้ Present Simple", "explanationEn": "leaves at 6 tomorrow timetable", "rule": "Present Simple - timetable future"}, {"id": 68, "sentence": "I ____ (go) to the cinema tonight. I bought a ticket.", "options": ["am going", "go", "goes"], "correctAnswer": "am going", "explanationTh": "I am going to the cinema tonight. วางแผนไว้แล้วคืนนี้ ใช้ Continuous", "explanationEn": "am going tonight plan", "rule": "Present Continuous - tonight plan"}, {"id": 69, "sentence": "She ____ (not / work) this week because she is ill.", "options": ["isn't working", "doesn't work", "don't work"], "correctAnswer": "isn't working", "explanationTh": "อาทิตย์นี้ไม่ได้ทำงานเพราะป่วย ชั่วคราว ใช้ Continuous", "explanationEn": "isn't working this week temporary ill", "rule": "Present Continuous - this week ill"}, {"id": 70, "sentence": "He ____ (study) English every day.", "options": ["studies", "is studying", "study"], "correctAnswer": "studies", "explanationTh": "เขาเรียนภาษาอังกฤษทุกวัน ใช้ every day + Simple", "explanationEn": "studies every day", "rule": "Present Simple - studies every day"}, {"id": 71, "sentence": "He ____ (study) English now.", "options": ["is studying", "studies", "study"], "correctAnswer": "is studying", "explanationTh": "เขากำลังเรียนภาษาอังกฤษตอนนี้ ใช้ now + Continuous", "explanationEn": "is studying now", "rule": "Present Continuous - studying now"}, {"id": 72, "sentence": "We ____ (live) in Chiang Mai.", "options": ["live", "are living", "lives"], "correctAnswer": "live", "explanationTh": "เราอาศัยในเชียงใหม่ ถาวร ใช้ Simple", "explanationEn": "live in Chiang Mai permanent", "rule": "Present Simple - live permanent"}, {"id": 73, "sentence": "We ____ (live) in a small hotel at the moment.", "options": ["are living", "live", "lives"], "correctAnswer": "are living", "explanationTh": "ตอนนี้อาศัยในโรงแรมเล็กๆ ชั่วคราว ใช้ at the moment + Continuous", "explanationEn": "are living at the moment temporary", "rule": "Present Continuous - living at moment temporary"}, {"id": 74, "sentence": "My parents usually ____ (go) to work by car.", "options": ["go", "are going", "goes"], "correctAnswer": "go", "explanationTh": "พ่อแม่ปกติไปทำงานโดยรถ ใช้ usually + Simple", "explanationEn": "usually go by car", "rule": "Present Simple - usually go"}, {"id": 75, "sentence": "Today my parents ____ (go) to work by bus.", "options": ["are going", "go", "goes"], "correctAnswer": "are going", "explanationTh": "วันนี้พ่อแม่ไปทำงานโดยรถบัส ชั่วคราววันนี้ ใช้ Continuous", "explanationEn": "are going today temporary", "rule": "Present Continuous - going today"}, {"id": 76, "sentence": "It ____ (get) dark early in winter.", "options": ["gets", "is getting", "get"], "correctAnswer": "gets", "explanationTh": "หน้าหนาวมืดเร็ว เป็นเรื่องทั่วไป ใช้ Simple", "explanationEn": "gets dark early in winter general", "rule": "Present Simple - gets dark"}, {"id": 77, "sentence": "It ____ (get) dark now. Let's go home.", "options": ["is getting", "gets", "get"], "correctAnswer": "is getting", "explanationTh": "ตอนนี้กำลังมืดแล้ว ใช้ now + getting + Continuous", "explanationEn": "is getting dark now change", "rule": "Present Continuous - getting dark now"}, {"id": 78, "sentence": "I ____ (think) you are right.", "options": ["think", "am thinking", "thinks"], "correctAnswer": "think", "explanationTh": "I think you are right. think = คิดว่า มีความเห็น ใช้ Simple", "explanationEn": "think you are right opinion simple", "rule": "Stative - think opinion"}, {"id": 79, "sentence": "What ____ you ____ (think) about?", "options": ["are / thinking", "do / think", "does / think"], "correctAnswer": "are / thinking", "explanationTh": "What are you thinking about? กำลังคิดเรื่องอะไรอยู่ ใช้ Continuous", "explanationEn": "are you thinking about = what in mind now continuous", "rule": "Present Continuous - thinking about"}, {"id": 80, "sentence": "This food ____ (taste) good.", "options": ["tastes", "is tasting", "taste"], "correctAnswer": "tastes", "explanationTh": "This food tastes good. taste = มีรสชาติ ใช้ Simple", "explanationEn": "tastes good = state", "rule": "Stative - tastes"}, {"id": 81, "sentence": "She ____ (look) tired today.", "options": ["looks", "is looking", "look"], "correctAnswer": "looks", "explanationTh": "She looks tired today. look = ดู ใช้ Simple ก็ได้ Continuous ก็ได้ แต่ Basic ใช้ looks", "explanationEn": "looks tired today", "rule": "Stative - looks"}, {"id": 82, "sentence": "I ____ (feel) tired now.", "options": ["feel / am feeling", "feels", "feel"], "correctAnswer": "feel / am feeling", "explanationTh": "I feel tired now หรือ I'm feeling tired now ใช้ได้ทั้งคู่", "explanationEn": "feel tired now both OK", "rule": "Feel - both OK"}, {"id": 83, "sentence": "They ____ (not / go) to school today.", "options": ["aren't going", "don't go", "doesn't go"], "correctAnswer": "aren't going", "explanationTh": "วันนี้ไม่ได้ไปโรงเรียน ชั่วคราววันนี้ ใช้ Continuous", "explanationEn": "aren't going today temporary", "rule": "Present Continuous - aren't going today"}, {"id": 84, "sentence": "They ____ (not / go) to school on Sundays.", "options": ["don't go", "aren't going", "doesn't go"], "correctAnswer": "don't go", "explanationTh": "ไม่ไปโรงเรียนวันอาทิตย์ เป็นนิสัย ใช้ Simple", "explanationEn": "don't go on Sundays habit", "rule": "Present Simple - don't go Sundays"}, {"id": 85, "sentence": "Where ____ your parents ____ (live)?", "options": ["do / live", "are / living", "does / live"], "correctAnswer": "do / live", "explanationTh": "Where do your parents live? ถามที่อยู่ถาวร ใช้ Simple", "explanationEn": "Where do your parents live permanent", "rule": "Present Simple - Where do live"}, {"id": 86, "sentence": "____ she ____ (work) today?", "options": ["Is / working", "Does / work", "Do / work"], "correctAnswer": "Is / working", "explanationTh": "Is she working today? วันนี้ทำงานไหม ชั่วคราววันนี้ ใช้ Continuous", "explanationEn": "Is she working today temporary", "rule": "Present Continuous - Is working today"}, {"id": 87, "sentence": "____ she ____ (work) every day?", "options": ["Does / work", "Is / working", "Do / work"], "correctAnswer": "Does / work", "explanationTh": "Does she work every day? ทำงานทุกวันไหม ใช้ Simple", "explanationEn": "Does she work every day habit", "rule": "Present Simple - Does work every day"}, {"id": 88, "sentence": "I ____ (not / watch) TV very often.", "options": ["don't watch", "am not watching", "doesn't watch"], "correctAnswer": "don't watch", "explanationTh": "I don't watch TV very often. ไม่ดูทีวีบ่อย ใช้ Simple", "explanationEn": "don't watch very often habit", "rule": "Present Simple - don't watch often"}, {"id": 89, "sentence": "I ____ (not / watch) TV now.", "options": ["am not watching", "don't watch", "doesn't watch"], "correctAnswer": "am not watching", "explanationTh": "ตอนนี้ไม่ได้ดูทีวี ใช้ now + Continuous", "explanationEn": "am not watching now", "rule": "Present Continuous - not watching now"}, {"id": 90, "sentence": "He ____ (play) football every Saturday.", "options": ["plays", "is playing", "play"], "correctAnswer": "plays", "explanationTh": "เขาเล่นฟุตบอลทุกวันเสาร์ ใช้ every Saturday + Simple", "explanationEn": "plays every Saturday", "rule": "Present Simple - plays every Saturday"}, {"id": 91, "sentence": "He ____ (play) football now.", "options": ["is playing", "plays", "play"], "correctAnswer": "is playing", "explanationTh": "เขากำลังเล่นฟุตบอลตอนนี้ ใช้ now + Continuous", "explanationEn": "is playing now", "rule": "Present Continuous - playing now"}, {"id": 92, "sentence": "We ____ (usually / have) dinner at 7 o'clock.", "options": ["usually have", "are usually having", "usually has"], "correctAnswer": "usually have", "explanationTh": "ปกติกินข้าวเย็น 7 โมง ใช้ usually + Simple", "explanationEn": "usually have dinner", "rule": "Present Simple - usually have"}, {"id": 93, "sentence": "We ____ (have) dinner now.", "options": ["are having", "have", "has"], "correctAnswer": "are having", "explanationTh": "ตอนนี้กำลังกินข้าวเย็น ใช้ now + Continuous", "explanationEn": "are having dinner now", "rule": "Present Continuous - having dinner now"}, {"id": 94, "sentence": "The movie ____ (start) at 8 o'clock.", "options": ["starts", "is starting", "start"], "correctAnswer": "starts", "explanationTh": "หนังเริ่ม 8 โมง เป็นตารางเวลา ใช้ Simple", "explanationEn": "starts at 8 timetable", "rule": "Present Simple - starts timetable"}, {"id": 95, "sentence": "The children ____ (always / make) noise.", "options": ["always make", "are always making", "always makes"], "correctAnswer": "always make", "explanationTh": "เด็กๆ ทำเสียงดังเสมอ (ทุกครั้ง) ใช้ always + Simple", "explanationEn": "always make noise every time", "rule": "Present Simple - always make"}, {"id": 96, "sentence": "The children ____ (always / make) noise. I'm trying to work!", "options": ["are always making", "always make", "always makes"], "correctAnswer": "are always making", "explanationTh": "เด็กๆ ทำเสียงดังตลอด ฉันกำลังพยายามทำงาน ใช้ always + Continuous บ่นรำคาญ", "explanationEn": "are always making noise annoying", "rule": "Present Continuous - always making annoying"}, {"id": 97, "sentence": "I ____ (love) chocolate.", "options": ["love", "am loving", "loves"], "correctAnswer": "love", "explanationTh": "I love chocolate. love เป็น stative ใช้ Simple", "explanationEn": "love chocolate = stative", "rule": "Stative - love"}, {"id": 98, "sentence": "She ____ (hate) spiders.", "options": ["hates", "is hating", "hate"], "correctAnswer": "hates", "explanationTh": "She hates spiders. hate เป็น stative ใช้ Simple", "explanationEn": "hates spiders = stative", "rule": "Stative - hate"}, {"id": 99, "sentence": "____ you ____ (like) this song?", "options": ["Do / like", "Are / liking", "Does / like"], "correctAnswer": "Do / like", "explanationTh": "Do you like this song? like เป็น stative ใช้ Simple", "explanationEn": "Do you like this song stative", "rule": "Stative - Do you like"}, {"id": 100, "sentence": "What ____ you ____ (do) in your free time?", "options": ["do / do", "are / doing", "does / do"], "correctAnswer": "do / do", "explanationTh": "What do you do in your free time? ถามนิสัยเวลาว่าง ใช้ Present Simple", "explanationEn": "What do you do in free time habit", "rule": "Present Simple - What do you do"}];
+
+function shuffleArray(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function App(){
+  const [exam, setExam] = useState([]);
+  const [idx, setIdx] = useState(0);
+  const [score, setScore] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [showExp, setShowExp] = useState(false);
+  const [answered, setAnswered] = useState([]);
+  const [showSummary, setShowSummary] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [name, setName] = useState("");
+  const [classRoom, setClassRoom] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const generateExam = () => {
+    const shuffledPool = shuffleArray(QPOOL);
+    const twenty = shuffledPool.slice(0,20).map(q=>{
+      const shuffledOpts = shuffleArray(q.options);
+      return {...q, options: shuffledOpts};
+    });
+    setExam(twenty);
+    setIdx(0);
+    setScore(0);
+    setSelected(null);
+    setShowExp(false);
+    setAnswered([]);
+    setShowSummary(false);
+    setShowModal(false);
+    setSent(false);
+  };
+
+  useEffect(()=>{ generateExam(); }, []);
+
+  const currentQ = exam[idx];
+
+  const handleSelect = (opt) => {
+    if(showExp) return;
+    setSelected(opt);
+    const isCorrect = opt === currentQ.correctAnswer;
+    if(isCorrect) setScore(s=>s+1);
+    setAnswered(a=>[...a, {q: currentQ, chosen: opt, correct: isCorrect}]);
+    setShowExp(true);
+  };
+
+  const handleNext = () => {
+    if(idx < exam.length-1){
+      setIdx(i=>i+1);
+      setSelected(null);
+      setShowExp(false);
+      window.scrollTo({top:0, behavior:'smooth'});
+    }else{
+      setShowSummary(true);
+      setTimeout(()=> setShowModal(true), 400);
+    }
+  };
+
+  const handlePrev = () => {
+    if(idx>0){
+      setIdx(i=>i-1);
+      const prevAns = answered[idx-1];
+      setSelected(prevAns ? prevAns.chosen : null);
+      setShowExp(!!prevAns);
+    }
+  };
+
+  const jumpTo = (i) => {
+    setIdx(i);
+    const ans = answered[i];
+    if(ans){
+      setSelected(ans.chosen);
+      setShowExp(true);
+    }else{
+      setSelected(null);
+      setShowExp(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if(!name.trim()){ alert("กรอกชื่อก่อนนะครับ 😊"); return; }
+    setSending(true);
+    const total = exam.length;
+    const percent = total>0 ? Math.round(score/total*100) : 0;
+    const payload = {
+      name: name.trim(),
+      classRoom: classRoom.trim(),
+      testName: TEST_NAME,
+      score: score,
+      total: total,
+      percent: percent,
+      details: `${TEST_NAME} - ${score}/${total} (${percent}%)`,
+      timestamp: new Date().toISOString()
+    };
+    try{
+      await fetch(GOOGLE_URL, {method:"POST", mode:"no-cors", headers:{"Content-Type":"application/json"}, body: JSON.stringify(payload)});
+      setSent(true);
+      setTimeout(()=> setShowModal(false), 2000);
+    }catch(e){
+      alert("ส่งไม่สำเร็จ: "+e.message);
+    }finally{
+      setSending(false);
+    }
+  };
+
+  if(exam.length===0) return <div className="p-10 text-center">กำลังโหลด...</div>;
+
+  if(showSummary){
+    const total = exam.length;
+    const percent = total>0 ? Math.round(score/total*100) : 0;
+    return (
+      <div className="min-h-screen bg-[#f8f7ff]">
+        <div className="bg-white border-b border-zinc-100">
+          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <button onClick={generateExam} className="inline-flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2 rounded-full text-[13px] font-bold shadow-sm hover:bg-zinc-50">🏠 หน้าแรก</button>
+              <div>
+                <h1 className="text-[18px] sm:text-[20px] font-bold leading-tight">Present Simple vs Present Continuous - Basic</h1>
+                <p className="text-[12px] text-zinc-500">พื้นฐาน 100 ข้อ • สุ่ม 20 ข้อ • คลัง 100 ข้อ</p>
+              </div>
+            </div>
+            <button onClick={generateExam} className="hidden sm:inline-flex bg-indigo-600 text-white px-5 py-2.5 rounded-full text-[13px] font-bold hover:bg-indigo-700">🔀 สุ่มใหม่ 20 ข้อ</button>
+          </div>
+        </div>
+
+        <div className="max-w-[720px] mx-auto px-4 py-8">
+          <div className="bg-white rounded-[24px] border border-zinc-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden p-6 sm:p-8 text-center">
+            <h2 className="text-[22px] sm:text-[26px] font-bold tracking-tight">สรุปผลการทดสอบ</h2>
+            <p className="text-[13px] text-zinc-500 mt-1">Present Simple vs Present Continuous - Basic</p>
+            <div className="mt-6 flex justify-center items-end gap-3">
+              <span className="text-[44px] font-black leading-none text-indigo-600">{score}</span>
+              <span className="text-[22px] font-bold text-zinc-400 mb-2">/ {total}</span>
+            </div>
+            <p className="mt-2 text-[14px]">ได้ <b>{score} / {total}</b> ({percent}%)</p>
+            <div className="mt-6 grid grid-cols-2 gap-3 text-left">
+              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
+                <p className="text-[12px] text-emerald-600 font-semibold">ถูก</p>
+                <p className="text-[26px] font-black text-emerald-700">{score}</p>
+              </div>
+              <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 text-center">
+                <p className="text-[12px] text-rose-600 font-semibold">ผิด</p>
+                <p className="text-[26px] font-black text-rose-700">{total-score}</p>
+              </div>
+            </div>
+            <div className="mt-6 flex gap-3 justify-center flex-wrap">
+              <button onClick={generateExam} className="bg-zinc-900 text-white px-6 py-3 rounded-full text-[14px] font-bold hover:bg-zinc-800">🔄 ทำใหม่ (สุ่มใหม่ 20 ข้อ)</button>
+              <button onClick={()=>setShowModal(true)} className="bg-indigo-600 text-white px-6 py-3 rounded-full text-[14px] font-bold hover:bg-indigo-700">📊 ส่งคะแนน</button>
+            </div>
+            <div className="mt-8 text-left">
+              <h3 className="font-bold text-[14px] mb-3">ดูเฉลยทั้งหมด</h3>
+              <div className="grid gap-2 max-h-[400px] overflow-auto pr-1">
+                {answered.map((a,i)=>(
+                  <div key={i} className={`p-3 rounded-xl border text-[13px] ${a.correct?'bg-emerald-50 border-emerald-200':'bg-rose-50 border-rose-200'}`}>
+                    <p className="font-semibold">{i+1}. {a.q.sentence}</p>
+                    <p>ตอบ: {a.chosen} {a.correct?'✅':'❌'} | เฉลย: {a.q.correctAnswer}</p>
+                    <p className="text-[11px] text-zinc-500 mt-1">{a.q.explanationTh}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+            <div className="bg-white rounded-[20px] w-full max-w-[420px] p-6 shadow-2xl">
+              <h3 className="text-[18px] font-bold">📊 ส่งคะแนน</h3>
+              <div className="mt-3 bg-indigo-50 border border-indigo-200 rounded-xl p-3 text-center text-[13px]">
+                📊 <b>{TEST_NAME}</b><br/>
+                ได้ <b style={{fontSize:'18px', color:'#4f46e5'}}>{score} / {total}</b> ({percent}%)
+              </div>
+              <div className="mt-4 grid gap-3">
+                <input value={name} onChange={e=>setName(e.target.value)} placeholder="ชื่อ-นามสกุล *" className="w-full border border-zinc-300 rounded-xl px-4 py-3 text-[14px] focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+                <input value={classRoom} onChange={e=>setClassRoom(e.target.value)} placeholder="ชั้น / ห้อง (เช่น ม.2/1)" className="w-full border border-zinc-300 rounded-xl px-4 py-3 text-[14px] focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+                {sent ? (
+                  <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl p-3 text-[13px] text-center">✅ <b>ส่งสำเร็จ!</b><br/>คะแนน: {score}/{total}</div>
+                ) : (
+                  <button onClick={handleSubmit} disabled={sending} className="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold text-[14px] hover:bg-indigo-700 disabled:opacity-60">
+                    {sending ? "⏳ กำลังส่ง..." : "✅ ส่งคะแนน"}
+                  </button>
+                )}
+                <button onClick={()=>setShowModal(false)} className="w-full bg-zinc-100 text-zinc-700 py-2.5 rounded-xl font-semibold text-[13px] hover:bg-zinc-200">ปิด</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#f8f7ff]">
+      {/* TOP BAR - ธีมเดิมแบบในรูป */}
+      <div className="bg-white border-b border-zinc-100 sticky top-0 z-20">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <button onClick={generateExam} className="shrink-0 inline-flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2 rounded-full text-[13px] font-bold shadow-sm hover:bg-zinc-50">🏠 หน้าแรก</button>
+            <div className="min-w-0">
+              <h1 className="text-[15px] sm:text-[20px] font-bold leading-tight tracking-tight truncate">Present Simple vs Present Continuous - Basic <span className="text-zinc-500 font-medium">— พื้นฐาน 100 ข้อ</span></h1>
+              <p className="text-[11px] sm:text-[12px] text-zinc-500 hidden sm:block">แบบพื้นฐาน Basic คลัง 100 ข้อ สุ่มทำรอบละ 20 ข้อ</p>
+            </div>
+          </div>
+          <button onClick={generateExam} className="shrink-0 inline-flex items-center gap-2 bg-indigo-600 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-[12px] sm:text-[13px] font-bold hover:bg-indigo-700 shadow">🔀 สุ่มใหม่ 20 ข้อ</button>
+        </div>
+      </div>
+
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[1.6fr_0.9fr] gap-6 items-start">
+        {/* LEFT QUESTION CARD */}
+        <div className="bg-white rounded-[20px] sm:rounded-[24px] border border-zinc-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden">
+          <div className="px-5 sm:px-7 pt-5 pb-4 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="bg-indigo-50 text-indigo-600 border border-indigo-100 px-3 py-1 rounded-full text-[12px] font-bold">ข้อ {idx+1} / {exam.length}</span>
+              <span className="text-[12px] text-zinc-500">คลัง 100 ข้อ</span>
+            </div>
+            <div className="flex gap-1">
+              {exam.map((_,i)=>(
+                <span key={i} className={`h-1.5 rounded-full transition-all ${i===idx ? 'w-6 bg-indigo-400' : i < idx ? 'w-1.5 bg-indigo-200' : 'w-1.5 bg-zinc-200'}`}></span>
+              ))}
+            </div>
+          </div>
+
+          <div className="px-5 sm:px-7 pb-5">
+            <div className="bg-[#f6f5ff] border border-[#e9e5ff] rounded-[16px] sm:rounded-[20px] p-5 sm:p-7">
+              <p className="text-[19px] sm:text-[22px] font-medium leading-[1.6] tracking-normal text-zinc-800">
+                {currentQ.sentence.split("____").map((part,i,arr)=>(
+                  <React.Fragment key={i}>
+                    {part}
+                    {i < arr.length-1 && (
+                      <span className="inline-flex items-center justify-center min-w-[84px] sm:min-w-[108px] mx-2 px-3 py-1 rounded-xl bg-white border border-indigo-200 text-indigo-400 font-bold text-[16px] sm:text-[18px] translate-y-[-1px] shadow-sm">____</span>
+                    )}
+                  </React.Fragment>
+                ))}
+              </p>
+            </div>
+          </div>
+
+          <div className="px-5 sm:px-7 pb-6 grid gap-3">
+            {currentQ.options.map((opt,i)=>{
+              const isCorrectOpt = opt === currentQ.correctAnswer;
+              const isSelected = selected === opt;
+              let cls = "bg-white border-zinc-200 hover:border-indigo-300 hover:bg-indigo-50/40";
+              let circleCls = "border-zinc-300 bg-white";
+              if(showExp){
+                if(isCorrectOpt) {cls="bg-indigo-50 border-indigo-400 text-indigo-900 ring-2 ring-indigo-200"; circleCls="bg-indigo-500 border-indigo-500 text-white";}
+                else if(isSelected && !isCorrectOpt) {cls="bg-rose-50 border-rose-300 text-rose-800"; circleCls="bg-rose-500 border-rose-500 text-white";}
+                else {cls="bg-zinc-50 border-zinc-200 opacity-60";}
+              }else if(isSelected){
+                cls="bg-zinc-900 border-zinc-900 text-white";
+                circleCls="bg-white border-white text-zinc-800";
+              }
+              return (
+                <button key={i} type="button" onClick={()=>handleSelect(opt)} className={`w-full text-left flex items-center justify-between gap-3 px-4 sm:px-5 py-3.5 sm:py-4 rounded-[14px] sm:rounded-[16px] border text-[15px] sm:text-[16px] font-medium transition-all ${cls}`}>
+                  <span className="flex items-center gap-3 sm:gap-4">
+                    <span className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[12px] font-bold border-2 shrink-0 ${circleCls}`}>
+                      {showExp && isCorrectOpt ? "✓" : showExp && isSelected && !isCorrectOpt ? "✗" : ""}
+                    </span>
+                    <span className="font-semibold">{opt}</span>
+                  </span>
+                  <span className="text-[12px] sm:text-[13px] font-bold opacity-60">
+                    {!showExp ? "เลือก" : isCorrectOpt ? "ถูก" : ""}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {showExp && (
+            <div className="px-5 sm:px-7 pb-6">
+              <div className={`rounded-[14px] border p-4 ${selected===currentQ.correctAnswer ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'}`}>
+                <p className={`text-[13px] font-bold ${selected===currentQ.correctAnswer ? 'text-emerald-700' : 'text-rose-700'}`}>
+                  {selected===currentQ.correctAnswer ? '✅ ถูกต้อง!' : `❌ คำตอบที่ถูกคือ: ${currentQ.correctAnswer}`}
+                </p>
+                <p className="text-[12px] text-zinc-700 mt-1.5 leading-relaxed"><b>ไทย:</b> {currentQ.explanationTh}</p>
+                <p className="text-[11px] text-zinc-500 mt-1"><b>EN:</b> {currentQ.explanationEn}</p>
+              </div>
+            </div>
+          )}
+
+          <div className="px-5 sm:px-7 pb-6 flex items-center justify-between gap-3">
+            <button onClick={handlePrev} disabled={idx===0} className="inline-flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2.5 rounded-full text-[13px] font-bold disabled:opacity-40 hover:bg-zinc-50">← ก่อนหน้า</button>
+            <button onClick={handleNext} disabled={!showExp} className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-2.5 rounded-full text-[13px] font-bold disabled:opacity-40 hover:bg-indigo-700 shadow-[0_4px_16px_rgba(79,70,229,0.3)]">
+              {idx < exam.length-1 ? "ข้อถัดไป →" : "ดูสรุปผล 📊"}
+            </button>
+          </div>
+
+          <div className="px-5 sm:px-7 pb-4 text-[11px] text-zinc-400 text-center">คะแนนตอนนี้: {score} / {exam.length} • ช้อยส์สุ่มแล้ว ไม่ใช่ข้อแรกเสมอ</div>
+        </div>
+
+        {/* RIGHT LIST - แบบในรูป */}
+        <div className="bg-white rounded-[20px] sm:rounded-[24px] border border-zinc-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)] p-5 sm:p-6">
+          <h3 className="font-bold text-[14px] mb-4">รายการข้อสอบ (20 ข้อ)</h3>
+          <div className="grid grid-cols-5 gap-2 sm:gap-3">
+            {exam.map((_,i)=>{
+              const ans = answered[i];
+              const isCurrent = i===idx;
+              let cls = "bg-zinc-50 border-zinc-200 text-zinc-400 hover:bg-zinc-100";
+              if(ans) cls = ans.correct ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-rose-50 border-rose-200 text-rose-700";
+              if(isCurrent) cls = "bg-white border-indigo-500 text-indigo-600 ring-2 ring-indigo-200";
+              return (
+                <button key={i} onClick={()=>jumpTo(i)} className={`h-[56px] rounded-[14px] border text-[13px] font-bold flex flex-col items-center justify-center gap-0.5 transition-all ${cls}`}>
+                  <span>{i+1}</span>
+                  <span className="text-[10px] leading-none">{ans ? (ans.correct ? "✓" : "✗") : "•"}</span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="mt-5 bg-zinc-50 border border-zinc-100 rounded-xl p-3 text-[11px] leading-relaxed text-zinc-500">
+            ตัวอย่างที่ผิดบ่อย: <span className="text-zinc-700">They are come</span> <span className="text-rose-600 font-bold">❌</span> ต้องเป็น <b className="text-zinc-800">They come</b> (ไม่เติม) เพราะ come เป็นกริยาแท้แล้ว
+          </div>
+        </div>
+      </div>
+
+      <div className="text-center py-6 text-[11px] text-zinc-400">สร้างตามโจทย์ที่ให้มา — แก้ให้ถูกต้อง: ประโยคที่มีกริยาแท้แล้ว (come, build, bites...) ต้องตอบ ไม่เติม ห้ามใส่ is/am/are</div>
+
+      {showModal && !showSummary && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-[20px] w-full max-w-[420px] p-6 shadow-2xl">
+            <h3 className="text-[18px] font-bold">📊 ใกล้จบแล้ว</h3>
+            <p className="text-[13px] text-zinc-500 mt-1">ทำครบ {exam.length} ข้อแล้ว กดดูสรุปผลได้เลย</p>
+            <button onClick={()=>{setShowSummary(true); setShowModal(false); setTimeout(()=>setShowModal(true),400);}} className="mt-4 w-full bg-indigo-600 text-white py-3 rounded-xl font-bold text-[14px]">ดูสรุปผล 📊</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+</script>
+</body>
+</html>

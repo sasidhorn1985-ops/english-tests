@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Past Simple vs Past Continuous - Basic - 100 ข้อ (Purple Fixed)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Prompt','Inter',system-ui,sans-serif; background:#f8f7ff;}
+</style>
+</head>
+<body class="min-h-screen bg-[#f8f7ff] text-zinc-800">
+<div id="root"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbzc4ofn7BMgVzfjRwMe2Mifuk0kp8vVQwlAkV4FKoIcG2qnNxPKuvBM2lTDD6I-Mpf0/exec";
+const TEST_NAME = "Past Simple Vs Past Continuous Basic";
+
+const QPOOL = [{id:1,sentence:"She ____ (go) to Chiang Mai yesterday.",options:["went","was going","goes"],correctAnswer:"went",explanationTh:"มีคำว่า yesterday = เมื่อวาน เหตุการณ์จบแล้วในอดีต ใช้ Past Simple",explanationEn:"yesterday indicates finished past action",rule:"Past Simple"},{id:2,sentence:"They ____ (play) football last Sunday.",options:["played","were playing","play"],correctAnswer:"played",explanationTh:"last Sunday คือเวลาที่จบแล้วในอดีต ใช้ Past Simple",explanationEn:"last Sunday = finished time in past",rule:"Past Simple"},{id:3,sentence:"He ____ (finish) his homework an hour ago.",options:["finished","was finishing","finishes"],correctAnswer:"finished",explanationTh:"an hour ago = หนึ่งชั่วโมงที่แล้ว จบแล้ว ใช้ Past Simple",explanationEn:"ago shows completed past action",rule:"Past Simple"},{id:4,sentence:"We ____ (visit) our grandma last weekend.",options:["visited","were visiting","visit"],correctAnswer:"visited",explanationTh:"last weekend = สุดสัปดาห์ที่แล้ว จบแล้ว ใช้ Past Simple",explanationEn:"finished time marker",rule:"Past Simple"},{id:5,sentence:"I ____ (watch) a movie last night.",options:["watched","was watching","watch"],correctAnswer:"watched",explanationTh:"last night = เมื่อคืนนี้ จบแล้ว ใช้ Past Simple",explanationEn:"last night = finished past",rule:"Past Simple"},{id:6,sentence:"She ____ (cook) dinner when I arrived.",options:["was cooking","cooked","cooks"],correctAnswer:"was cooking",explanationTh:"กำลังทำอาหารอยู่ตอนที่อีกเหตุการณ์มาแทรก ใช้ Past Continuous",explanationEn:"background action interrupted by arrival",rule:"Past Continuous"},{id:7,sentence:"They ____ (sleep) at 10 p.m. yesterday.",options:["were sleeping","slept","sleep"],correctAnswer:"were sleeping",explanationTh:"ระบุเวลาเจาะจงในอดีต 10 p.m. yesterday กำลังทำอยู่ ใช้ Past Continuous",explanationEn:"specific time in past - action in progress",rule:"Past Continuous"},{id:8,sentence:"While I ____ (read), my brother was playing games.",options:["was reading","read","reads"],correctAnswer:"was reading",explanationTh:"While + Past Continuous เกิดพร้อมกันกับ was playing",explanationEn:"two continuous actions with while",rule:"Past Continuous"},{id:9,sentence:"He ____ (walk) in the park when it started to rain.",options:["was walking","walked","walks"],correctAnswer:"was walking",explanationTh:"กำลังเดินอยู่แล้วฝนเริ่มตก ใช้ Past Continuous สำหรับเหตุการณ์ที่กำลังเกิด",explanationEn:"interrupted action in past",rule:"Past Continuous"},{id:10,sentence:"I ____ (have) breakfast at 7 a.m. yesterday.",options:["was having","had","have"],correctAnswer:"was having",explanationTh:"ระบุเวลา 7 a.m. yesterday กำลังกินอยู่ ใช้ Past Continuous",explanationEn:"action in progress at specific past time",rule:"Past Continuous"},{id:11,sentence:"She ____ (not / go) to school yesterday.",options:["didn't go","wasn't going","doesn't go"],correctAnswer:"didn't go",explanationTh:"ปฏิเสธ Past Simple ใช้ didn't + V1",explanationEn:"negative Past Simple",rule:"Past Simple"},{id:12,sentence:"They ____ (not / watch) TV at 8 p.m. last night.",options:["weren't watching","didn't watch","don't watch"],correctAnswer:"weren't watching",explanationTh:"ปฏิเสธ Past Continuous ใช้ wasn't/weren't + Ving ที่เวลา 8 p.m.",explanationEn:"negative Past Continuous at specific time",rule:"Past Continuous"},{id:13,sentence:"____ you ____ (see) him yesterday?",options:["Did / see","Were / seeing","Do / see"],correctAnswer:"Did / see",explanationTh:"คำถาม Past Simple ใช้ Did + V1",explanationEn:"question Past Simple",rule:"Past Simple"},{id:14,sentence:"What ____ you ____ (do) at 9 p.m. last night?",options:["were / doing","did / do","are / doing"],correctAnswer:"were / doing",explanationTh:"ถามว่ากำลังทำอะไรอยู่ ณ เวลาเฉพาะในอดีต ใช้ Past Continuous",explanationEn:"question about action at specific past time",rule:"Past Continuous"},{id:15,sentence:"I ____ (meet) him while I ____ (walk) to school.",options:["met / was walking","was meeting / walked","meet / walk"],correctAnswer:"met / was walking",explanationTh:"เจอ (สั้น) ระหว่างกำลังเดิน (ยาว) - Past Simple แทรก Past Continuous",explanationEn:"short action interrupting long action",rule:"Mixed"},{id:16,sentence:"The sun ____ (shine) when we left home.",options:["was shining","shone","shines"],correctAnswer:"was shining",explanationTh:"พระอาทิตย์กำลังส่องอยู่เป็นฉากหลังตอนเราออกจากบ้าน",explanationEn:"background weather",rule:"Past Continuous"},{id:17,sentence:"She ____ (buy) a new phone last week.",options:["bought","was buying","buys"],correctAnswer:"bought",explanationTh:"last week จบแล้ว ใช้ Past Simple",explanationEn:"finished time",rule:"Past Simple"},{id:18,sentence:"He ____ (work) in Bangkok for 5 years before he moved.",options:["worked","was working","works"],correctAnswer:"worked",explanationTh:"ทำงานมา 5 ปีแล้วจบก่อนย้าย ใช้ Past Simple",explanationEn:"finished duration before another past event",rule:"Past Simple"},{id:19,sentence:"At 6 a.m., I ____ (jog) in the park.",options:["was jogging","jogged","jog"],correctAnswer:"was jogging",explanationTh:"ระบุเวลา At 6 a.m. กำลังวิ่งอยู่",explanationEn:"specific time in past",rule:"Past Continuous"},{id:20,sentence:"We ____ (have) dinner when the phone rang.",options:["were having","had","have"],correctAnswer:"were having",explanationTh:"กำลังกินข้าวอยู่ตอนโทรศัพท์ดัง",explanationEn:"interrupted action",rule:"Past Continuous"},{id:21,sentence:"She ____ (study) English for 3 hours yesterday.",options:["studied","was studying","studies"],correctAnswer:"studied",explanationTh:"for 3 hours yesterday บอกระยะเวลาที่จบแล้ว ใช้ Past Simple",explanationEn:"finished duration",rule:"Past Simple"},{id:22,sentence:"They ____ (play) games all afternoon yesterday.",options:["were playing","played","play"],correctAnswer:"were playing",explanationTh:"all afternoon เน้นว่ากำลังเล่นต่อเนื่อง ใช้ Past Continuous ได้",explanationEn:"continuous all afternoon",rule:"Past Continuous"},{id:23,sentence:"He ____ (break) his leg while he ____ (ski).",options:["broke / was skiing","was breaking / skied","breaks / skis"],correctAnswer:"broke / was skiing",explanationTh:"ขาหัก (สั้น) ระหว่างกำลังเล่นสกี (ยาว)",explanationEn:"interruption pattern",rule:"Mixed"},{id:24,sentence:"I ____ (not / understand) what he said.",options:["didn't understand","wasn't understanding","don't understand"],correctAnswer:"didn't understand",explanationTh:"understand เป็น stative verb ปกติไม่ใช้ Continuous ปฏิเสธ Past Simple ใช้ didn't",explanationEn:"stative verb",rule:"Past Simple"},{id:25,sentence:"She ____ (think) about moving to Chiang Mai last year.",options:["thought","was thinking","thinks"],correctAnswer:"thought",explanationTh:"last year จบแล้ว คิด ใช้ Past Simple",explanationEn:"finished past thought",rule:"Past Simple"},{id:26,sentence:"What ____ she ____ (wear) when you saw her?",options:["was / wearing","did / wear","is / wearing"],correctAnswer:"was / wearing",explanationTh:"ถามว่ากำลังใส่อะไรอยู่ตอนที่เห็น ใช้ Past Continuous",explanationEn:"action in progress when seen",rule:"Past Continuous"},{id:27,sentence:"He ____ (always / complain) about his job.",options:["was always complaining","always complained","always complains"],correctAnswer:"was always complaining",explanationTh:"บ่นตลอดในอดีต ใช้ Past Continuous + always แสดงความรำคาญ",explanationEn:"annoying past habit",rule:"Past Continuous"},{id:28,sentence:"It ____ (rain) heavily when I left school.",options:["was raining","rained","rains"],correctAnswer:"was raining",explanationTh:"ฝนกำลังตกหนักเป็นฉากหลังตอนออกจากโรงเรียน",explanationEn:"background weather",rule:"Past Continuous"},{id:29,sentence:"She ____ (live) in Japan in 2019.",options:["lived","was living","lives"],correctAnswer:"lived",explanationTh:"in 2019 จบแล้ว ใช้ Past Simple",explanationEn:"finished past residence",rule:"Past Simple"},{id:30,sentence:"I ____ (wait) for the bus for 30 minutes yesterday.",options:["waited","was waiting","wait"],correctAnswer:"waited",explanationTh:"รอ 30 นาทีเมื่อวาน จบแล้ว ใช้ Past Simple",explanationEn:"finished duration",rule:"Past Simple"},{id:31,sentence:"They ____ (not / listen) when the teacher spoke.",options:["weren't listening","didn't listen","don't listen"],correctAnswer:"weren't listening",explanationTh:"ไม่ได้กำลังฟังอยู่ตอนครูพูด ใช้ Past Continuous",explanationEn:"not in progress at that moment",rule:"Past Continuous"},{id:32,sentence:"She ____ (dance) when she fell down.",options:["was dancing","danced","dances"],correctAnswer:"was dancing",explanationTh:"กำลังเต้นอยู่แล้วล้ม ใช้ Past Continuous",explanationEn:"interrupted action",rule:"Past Continuous"},{id:33,sentence:"We ____ (see) a rainbow while we ____ (drive) home.",options:["saw / were driving","were seeing / drove","see / drive"],correctAnswer:"saw / were driving",explanationTh:"เห็น (สั้น) ระหว่างกำลังขับรถ (ยาว)",explanationEn:"short interrupting long",rule:"Mixed"},{id:34,sentence:"He ____ (work) as a teacher last year.",options:["worked","was working","works"],correctAnswer:"worked",explanationTh:"last year เป็นอาชีพที่จบแล้ว ใช้ Past Simple",explanationEn:"finished job period",rule:"Past Simple"},{id:35,sentence:"I ____ (write) an email at 10 a.m. yesterday.",options:["was writing","wrote","write"],correctAnswer:"was writing",explanationTh:"at 10 a.m. yesterday กำลังเขียนอยู่",explanationEn:"specific past time",rule:"Past Continuous"},{id:36,sentence:"She ____ (not / feel) well yesterday.",options:["didn't feel","wasn't feeling","doesn't feel"],correctAnswer:"didn't feel",explanationTh:"feel เป็น stative ปฏิเสธใช้ didn't",explanationEn:"stative negative",rule:"Past Simple"},{id:37,sentence:"They ____ (build) a new bridge last month.",options:["built","were building","build"],correctAnswer:"built",explanationTh:"last month สร้างเสร็จแล้ว ใช้ Past Simple",explanationEn:"finished construction",rule:"Past Simple"},{id:38,sentence:"He ____ (read) a book when the lights went out.",options:["was reading","read","reads"],correctAnswer:"was reading",explanationTh:"กำลังอ่านหนังสืออยู่ตอนไฟดับ",explanationEn:"interrupted reading",rule:"Past Continuous"},{id:39,sentence:"We ____ (not / go) out because it was raining.",options:["didn't go","weren't going","don't go"],correctAnswer:"didn't go",explanationTh:"ไม่ได้ออกไปเพราะฝนตก ใช้ Past Simple บอกเหตุผลที่จบแล้ว",explanationEn:"reason in past",rule:"Past Simple"},{id:40,sentence:"She ____ (sing) when I entered the room.",options:["was singing","sang","sings"],correctAnswer:"was singing",explanationTh:"กำลังร้องเพลงอยู่ตอนเราเข้าไป",explanationEn:"action in progress when entered",rule:"Past Continuous"},{id:41,sentence:"I ____ (lose) my keys yesterday.",options:["lost","was losing","lose"],correctAnswer:"lost",explanationTh:"yesterday ทำกุญแจหาย จบแล้ว",explanationEn:"finished loss",rule:"Past Simple"},{id:42,sentence:"They ____ (have) a party at 9 p.m. last Saturday.",options:["were having","had","have"],correctAnswer:"were having",explanationTh:"at 9 p.m. last Saturday กำลังจัดปาร์ตี้อยู่",explanationEn:"party in progress at specific time",rule:"Past Continuous"},{id:43,sentence:"He ____ (buy) a car two days ago.",options:["bought","was buying","buys"],correctAnswer:"bought",explanationTh:"two days ago ซื้อแล้ว จบแล้ว",explanationEn:"finished purchase",rule:"Past Simple"},{id:44,sentence:"She ____ (talk) on the phone for an hour.",options:["talked","was talking","talks"],correctAnswer:"talked",explanationTh:"คุยโทรศัพท์ 1 ชั่วโมง จบแล้ว",explanationEn:"finished duration",rule:"Past Simple"},{id:45,sentence:"While we ____ (wait), it started to rain.",options:["were waiting","waited","wait"],correctAnswer:"were waiting",explanationTh:"While + Past Continuous ฝนเริ่มตกมาแทรก",explanationEn:"while + continuous",rule:"Past Continuous"},{id:46,sentence:"I ____ (see) him at the market yesterday.",options:["saw","was seeing","see"],correctAnswer:"saw",explanationTh:"see เป็น stative แต่ saw เป็น Past Simple เมื่อวานเห็น",explanationEn:"saw in past",rule:"Past Simple"},{id:47,sentence:"She ____ (wear) a red dress at the party last night.",options:["wore","was wearing","wears"],correctAnswer:"was wearing",explanationTh:"ใส่ชุดแดงอยู่ตอนปาร์ตี้เมื่อคืน ใช้ Past Continuous บรรยายสิ่งที่กำลังสวมใส่",explanationEn:"describing outfit at that time",rule:"Past Continuous"},{id:48,sentence:"He ____ (not / come) to class yesterday.",options:["didn't come","wasn't coming","doesn't come"],correctAnswer:"didn't come",explanationTh:"ไม่มาเรียนเมื่อวาน ปฏิเสธ Past Simple ใช้ didn't",explanationEn:"negative past",rule:"Past Simple"},{id:49,sentence:"We ____ (walk) home when we met our teacher.",options:["were walking","walked","walk"],correctAnswer:"were walking",explanationTh:"กำลังเดินกลับบ้านอยู่ตอนเจอครู",explanationEn:"walking when met",rule:"Past Continuous"},{id:50,sentence:"She ____ (write) three letters yesterday.",options:["wrote","was writing","writes"],correctAnswer:"wrote",explanationTh:"เขียน 3 ฉบับเมื่อวาน จบแล้ว ใช้ Past Simple",explanationEn:"finished count",rule:"Past Simple"},{id:51,sentence:"I ____ (study) when you called me.",options:["was studying","studied","study"],correctAnswer:"was studying",explanationTh:"กำลังเรียนอยู่ตอนคุณโทรมา",explanationEn:"interrupted study",rule:"Past Continuous"},{id:52,sentence:"They ____ (live) in London from 2018 to 2020.",options:["lived","were living","live"],correctAnswer:"lived",explanationTh:"from 2018 to 2020 ช่วงเวลาที่จบแล้ว ใช้ Past Simple",explanationEn:"finished period",rule:"Past Simple"},{id:53,sentence:"He ____ (play) the guitar when his mom arrived.",options:["was playing","played","plays"],correctAnswer:"was playing",explanationTh:"กำลังเล่นกีตาร์อยู่ตอนแม่มาถึง",explanationEn:"playing when arrived",rule:"Past Continuous"},{id:54,sentence:"She ____ (not / know) the answer.",options:["didn't know","wasn't knowing","doesn't know"],correctAnswer:"didn't know",explanationTh:"know เป็น stative ไม่ใช้ Continuous",explanationEn:"stative",rule:"Past Simple"},{id:55,sentence:"We ____ (eat) lunch at 12:30 yesterday.",options:["were eating","ate","eat"],correctAnswer:"were eating",explanationTh:"at 12:30 yesterday กำลังกินข้าวเที่ยงอยู่",explanationEn:"lunch at specific time",rule:"Past Continuous"},{id:56,sentence:"I ____ (find) a wallet on the street yesterday.",options:["found","was finding","find"],correctAnswer:"found",explanationTh:"เจอกระเป๋าตังค์เมื่อวาน จบแล้ว",explanationEn:"found",rule:"Past Simple"},{id:57,sentence:"They ____ (argue) when I saw them.",options:["were arguing","argued","argue"],correctAnswer:"were arguing",explanationTh:"กำลังเถียงกันอยู่ตอนที่เห็น",explanationEn:"arguing when seen",rule:"Past Continuous"},{id:58,sentence:"He ____ (drive) to work when the accident happened.",options:["was driving","drove","drives"],correctAnswer:"was driving",explanationTh:"กำลังขับรถไปทำงานอยู่ตอนเกิดอุบัติเหตุ",explanationEn:"driving when accident",rule:"Past Continuous"},{id:59,sentence:"She ____ (clean) her room all morning yesterday.",options:["was cleaning","cleaned","cleans"],correctAnswer:"was cleaning",explanationTh:"all morning yesterday เน้นทำต่อเนื่อง ใช้ Past Continuous",explanationEn:"continuous all morning",rule:"Past Continuous"},{id:60,sentence:"We ____ (not / have) enough time yesterday.",options:["didn't have","weren't having","don't have"],correctAnswer:"didn't have",explanationTh:"have เป็น stative ปฏิเสธใช้ didn't",explanationEn:"stative negative",rule:"Past Simple"},{id:61,sentence:"I ____ (hear) a strange noise last night.",options:["heard","was hearing","hear"],correctAnswer:"heard",explanationTh:"ได้ยินเสียงแปลกเมื่อคืน จบแล้ว",explanationEn:"heard",rule:"Past Simple"},{id:62,sentence:"She ____ (work) at a cafe when I met her.",options:["was working","worked","works"],correctAnswer:"was working",explanationTh:"กำลังทำงานที่คาเฟ่อยู่ตอนที่เจอกัน",explanationEn:"working when met",rule:"Past Continuous"},{id:63,sentence:"They ____ (travel) to Japan last summer.",options:["traveled","were traveling","travel"],correctAnswer:"traveled",explanationTh:"last summer ไปเที่ยวแล้ว จบแล้ว",explanationEn:"finished trip",rule:"Past Simple"},{id:64,sentence:"He ____ (sleep) when the alarm rang.",options:["was sleeping","slept","sleeps"],correctAnswer:"was sleeping",explanationTh:"กำลังหลับอยู่ตอนนาฬิกาปลุกดัง",explanationEn:"sleeping when alarm rang",rule:"Past Continuous"},{id:65,sentence:"We ____ (watch) TV all evening yesterday.",options:["were watching","watched","watch"],correctAnswer:"were watching",explanationTh:"all evening เน้นดูต่อเนื่อง ใช้ Past Continuous",rule:"Past Continuous"},{id:66,sentence:"She ____ (break) her phone yesterday.",options:["broke","was breaking","breaks"],correctAnswer:"broke",explanationTh:"ทำโทรศัพท์แตกเมื่อวาน จบแล้ว",explanationEn:"broke",rule:"Past Simple"},{id:67,sentence:"I ____ (not / sleep) at midnight last night.",options:["wasn't sleeping","didn't sleep","don't sleep"],correctAnswer:"wasn't sleeping",explanationTh:"at midnight last night ไม่ได้กำลังหลับอยู่",explanationEn:"not sleeping at specific time",rule:"Past Continuous"},{id:68,sentence:"He ____ (teach) English for 10 years before he retired.",options:["taught","was teaching","teaches"],correctAnswer:"taught",explanationTh:"สอนมา 10 ปีก่อนเกษียณ จบแล้ว",explanationEn:"taught for duration before retirement",rule:"Past Simple"},{id:69,sentence:"She ____ (run) when she twisted her ankle.",options:["was running","ran","runs"],correctAnswer:"was running",explanationTh:"กำลังวิ่งอยู่แล้วข้อเท้าพลิก",explanationEn:"running when twisted",rule:"Past Continuous"},{id:70,sentence:"We ____ (meet) at a concert two years ago.",options:["met","were meeting","meet"],correctAnswer:"met",explanationTh:"two years ago เจอกัน จบแล้ว",explanationEn:"met",rule:"Past Simple"},{id:71,sentence:"I ____ (cook) while my wife was watching TV.",options:["was cooking","cooked","cook"],correctAnswer:"was cooking",explanationTh:"กำลังทำอาหารขณะที่ภรรยากำลังดูทีวี - สองเหตุการณ์ยาวพร้อมกัน",explanationEn:"two parallel continuous actions",rule:"Past Continuous"},{id:72,sentence:"They ____ (not / expect) to see us.",options:["didn't expect","weren't expecting","don't expect"],correctAnswer:"didn't expect",explanationTh:"expect เป็น stative ใช้ Past Simple",explanationEn:"stative",rule:"Past Simple"},{id:73,sentence:"He ____ (fix) his bike all day yesterday.",options:["was fixing","fixed","fixes"],correctAnswer:"was fixing",explanationTh:"all day yesterday ซ่อมทั้งวัน เน้นต่อเนื่อง",explanationEn:"all day continuous",rule:"Past Continuous"},{id:74,sentence:"She ____ (open) the window and ____ (look) outside.",options:["opened / looked","was opening / was looking","opens / looks"],correctAnswer:"opened / looked",explanationTh:"สองเหตุการณ์สั้นต่อเนื่องกันในอดีต ใช้ Past Simple ทั้งคู่",explanationEn:"sequential past actions",rule:"Past Simple"},{id:75,sentence:"I ____ (stand) at the bus stop when it started to rain.",options:["was standing","stood","stand"],correctAnswer:"was standing",explanationTh:"กำลังยืนรอรถเมล์อยู่ตอนฝนเริ่มตก",explanationEn:"standing when rain started",rule:"Past Continuous"},{id:76,sentence:"We ____ (have) a great time at the party last night.",options:["had","were having","have"],correctAnswer:"had",explanationTh:"last night มีช่วงเวลาดีๆ จบแล้ว ใช้ Past Simple",explanationEn:"had a great time",rule:"Past Simple"},{id:77,sentence:"She ____ (cry) when I saw her.",options:["was crying","cried","cries"],correctAnswer:"was crying",explanationTh:"กำลังร้องไห้อยู่ตอนที่เห็น",explanationEn:"crying when seen",rule:"Past Continuous"},{id:78,sentence:"He ____ (not / work) yesterday because he was sick.",options:["didn't work","wasn't working","doesn't work"],correctAnswer:"didn't work",explanationTh:"ไม่ไปทำงานเมื่อวานเพราะป่วย ใช้ Past Simple",explanationEn:"didn't work",rule:"Past Simple"},{id:79,sentence:"I ____ (walk) in the rain all morning.",options:["was walking","walked","walk"],correctAnswer:"was walking",explanationTh:"all morning เดินตากฝนต่อเนื่อง",explanationEn:"continuous all morning",rule:"Past Continuous"},{id:80,sentence:"They ____ (finish) the project last Friday.",options:["finished","were finishing","finish"],correctAnswer:"finished",explanationTh:"last Friday ทำโปรเจกต์เสร็จแล้ว",explanationEn:"finished project",rule:"Past Simple"},{id:81,sentence:"She ____ (study) abroad in 2020.",options:["studied","was studying","studies"],correctAnswer:"studied",explanationTh:"in 2020 เรียนต่างประเทศ จบแล้ว",explanationEn:"studied abroad",rule:"Past Simple"},{id:82,sentence:"He ____ (listen) to music at 10 p.m. yesterday.",options:["was listening","listened","listens"],correctAnswer:"was listening",explanationTh:"at 10 p.m. yesterday กำลังฟังเพลงอยู่",explanationEn:"listening at specific time",rule:"Past Continuous"},{id:83,sentence:"We ____ (not / see) each other for a long time.",options:["didn't see","weren't seeing","don't see"],correctAnswer:"didn't see",explanationTh:"ไม่ได้เจอกันนาน ใช้ Past Simple",explanationEn:"didn't see",rule:"Past Simple"},{id:84,sentence:"I ____ (try) to call you all day yesterday.",options:["was trying","tried","try"],correctAnswer:"was trying",explanationTh:"all day yesterday พยายามโทรทั้งวัน เน้นต่อเนื่อง",explanationEn:"trying all day",rule:"Past Continuous"},{id:85,sentence:"She ____ (wear) glasses when she was young.",options:["wore","was wearing","wears"],correctAnswer:"wore",explanationTh:"ตอนเด็กใส่แว่น เป็นความจริงในอดีต ใช้ Past Simple",explanationEn:"past habit/fact",rule:"Past Simple"},{id:86,sentence:"He ____ (fall) while he ____ (climb) the tree.",options:["fell / was climbing","was falling / climbed","falls / climbs"],correctAnswer:"fell / was climbing",explanationTh:"ตก (สั้น) ระหว่างกำลังปีนต้นไม้ (ยาว)",explanationEn:"fell while climbing",rule:"Mixed"},{id:87,sentence:"We ____ (play) video games when mom called us for dinner.",options:["were playing","played","play"],correctAnswer:"were playing",explanationTh:"กำลังเล่นเกมอยู่ตอนแม่เรียกไปกินข้าว",explanationEn:"playing when called",rule:"Past Continuous"},{id:88,sentence:"She ____ (not / want) to go to the party.",options:["didn't want","wasn't wanting","doesn't want"],correctAnswer:"didn't want",explanationTh:"want เป็น stative ใช้ didn't",explanationEn:"stative negative",rule:"Past Simple"},{id:89,sentence:"I ____ (read) two books last week.",options:["read","was reading","reads"],correctAnswer:"read",explanationTh:"อ่าน 2 เล่มเมื่อสัปดาห์ที่แล้ว จบแล้ว",explanationEn:"finished count",rule:"Past Simple"},{id:90,sentence:"They ____ (wait) for us when we arrived.",options:["were waiting","waited","wait"],correctAnswer:"were waiting",explanationTh:"กำลังรอเราอยู่ตอนเรามาถึง",explanationEn:"waiting when arrived",rule:"Past Continuous"},{id:91,sentence:"He ____ (be) very tired last night.",options:["was","were","is"],correctAnswer:"was",explanationTh:"last night เหนื่อยมาก ใช้ was",explanationEn:"was tired",rule:"Past Simple - be"},{id:92,sentence:"She ____ (be) cooking at 6 p.m. yesterday.",options:["was","were","is"],correctAnswer:"was",explanationTh:"at 6 p.m. yesterday กำลังทำอาหารอยู่ ใช้ was + Ving แต่ข้อนี้ถาม be",explanationEn:"was cooking",rule:"Past Continuous - be"},{id:93,sentence:"We ____ (be) at the mall yesterday.",options:["were","was","are"],correctAnswer:"were",explanationTh:"We ใช้ were ใน Past Simple",explanationEn:"We were",rule:"Past Simple - be"},{id:94,sentence:"I ____ (be) watching TV at 8 p.m.",options:["was","were","am"],correctAnswer:"was",explanationTh:"I ใช้ was ใน Past Continuous",explanationEn:"I was watching",rule:"Past Continuous - be"},{id:95,sentence:"They ____ (be) playing football at 5 p.m.",options:["were","was","are"],correctAnswer:"were",explanationTh:"They ใช้ were ใน Past Continuous",explanationEn:"They were playing",rule:"Past Continuous - be"},{id:96,sentence:"She ____ (be) happy yesterday.",options:["was","were","is"],correctAnswer:"was",explanationTh:"She ใช้ was",explanationEn:"She was",rule:"Past Simple - be"},{id:97,sentence:"He ____ (be) not at home last night.",options:["was","were","is"],correctAnswer:"was",explanationTh:"He wasn't at home last night",explanationEn:"He was not",rule:"Past Simple - be"},{id:98,sentence:"We ____ (be) not sleeping at 11 p.m.",options:["were","was","are"],correctAnswer:"were",explanationTh:"We weren't sleeping at 11 p.m.",explanationEn:"We were not sleeping",rule:"Past Continuous - be"},{id:99,sentence:"You ____ (be) late for class yesterday.",options:["were","was","are"],correctAnswer:"were",explanationTh:"You ใช้ were",explanationEn:"You were",rule:"Past Simple - be"},{id:100,sentence:"I ____ (be) sick last week.",options:["was","were","am"],correctAnswer:"was",explanationTh:"I ใช้ was",explanationEn:"I was sick",rule:"Past Simple - be"}];
+
+function shuffleArray(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function App(){
+  const [exam, setExam] = useState([]);
+  const [idx, setIdx] = useState(0);
+  const [score, setScore] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [showExp, setShowExp] = useState(false);
+  const [answered, setAnswered] = useState([]);
+  const [showSummary, setShowSummary] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [name, setName] = useState("");
+  const [classRoom, setClassRoom] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const generateExam = () => {
+    const shuffledPool = shuffleArray(QPOOL);
+    const twenty = shuffledPool.slice(0,20).map(q=>{
+      const shuffledOpts = shuffleArray(q.options);
+      return {...q, options: shuffledOpts};
+    });
+    setExam(twenty);
+    setIdx(0);
+    setScore(0);
+    setSelected(null);
+    setShowExp(false);
+    setAnswered([]);
+    setShowSummary(false);
+    setShowModal(false);
+    setSent(false);
+  };
+
+  useEffect(()=>{ generateExam(); }, []);
+
+  const currentQ = exam[idx];
+
+  const handleSelect = (opt) => {
+    if(showExp) return;
+    setSelected(opt);
+    const isCorrect = opt === currentQ.correctAnswer;
+    if(isCorrect) setScore(s=>s+1);
+    setAnswered(a=>[...a, {q: currentQ, chosen: opt, correct: isCorrect}]);
+    setShowExp(true);
+  };
+
+  const handleNext = () => {
+    if(idx < exam.length-1){
+      setIdx(i=>i+1);
+      setSelected(null);
+      setShowExp(false);
+      window.scrollTo({top:0, behavior:'smooth'});
+    }else{
+      setShowSummary(true);
+      setTimeout(()=> setShowModal(true), 400);
+    }
+  };
+
+  const handlePrev = () => {
+    if(idx>0){
+      setIdx(i=>i-1);
+      const prevAns = answered[idx-1];
+      setSelected(prevAns ? prevAns.chosen : null);
+      setShowExp(!!prevAns);
+    }
+  };
+
+  const jumpTo = (i) => {
+    setIdx(i);
+    const ans = answered[i];
+    if(ans){
+      setSelected(ans.chosen);
+      setShowExp(true);
+    }else{
+      setSelected(null);
+      setShowExp(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if(!name.trim()){ alert("กรอกชื่อก่อนนะครับ 😊"); return; }
+    setSending(true);
+    const total = exam.length;
+    const percent = total>0 ? Math.round(score/total*100) : 0;
+    const payload = {
+      name: name.trim(),
+      classRoom: classRoom.trim(),
+      testName: TEST_NAME,
+      score: score,
+      total: total,
+      percent: percent,
+      details: `${TEST_NAME} - ${score}/${total} (${percent}%)`,
+      timestamp: new Date().toISOString()
+    };
+    try{
+      await fetch(GOOGLE_URL, {method:"POST", mode:"no-cors", headers:{"Content-Type":"application/json"}, body: JSON.stringify(payload)});
+      setSent(true);
+      setTimeout(()=> setShowModal(false), 2000);
+    }catch(e){
+      alert("ส่งไม่สำเร็จ: "+e.message);
+    }finally{
+      setSending(false);
+    }
+  };
+
+  if(exam.length===0) return <div className="p-10 text-center">กำลังโหลด...</div>;
+
+  if(showSummary){
+    const total = exam.length;
+    const percent = total>0 ? Math.round(score/total*100) : 0;
+    return (
+      <div className="min-h-screen bg-[#f8f7ff]">
+        <div className="bg-white border-b border-zinc-100">
+          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <button onClick={generateExam} className="inline-flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2 rounded-full text-[13px] font-bold shadow-sm hover:bg-zinc-50">🏠 หน้าแรก</button>
+              <div>
+                <h1 className="text-[18px] sm:text-[20px] font-bold leading-tight">Past Simple vs Past Continuous - Basic</h1>
+                <p className="text-[12px] text-zinc-500">พื้นฐาน 100 ข้อ • สุ่ม 20 ข้อ • คลัง 100 ข้อ</p>
+              </div>
+            </div>
+            <button onClick={generateExam} className="hidden sm:inline-flex bg-indigo-600 text-white px-5 py-2.5 rounded-full text-[13px] font-bold hover:bg-indigo-700">🔀 สุ่มใหม่ 20 ข้อ</button>
+          </div>
+        </div>
+
+        <div className="max-w-[720px] mx-auto px-4 py-8">
+          <div className="bg-white rounded-[24px] border border-zinc-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden p-6 sm:p-8 text-center">
+            <h2 className="text-[22px] sm:text-[26px] font-bold tracking-tight">สรุปผลการทดสอบ</h2>
+            <p className="text-[13px] text-zinc-500 mt-1">Past Simple vs Past Continuous - Basic</p>
+            <div className="mt-6 flex justify-center items-end gap-3">
+              <span className="text-[44px] font-black leading-none text-indigo-600">{score}</span>
+              <span className="text-[22px] font-bold text-zinc-400 mb-2">/ {total}</span>
+            </div>
+            <p className="mt-2 text-[14px]">ได้ <b>{score} / {total}</b> ({percent}%)</p>
+            <div className="mt-6 grid grid-cols-2 gap-3 text-left">
+              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
+                <p className="text-[12px] text-emerald-600 font-semibold">ถูก</p>
+                <p className="text-[26px] font-black text-emerald-700">{score}</p>
+              </div>
+              <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 text-center">
+                <p className="text-[12px] text-rose-600 font-semibold">ผิด</p>
+                <p className="text-[26px] font-black text-rose-700">{total-score}</p>
+              </div>
+            </div>
+            <div className="mt-6 flex gap-3 justify-center flex-wrap">
+              <button onClick={generateExam} className="bg-zinc-900 text-white px-6 py-3 rounded-full text-[14px] font-bold hover:bg-zinc-800">🔄 ทำใหม่ (สุ่มใหม่ 20 ข้อ)</button>
+              <button onClick={()=>setShowModal(true)} className="bg-indigo-600 text-white px-6 py-3 rounded-full text-[14px] font-bold hover:bg-indigo-700">📊 ส่งคะแนน</button>
+            </div>
+            <div className="mt-8 text-left">
+              <h3 className="font-bold text-[14px] mb-3">ดูเฉลยทั้งหมด</h3>
+              <div className="grid gap-2 max-h-[400px] overflow-auto pr-1">
+                {answered.map((a,i)=>(
+                  <div key={i} className={`p-3 rounded-xl border text-[13px] ${a.correct?'bg-emerald-50 border-emerald-200':'bg-rose-50 border-rose-200'}`}>
+                    <p className="font-semibold">{i+1}. {a.q.sentence}</p>
+                    <p>ตอบ: {a.chosen} {a.correct?'✅':'❌'} | เฉลย: {a.q.correctAnswer}</p>
+                    <p className="text-[11px] text-zinc-500 mt-1">{a.q.explanationTh}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+            <div className="bg-white rounded-[20px] w-full max-w-[420px] p-6 shadow-2xl">
+              <h3 className="text-[18px] font-bold">📊 ส่งคะแนน</h3>
+              <div className="mt-3 bg-indigo-50 border border-indigo-200 rounded-xl p-3 text-center text-[13px]">
+                📊 <b>{TEST_NAME}</b><br/>
+                ได้ <b style={{fontSize:'18px', color:'#4f46e5'}}>{score} / {total}</b> ({percent}%)
+              </div>
+              <div className="mt-4 grid gap-3">
+                <input value={name} onChange={e=>setName(e.target.value)} placeholder="ชื่อ-นามสกุล *" className="w-full border border-zinc-300 rounded-xl px-4 py-3 text-[14px] focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+                <input value={classRoom} onChange={e=>setClassRoom(e.target.value)} placeholder="ชั้น / ห้อง (เช่น ม.2/1)" className="w-full border border-zinc-300 rounded-xl px-4 py-3 text-[14px] focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+                {sent ? (
+                  <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl p-3 text-[13px] text-center">✅ <b>ส่งสำเร็จ!</b><br/>คะแนน: {score}/{total}</div>
+                ) : (
+                  <button onClick={handleSubmit} disabled={sending} className="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold text-[14px] hover:bg-indigo-700 disabled:opacity-60">
+                    {sending ? "⏳ กำลังส่ง..." : "✅ ส่งคะแนน"}
+                  </button>
+                )}
+                <button onClick={()=>setShowModal(false)} className="w-full bg-zinc-100 text-zinc-700 py-2.5 rounded-xl font-semibold text-[13px] hover:bg-zinc-200">ปิด</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#f8f7ff]">
+      {/* TOP BAR - ธีมเดิมแบบในรูป */}
+      <div className="bg-white border-b border-zinc-100 sticky top-0 z-20">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <button onClick={generateExam} className="shrink-0 inline-flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2 rounded-full text-[13px] font-bold shadow-sm hover:bg-zinc-50">🏠 หน้าแรก</button>
+            <div className="min-w-0">
+              <h1 className="text-[15px] sm:text-[20px] font-bold leading-tight tracking-tight truncate">Past Simple vs Past Continuous - Basic <span className="text-zinc-500 font-medium">— พื้นฐาน 100 ข้อ</span></h1>
+              <p className="text-[11px] sm:text-[12px] text-zinc-500 hidden sm:block">แบบพื้นฐาน คลัง 100 ข้อ สุ่มทำรอบละ 20 ข้อ</p>
+            </div>
+          </div>
+          <button onClick={generateExam} className="shrink-0 inline-flex items-center gap-2 bg-indigo-600 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-[12px] sm:text-[13px] font-bold hover:bg-indigo-700 shadow">🔀 สุ่มใหม่ 20 ข้อ</button>
+        </div>
+      </div>
+
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[1.6fr_0.9fr] gap-6 items-start">
+        {/* LEFT QUESTION CARD */}
+        <div className="bg-white rounded-[20px] sm:rounded-[24px] border border-zinc-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden">
+          <div className="px-5 sm:px-7 pt-5 pb-4 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="bg-indigo-50 text-indigo-600 border border-indigo-100 px-3 py-1 rounded-full text-[12px] font-bold">ข้อ {idx+1} / {exam.length}</span>
+              <span className="text-[12px] text-zinc-500">คลัง 100 ข้อ</span>
+            </div>
+            <div className="flex gap-1">
+              {exam.map((_,i)=>(
+                <span key={i} className={`h-1.5 rounded-full transition-all ${i===idx ? 'w-6 bg-indigo-400' : i < idx ? 'w-1.5 bg-indigo-200' : 'w-1.5 bg-zinc-200'}`}></span>
+              ))}
+            </div>
+          </div>
+
+          <div className="px-5 sm:px-7 pb-5">
+            <div className="bg-[#f6f5ff] border border-[#e9e5ff] rounded-[16px] sm:rounded-[20px] p-5 sm:p-7">
+              <p className="text-[19px] sm:text-[22px] font-medium leading-[1.6] tracking-normal text-zinc-800">
+                {currentQ.sentence.split("____").map((part,i,arr)=>(
+                  <React.Fragment key={i}>
+                    {part}
+                    {i < arr.length-1 && (
+                      <span className="inline-flex items-center justify-center min-w-[84px] sm:min-w-[108px] mx-2 px-3 py-1 rounded-xl bg-white border border-indigo-200 text-indigo-400 font-bold text-[16px] sm:text-[18px] translate-y-[-1px] shadow-sm">____</span>
+                    )}
+                  </React.Fragment>
+                ))}
+              </p>
+            </div>
+          </div>
+
+          <div className="px-5 sm:px-7 pb-6 grid gap-3">
+            {currentQ.options.map((opt,i)=>{
+              const isCorrectOpt = opt === currentQ.correctAnswer;
+              const isSelected = selected === opt;
+              let cls = "bg-white border-zinc-200 hover:border-indigo-300 hover:bg-indigo-50/40";
+              let circleCls = "border-zinc-300 bg-white";
+              if(showExp){
+                if(isCorrectOpt) {cls="bg-indigo-50 border-indigo-400 text-indigo-900 ring-2 ring-indigo-200"; circleCls="bg-indigo-500 border-indigo-500 text-white";}
+                else if(isSelected && !isCorrectOpt) {cls="bg-rose-50 border-rose-300 text-rose-800"; circleCls="bg-rose-500 border-rose-500 text-white";}
+                else {cls="bg-zinc-50 border-zinc-200 opacity-60";}
+              }else if(isSelected){
+                cls="bg-zinc-900 border-zinc-900 text-white";
+                circleCls="bg-white border-white text-zinc-800";
+              }
+              return (
+                <button key={i} type="button" onClick={()=>handleSelect(opt)} className={`w-full text-left flex items-center justify-between gap-3 px-4 sm:px-5 py-3.5 sm:py-4 rounded-[14px] sm:rounded-[16px] border text-[15px] sm:text-[16px] font-medium transition-all ${cls}`}>
+                  <span className="flex items-center gap-3 sm:gap-4">
+                    <span className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[12px] font-bold border-2 shrink-0 ${circleCls}`}>
+                      {showExp && isCorrectOpt ? "✓" : showExp && isSelected && !isCorrectOpt ? "✗" : ""}
+                    </span>
+                    <span className="font-semibold">{opt}</span>
+                  </span>
+                  <span className="text-[12px] sm:text-[13px] font-bold opacity-60">
+                    {!showExp ? "เลือก" : isCorrectOpt ? "ถูก" : ""}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {showExp && (
+            <div className="px-5 sm:px-7 pb-6">
+              <div className={`rounded-[14px] border p-4 ${selected===currentQ.correctAnswer ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'}`}>
+                <p className={`text-[13px] font-bold ${selected===currentQ.correctAnswer ? 'text-emerald-700' : 'text-rose-700'}`}>
+                  {selected===currentQ.correctAnswer ? '✅ ถูกต้อง!' : `❌ คำตอบที่ถูกคือ: ${currentQ.correctAnswer}`}
+                </p>
+                <p className="text-[12px] text-zinc-700 mt-1.5 leading-relaxed"><b>ไทย:</b> {currentQ.explanationTh}</p>
+                <p className="text-[11px] text-zinc-500 mt-1"><b>EN:</b> {currentQ.explanationEn}</p>
+              </div>
+            </div>
+          )}
+
+          <div className="px-5 sm:px-7 pb-6 flex items-center justify-between gap-3">
+            <button onClick={handlePrev} disabled={idx===0} className="inline-flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2.5 rounded-full text-[13px] font-bold disabled:opacity-40 hover:bg-zinc-50">← ก่อนหน้า</button>
+            <button onClick={handleNext} disabled={!showExp} className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-2.5 rounded-full text-[13px] font-bold disabled:opacity-40 hover:bg-indigo-700 shadow-[0_4px_16px_rgba(79,70,229,0.3)]">
+              {idx < exam.length-1 ? "ข้อถัดไป →" : "ดูสรุปผล 📊"}
+            </button>
+          </div>
+
+          <div className="px-5 sm:px-7 pb-4 text-[11px] text-zinc-400 text-center">คะแนนตอนนี้: {score} / {exam.length} • ช้อยส์สุ่มแล้ว ไม่ใช่ข้อแรกเสมอ</div>
+        </div>
+
+        {/* RIGHT LIST - แบบในรูป */}
+        <div className="bg-white rounded-[20px] sm:rounded-[24px] border border-zinc-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)] p-5 sm:p-6">
+          <h3 className="font-bold text-[14px] mb-4">รายการข้อสอบ (20 ข้อ)</h3>
+          <div className="grid grid-cols-5 gap-2 sm:gap-3">
+            {exam.map((_,i)=>{
+              const ans = answered[i];
+              const isCurrent = i===idx;
+              let cls = "bg-zinc-50 border-zinc-200 text-zinc-400 hover:bg-zinc-100";
+              if(ans) cls = ans.correct ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-rose-50 border-rose-200 text-rose-700";
+              if(isCurrent) cls = "bg-white border-indigo-500 text-indigo-600 ring-2 ring-indigo-200";
+              return (
+                <button key={i} onClick={()=>jumpTo(i)} className={`h-[56px] rounded-[14px] border text-[13px] font-bold flex flex-col items-center justify-center gap-0.5 transition-all ${cls}`}>
+                  <span>{i+1}</span>
+                  <span className="text-[10px] leading-none">{ans ? (ans.correct ? "✓" : "✗") : "•"}</span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="mt-5 bg-zinc-50 border border-zinc-100 rounded-xl p-3 text-[11px] leading-relaxed text-zinc-500">
+            ตัวอย่างที่ผิดบ่อย: <span className="text-zinc-700">They are come</span> <span className="text-rose-600 font-bold">❌</span> ต้องเป็น <b className="text-zinc-800">They come</b> (ไม่เติม) เพราะ come เป็นกริยาแท้แล้ว
+          </div>
+        </div>
+      </div>
+
+      <div className="text-center py-6 text-[11px] text-zinc-400">สร้างตามโจทย์ที่ให้มา — แก้ให้ถูกต้อง: ประโยคที่มีกริยาแท้แล้ว (come, build, bites...) ต้องตอบ ไม่เติม ห้ามใส่ is/am/are</div>
+
+      {showModal && !showSummary && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-[20px] w-full max-w-[420px] p-6 shadow-2xl">
+            <h3 className="text-[18px] font-bold">📊 ใกล้จบแล้ว</h3>
+            <p className="text-[13px] text-zinc-500 mt-1">ทำครบ {exam.length} ข้อแล้ว กดดูสรุปผลได้เลย</p>
+            <button onClick={()=>{setShowSummary(true); setShowModal(false); setTimeout(()=>setShowModal(true),400);}} className="mt-4 w-full bg-indigo-600 text-white py-3 rounded-xl font-bold text-[14px]">ดูสรุปผล 📊</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+</script>
+</body>
+</html>
