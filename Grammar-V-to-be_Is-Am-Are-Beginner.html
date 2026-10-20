@@ -23,5 +23,19 @@ Error generating stack: `+o.message+`
 </script>
   <script>(function(){function m(a){var h=a.getAttribute("href");if(!h)return;try{var u=new URL(h,document.baseURI);if((u.protocol==="http:"||u.protocol==="https:")&&u.host!==location.host){a.target="_blank";a.rel="noopener noreferrer";}}catch(e){}}function s(){document.querySelectorAll("a[href]").forEach(m);}if(document.readyState!=="loading"){s();}else{document.addEventListener("DOMContentLoaded",s);}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(a){m(a);}},true);})();</script>
   
+<div id="custom-timer" style="position:fixed;top:12px;right:12px;z-index:9999;background:#fff;border:1px solid #e9e5ff;border-radius:9999px;padding:6px 14px;font-family:ui-sans-serif,system-ui;font-size:13px;font-weight:700;color:#4f46e5;box-shadow:0 4px 16px rgba(79,70,229,0.15);display:flex;align-items:center;gap:6px;">
+<span>⏱️</span><span id="timer-display">00:00</span>
+</div>
+<script>
+(function(){
+  if(window._customTimerAdded) return;
+  window._customTimerAdded = true;
+  let sec=0;
+  const display = document.getElementById('timer-display');
+  function fmt(s){let m=Math.floor(s/60).toString().padStart(2,'0');let sc=(s%60).toString().padStart(2,'0');return m+':'+sc;}
+  setInterval(()=>{sec++; const d=document.getElementById('timer-display'); if(d) d.textContent=fmt(sec);},1000);
+})();
+</script>
+
 </body>
 </html>
