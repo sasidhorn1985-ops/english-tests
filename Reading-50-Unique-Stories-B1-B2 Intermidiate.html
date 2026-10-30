@@ -508,7 +508,7 @@ Favorite parts cause stronger chills because of memory. If you heard a song duri
 
 A 2023 study at University of Southern California scanned brains of people experiencing chills. They found activity in reward centers, plus connection between auditory cortex and emotion areas. Essentially, music hijacks brain systems designed for social bonding.
 
-You can increase chance of chills by listening with full attention, not as background. Use good headphones, close eyes, and focus on structure. Chills show that music is not just entertainment; it deeply connects to our emotional brain and can be used for well-being and stress relief.`,questions:[{q:"What percentage experience music chills?",options:["About 90% called frisson","10%","50%","100%"],correct:0,explain:"90% experience chills frisson."},{q:"What is main cause?",options:["Unexpected change louder new instrument key change violates expectation","Only loud music","Only soft music","No change"],correct:0,explain:"Unexpected change violation expectation triggers dopamine."},{q:"Which personality gets chills more?",options:["High openness to experience enjoy new ideas art","Closed","No personality effect","Only extroverts"],correct:0,explain:"High openness report chills more."},{q:"Why favorite parts stronger?",options:["Memory links important moments first love graduation","No memory","Only loudness","Only new songs"],correct:0,explain:"Brain links music to emotion memory."},{q:"What did USC 2023 scan find?",options:["Activity reward centers connection auditory cortex emotion","No activity","Only hearing area","Only reward"],correct:0,explain:"Activity reward centers plus connection auditory emotion."}]}];function ci(){let[e,n]=ue.useState(1),[t,r]=ue.useState({}),[l,u]=ue.useState(""),[o,i]=ue.useState("All"),[s,f]=ue.useState(""),[p,v]=ue.useState(""),[m,k]=ue.useState(!1),[E,_]=ue.useState(!1),[D,c]=ue.useState(()=>$n.map((w)=>w.id)),[a,d]=ue.useState(!1),[y,P]=ue.useState(!1),N=ue.useMemo(()=>{let w=$n.filter((x)=>D.includes(x.id)).sort((x,A)=>D.indexOf(x.id)-D.indexOf(A.id));if(o!=="All")w=w.filter((x)=>x.category===o);if(l.trim()){let x=l.toLowerCase();w=w.filter((A)=>A.title.toLowerCase().includes(x)||A.passage.toLowerCase().includes(x))}return w},[l,o,D]),z=ue.useMemo(()=>$n.find((w)=>w.id===e)||$n[0],[e]),T=Object.keys(t).length,M=Object.entries(t).filter(([w,x])=>{let[A,oe]=w.split("-").map(Number),ie=$n.find((ye)=>ye.id===A);return ie&&ie.questions[oe].correct===x}).length,L=ue.useMemo(()=>{return jc.map((w)=>{let x=$n.filter((ye)=>ye.category===w),A=x.length*5,oe=0,ie=0;return x.forEach((ye)=>{ye.questions.forEach((En,Hn)=>{let Cn=`${ye.id}-${Hn}`;if(Cn in t){if(oe++,t[Cn]===En.correct)ie++}})}),{cat:w,totalQ:A,answered:oe,correct:ie,pct:A?Math.round(oe/A*100):0}})},[t]),Ue=(w,x,A)=>{let oe=`${w}-${x}`;r((ie)=>({...ie,[oe]:A}))},Wl=()=>{let w=[...D].sort(()=>Math.random()-0.5);c(w)},ef=async()=>{if(!s.trim()||!p.trim()){alert("Please enter name and class");return}d(!0);let w={name:s.trim(),classRoom:p.trim(),testName:Jc,score:M,total:250,percent:Math.round(M/250*100),timestamp:new Date().toISOString(),userAgent:navigator.userAgent};try{await fetch(M0,{method:"POST",mode:"no-cors",body:JSON.stringify(w)}),P(!0),setTimeout(()=>{k(!1)},2000)}catch(x){P(!0)}finally{d(!1)}},O0=(w,x)=>(`${w}-${x}`in t),D0=(w,x,A)=>{return $n.find((ie)=>ie.id===w)?.questions[x].correct===A};return S("div",{className:"min-h-screen bg-[#f8f7ff] text-[#1e1e2e] selection:bg-[#c7d2fe]",style:{fontFamily:"Prompt, system-ui, sans-serif",paddingTop:"var(--safe-area-inset-top)"},children:[g("style",{children:`
+You can increase chance of chills by listening with full attention, not as background. Use good headphones, close eyes, and focus on structure. Chills show that music is not just entertainment; it deeply connects to our emotional brain and can be used for well-being and stress relief.`,questions:[{q:"What percentage experience music chills?",options:["About 90% called frisson","10%","50%","100%"],correct:0,explain:"90% experience chills frisson."},{q:"What is main cause?",options:["Unexpected change louder new instrument key change violates expectation","Only loud music","Only soft music","No change"],correct:0,explain:"Unexpected change violation expectation triggers dopamine."},{q:"Which personality gets chills more?",options:["High openness to experience enjoy new ideas art","Closed","No personality effect","Only extroverts"],correct:0,explain:"High openness report chills more."},{q:"Why favorite parts stronger?",options:["Memory links important moments first love graduation","No memory","Only loudness","Only new songs"],correct:0,explain:"Brain links music to emotion memory."},{q:"What did USC 2023 scan find?",options:["Activity reward centers connection auditory cortex emotion","No activity","Only hearing area","Only reward"],correct:0,explain:"Activity reward centers plus connection auditory emotion."}]}];function ci(){let[e,n]=ue.useState(1),[t,r]=ue.useState({}),[l,u]=ue.useState(""),[o,i]=ue.useState("All"),[s,f]=ue.useState(""),[p,v]=ue.useState(""),[m,k]=ue.useState(!1),[E,_]=ue.useState(!1),[D,c]=ue.useState(()=>$n.map((w)=>w.id)),[a,d]=ue.useState(!1),[y,P]=ue.useState(!1),N=ue.useMemo(()=>{let w=$n.filter((x)=>D.includes(x.id)).sort((x,A)=>D.indexOf(x.id)-D.indexOf(A.id));if(o!=="All")w=w.filter((x)=>x.category===o);if(l.trim()){let x=l.toLowerCase();w=w.filter((A)=>A.title.toLowerCase().includes(x)||A.passage.toLowerCase().includes(x))}return w},[l,o,D]),z=ue.useMemo(()=>$n.find((w)=>w.id===e)||$n[0],[e]),T=Object.keys(t).length,M=Object.entries(t).filter(([w,x])=>{let[A,oe]=w.split("-").map(Number),ie=$n.find((ye)=>ye.id===A);return ie&&ie.questions[oe].correct===x}).length,L=ue.useMemo(()=>{return jc.map((w)=>{let x=$n.filter((ye)=>ye.category===w),A=x.length*5,oe=0,ie=0;return x.forEach((ye)=>{ye.questions.forEach((En,Hn)=>{let Cn=`${ye.id}-${Hn}`;if(Cn in t){if(oe++,t[Cn]===En.correct)ie++}})}),{cat:w,totalQ:A,answered:oe,correct:ie,pct:A?Math.round(oe/A*100):0}})},[t]),Ue=(w,x,A)=>{let oe=`${w}-${x}`;r((ie)=>({...ie,[oe]:A}))},Wl=()=>{let w=[...D].sort(()=>Math.random()-0.5);c(w)},ef=async()=>{if(!s.trim()||!p.trim()){alert("Please enter name and class");return}d(!0);let w={name:s.trim(),classRoom:p.trim(),testName:Jc,score:M,total:250,percent:Math.round(M/250*100),timeUsed:(window._elapsedSeconds||0),timeUsedFormatted:(window._elapsedFormatted||"00:00"),timeUsedSeconds:(window._elapsedSeconds||0),elapsedTime:(window._elapsedFormatted||"00:00"),timestamp:new Date().toISOString(),userAgent:navigator.userAgent};try{await fetch(M0,{method:"POST",mode:"no-cors",body:JSON.stringify(w)}),P(!0),setTimeout(()=>{k(!1)},2000)}catch(x){P(!0)}finally{d(!1)}},O0=(w,x)=>(`${w}-${x}`in t),D0=(w,x,A)=>{return $n.find((ie)=>ie.id===w)?.questions[x].correct===A};return S("div",{className:"min-h-screen bg-[#f8f7ff] text-[#1e1e2e] selection:bg-[#c7d2fe]",style:{fontFamily:"Prompt, system-ui, sans-serif",paddingTop:"var(--safe-area-inset-top)"},children:[g("style",{children:`
         @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
         ::-webkit-scrollbar{width:6px;height:6px}
         ::-webkit-scrollbar-thumb{background:#a5b4fc;border-radius:99px}
@@ -519,5 +519,59 @@ You can increase chance of chills by listening with full attention, not as backg
 </script>
   <script>(function(){function m(a){var h=a.getAttribute("href");if(!h)return;try{var u=new URL(h,document.baseURI);if((u.protocol==="http:"||u.protocol==="https:")&&u.host!==location.host){a.target="_blank";a.rel="noopener noreferrer";}}catch(e){}}function s(){document.querySelectorAll("a[href]").forEach(m);}if(document.readyState!=="loading"){s();}else{document.addEventListener("DOMContentLoaded",s);}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(a){m(a);}},true);})();</script>
   <script type="application/json" data-clippy-inline-media-manifest="1">{"version":1,"slots":[]}</script>
+
+
+
+</div>
+<script>(function(){if(window._customTimerAdded) return;window._customTimerAdded=true;let sec=0;window._elapsedSeconds=0;window._elapsedFormatted="00:00";function fmt(s){let m=Math.floor(s/60).toString().padStart(2,"0");let sc=(s%60).toString().padStart(2,"0");return m+":"+sc;}setInterval(()=>{sec++;window._elapsedSeconds=sec;window._elapsedFormatted=fmt(sec);const d=document.getElementById("timer-display");if(d) d.textContent=window._elapsedFormatted;},1000);})();</script>
+<div id="custom-score-area" style="display:flex;align-items:center;gap:8px;position:fixed;top:12px;right:12px;z-index:9999;">
+<div id="custom-home" style="background:#fff;border:1px solid #e9e5ff;border-radius:9999px;padding:6px 14px;font-size:13px;font-weight:700;color:#4f46e5;box-shadow:0 4px 16px rgba(79,70,229,0.15);cursor:pointer;display:flex;align-items:center;gap:6px;" onclick="window.location.href='index.html'"><span>🏠</span><span>หน้าแรก</span></div>
+<div id="custom-timer" style="background:#fff;border:1px solid #e9e5ff;border-radius:9999px;padding:6px 14px;font-size:13px;font-weight:700;color:#4f46e5;box-shadow:0 4px 16px rgba(79,70,229,0.15);display:flex;align-items:center;gap:6px;"><span>⏱️</span><span id="timer-display">00:00</span></div>
+</div>
+<script>(function(){if(window._customTimerAdded) return;window._customTimerAdded=true;let sec=0;window._elapsedSeconds=0;window._elapsedFormatted="00:00";function fmt(s){let m=Math.floor(s/60).toString().padStart(2,"0");let sc=(s%60).toString().padStart(2,"0");return m+":"+sc;}setInterval(()=>{sec++;window._elapsedSeconds=sec;window._elapsedFormatted=fmt(sec);const d=document.getElementById("timer-display");if(d) d.textContent=window._elapsedFormatted;},1000);})();</script>
+
+
+<script>
+(function(){
+function moveToScore(){
+const area = document.getElementById("custom-score-area");
+if(!area) return;
+// Try to find score display - look for elements with % or / or Score text
+let found = false;
+const all = document.querySelectorAll("div, span");
+for(let el of all){
+const txt = (el.textContent||"").trim();
+if(txt.length < 30 && (txt.includes("%") || txt.includes("/") || txt.toLowerCase().includes("score"))){
+if(el.parentElement && el.parentElement !== area && !el.parentElement.contains(area)){
+try{
+el.parentElement.insertBefore(area, el);
+area.style.position = "relative";
+area.style.top = "auto";
+area.style.right = "auto";
+area.style.display = "flex";
+found = true;
+break;
+}catch(e){}
+}
+}
+}
+if(!found){
+// Try header
+const header = document.querySelector("header") || document.querySelector('[class*="max-w"]');
+if(header){
+const flex = header.querySelector("div.flex") || header;
+flex.insertBefore(area, flex.firstChild);
+area.style.position = "relative";
+area.style.top = "auto";
+area.style.right = "auto";
+area.style.display = "flex";
+}
+}
+}
+setTimeout(moveToScore, 1500);
+setTimeout(moveToScore, 3000);
+})();
+</script>
+
 </body>
 </html>
